@@ -18,4 +18,4 @@
 
 ## Open design work
 
-Three abstractions change the architecture and are not yet designed: session placement (ADR 0005 states the decision, not the design), identity and ownership, and networking as sockets. The mount namespace and fileserver design that supersedes the disk-operations research note is also pending. See `stories.md` for the full list.
+Three abstractions change the architecture and are not yet designed: session placement (ADR 0005 states the decision, not the design), identity and ownership, and networking as sockets. The mount namespace and fileserver design that supersedes the disk-operations research note is also pending; it will be written against [ADR 0011](adr/0011-device-tree-and-mount-table.md), which settles how clusters and other cloud resources appear as devices under `/dev` and are mounted by the session. See `stories.md` for the full list.

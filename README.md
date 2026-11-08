@@ -79,8 +79,8 @@ Everything above is specified in [docs/pipeline-compiler.md](docs/pipeline-compi
      │  WebSocket attach
      ▼
  ┌──────────────────────── session pod (one per user) ─────────────────────────┐
- │ parser → AST → planner ──► plan (stages, partitions, backend, contract, cost)│
- │ mount table  /pvc /s3 /clusters /artifacts     env table     cwd            │
+ │ parser → AST → planner ─► plan (stages, partitions, backend, contract, cost)│
+ │ mount table  /dev /clusters /pvc /s3 /artifacts env table    cwd            │
  │ local backend (real binaries, real pipes)      audit stream  receipts       │
  └───────────┬───────────────────────┬───────────────────────┬─────────────────┘
              │                       │                       │
