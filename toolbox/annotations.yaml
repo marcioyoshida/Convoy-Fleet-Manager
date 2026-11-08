@@ -105,3 +105,17 @@ merge_programs:
   sum:             {impl: convoy-merge-sum}
   sum-by-key:      {impl: convoy-merge-sum-by-key, input: "count-key lines from uniq -c"}
   offset-renumber: {impl: convoy-merge-renumber}
+
+# --- executables: not POSIX utilities; installed by packages, annotated by them (ADR 0010) ----
+# group: members that must be signalled together (ADR 0008 amendment 1). STOP on one member is refused.
+# deterministic: false marks output that differs for identical inputs; never a cache hit (ADR 0001 amendment 1).
+# reload: hup | restart decides what `kill -HUP` does on the unit (ADR 0008 amendment 2).
+executables:
+  spark-submit: {class: non-parallel, compiles_to: sparkapplication, group: spark,
+                 signals: {STOP: refused-without-group, TERM: graceful-stop}, floor: refused}
+  torchrun:     {class: non-parallel, compiles_to: jobset, group: torchrun, gang: required,
+                 signals: {STOP: refused-without-group, TERM: elastic-shutdown}, checkpoint_seconds: 600}
+  mpirun:       {class: non-parallel, compiles_to: jobset, group: mpi, gang: required,
+                 signals: {STOP: refused-without-group, TERM: KILL}}
+  agent-run:    {class: non-parallel, deterministic: false, side_effects: true, egress: declared-by-package,
+                 metered: {source: /sys/cost/$pid/metered, unit: tokens}, reload: restart}

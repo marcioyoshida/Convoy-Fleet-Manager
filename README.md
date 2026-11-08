@@ -241,6 +241,8 @@ research/
 | Completion contract and exit codes | Specified |
 | Signals, stdout/stderr, secrets, scheduling, cost, packages | Reviewed and corrected in `debate-review.md` |
 | POSIX command map | Complete for the 155 utilities |
+| Device tree and mount table | Decided in ADR 0011 |
+| Walkthroughs | Nine workloads exercised in `docs/walkthroughs.md`; ten gaps found, all closed by ADR amendments, flags or fields |
 | Mount namespace and fileserver | Reviewed, superseding design pending |
 | Session placement, identity and ownership, networking | Identified as the three architecture-changing gaps, not yet designed |
 | Code | None |

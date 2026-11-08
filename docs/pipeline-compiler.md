@@ -40,6 +40,7 @@ The parser is a POSIX shell parser (reuse an existing one, e.g. mvdan/sh or the 
 | `for x in …; do a; done` | Fan-out: one branch per item (map) |
 | `xargs -P n a` | Fan-out with bounded parallelism |
 | `tee >(a) >(b)` | Fan-out of one artifact to two branches |
+| `wait` (no operands) | The DAG join: barrier on every background branch of the previous command; `wait $!` joins one branch (walkthroughs.md, gap G1) |
 | `cat f1 f2`, `sort -m`, `join`, `paste` | Fan-in |
 | `a < f`, `a > f` | Artifact resolution: `f` becomes an input or output artifact id |
 | `set -o pipefail` | Pipeline exit code = first non-zero stage (default **on**, unlike POSIX) |
