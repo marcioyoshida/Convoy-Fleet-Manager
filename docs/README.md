@@ -2,6 +2,7 @@
 
 | Document | What it settles |
 |---|---|
+| [architecture.md](architecture.md) | The layered chart (user, session pod, backends, Kubernetes, infrastructure) with the ADR behind each box, and what moved from the first sketch |
 | [pipeline-compiler.md](pipeline-compiler.md) | How `\|`, `&&`, `xargs`, `for` and `tee` compile; the annotation database; artifacts and caching; the three backends; optimizations; the completion contract; complete Indexed Job and Argo examples |
 | [debate-review.md](debate-review.md) | Builder review of the research takes on exit codes, signals, secrets, multi-cluster routing, autoscaling, priority, audit, cost and packages; five cross-cutting decisions; build order |
 | [posix-command-map.md](posix-command-map.md) | All 155 POSIX utilities mapped to Kubernetes backing, approach, feasibility and pull, with the findings that changed the design |
@@ -10,7 +11,7 @@
 
 ## Reading order
 
-1. The three definitions and principles in the root `README.md`.
+1. The three definitions and principles in the root `README.md`, then the layered chart in `architecture.md`.
 2. `pipeline-compiler.md` §0 (what changed from the research) and §3 (the annotation database).
 3. `debate-review.md` summary matrix and the cross-cutting decisions at the end.
 4. The ADRs, which are the same decisions in a form that can be reversed one at a time.

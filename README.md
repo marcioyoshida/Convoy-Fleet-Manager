@@ -74,6 +74,106 @@ Everything above is specified in [docs/pipeline-compiler.md](docs/pipeline-compi
 
 ## Architecture
 
+The layered view, with the decision record behind each box. [docs/architecture.md](docs/architecture.md) walks through it.
+
+```mermaid
+graph TB
+    subgraph User["👤 User perspective (virtual)"]
+        direction TB
+        Terminal["Terminal, thin client<br/>WebSocket attach, detach, reattach<br/>works from any device"]
+        Shell["POSIX-like shell<br/>ps · top · kill · wait · time<br/>cd · ls · df · mount · export<br/>pipelines · batch · run · scale"]
+        Scripts["Existing scripts and tools<br/>bash · make · xargs · CI pipelines<br/>agent orchestration"]
+        Mental["Familiar mental model<br/>processes · files · env<br/>crontabs · pipes · devices"]
+    end
+
+    subgraph Session["⚙️ Session pod, one per user (ADR 0005)"]
+        direction TB
+        Parser["Parser<br/>POSIX grammar to AST<br/>reuses mvdan/sh"]
+        Planner["Planner and pipeline compiler<br/>stages · partitions · backend choice<br/>completion contract · cost band<br/>explain (ADR 0001, 0003, 0004)"]
+        Annot["Annotation database<br/>stateless · aggregate · pattern · limit<br/>fan-in · fan-out · typed · non-parallel<br/>(ADR 0002)"]
+        Mounts["Mount table and device tree<br/>/dev/k8s by-id and views · /sys/k8s<br/>/clusters · /pvc · /s3 · /artifacts<br/>(ADR 0011)"]
+        State["Env table · cwd (cluster, namespace, path)<br/>secret references (ADR 0007)<br/>signal router (ADR 0008)"]
+        Audit["Audit stream · receipts<br/>stdout is an artifact, stderr a log,<br/>exit code a receipt (ADR 0009)"]
+    end
+
+    subgraph Backends["🚀 Execution backends, local first (ADR 0003)"]
+        direction LR
+        Local["Local<br/>real binaries, real pipes<br/>inside the session pod"]
+        ParLocal["Parallel-local<br/>one toolbox pod<br/>tmpfs split and merge"]
+        Indexed["Distributed<br/>Indexed Job, map and merge<br/>successPolicy · backoffLimitPerIndex"]
+        Argo["Distributed DAG<br/>Argo Workflow<br/>for · tee · conditionals · fan-out"]
+    end
+
+    subgraph K8s["☸️ Kubernetes API servers, one per cluster, no federation"]
+        direction TB
+        Workloads["Workloads<br/>Pod · Job · CronJob · Deployment<br/>podFailurePolicy · do-not-disrupt"]
+        Storage["Storage<br/>PVC · StorageClass · VolumeSnapshot<br/>CSI · ReadWriteOncePod"]
+        Identity["Identity and config<br/>ServiceAccount · workload identity<br/>Secrets Store CSI · ConfigMap · Lease<br/>owner labels · CEL admission"]
+        Platform["Platform components, reported by caps<br/>Kueue · Argo Workflows · node agent (cgroup freeze)<br/>DRA · Gateway · NetworkPolicy · OpenCost<br/>packages via GitOps (ADR 0010)"]
+        Inventory["Fleet inventory, the udev of /dev/k8s<br/>Argo CD cluster secrets or Cluster API<br/>by-id · views · permissions · hotplug events"]
+    end
+
+    subgraph Infra["🏗️ Underlying infrastructure"]
+        direction LR
+        Clusters["Clusters as devices<br/>EKS · AKS · GKE · on-prem<br/>edge · constellation"]
+        Runtime["Container runtime<br/>CNI · CSI drivers<br/>CRI-O for checkpoint, restore"]
+        CAS["Content-addressed artifact store<br/>S3 · GCS · Blob · MinIO<br/>id = sha256(cmd, toolbox, env, inputs, partition)"]
+        Cloud["Cloud identity and pricing<br/>STS · Entra ID · GCP SA<br/>price lists for the cost band"]
+    end
+
+    Mental --> Shell
+    Shell --> Terminal
+    Scripts --> Terminal
+    Terminal --> Parser
+
+    Parser --> Planner
+    Annot --> Planner
+    Mounts --> Planner
+    State --> Planner
+    Planner --> Audit
+
+    Planner --> Local
+    Planner --> ParLocal
+    Planner --> Indexed
+    Planner --> Argo
+
+    ParLocal --> Workloads
+    Indexed --> Workloads
+    Argo --> Platform
+    Platform --> Workloads
+    Local -.-> Audit
+
+    Mounts --> Inventory
+    Mounts --> Storage
+    State --> Identity
+    Inventory --> Clusters
+
+    ParLocal --> CAS
+    Indexed --> CAS
+    Argo --> CAS
+    Mounts --> CAS
+
+    Workloads --> Clusters
+    Storage --> Clusters
+    Identity --> Cloud
+    Clusters --> Runtime
+    Planner -.->|"/sys price rate, capacity"| Cloud
+
+    classDef virtual fill:#e3f2fd,stroke:#1565c0,stroke-width:2px,color:#000
+    classDef session fill:#fff3e0,stroke:#e65100,stroke-width:2px,color:#000
+    classDef backend fill:#fce4ec,stroke:#ad1457,stroke-width:2px,color:#000
+    classDef k8s fill:#e8f5e9,stroke:#2e7d32,stroke-width:2px,color:#000
+    classDef infra fill:#f3e5f5,stroke:#6a1b9a,stroke-width:2px,color:#000
+
+    class Terminal,Shell,Scripts,Mental virtual
+    class Parser,Planner,Annot,Mounts,State,Audit session
+    class Local,ParLocal,Indexed,Argo backend
+    class Workloads,Storage,Identity,Platform,Inventory k8s
+    class Clusters,Runtime,CAS,Cloud infra
+```
+
+The same picture reduced to the data path of one pipeline:
+
 ```
  terminal (thin client)
      │  WebSocket attach
