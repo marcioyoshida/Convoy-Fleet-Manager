@@ -1,0 +1,58 @@
+# Compiled target from docs/pipeline-compiler.md §9 for the pipeline:
+#   cat /s3/logs/2026-11/*.log | grep error | awk '{print $1}' | sort | uniq -c
+# Illustrative; convoy-get/convoy-put helpers are M1 deliverables.
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: pid-5678-map
+  labels: {convoy.io/pid: "5678", convoy.io/session: "sid-1234", convoy.io/plan: "7f3a", convoy.io/stage: "1"}
+spec:
+  completionMode: Indexed
+  completions: 1648
+  parallelism: 256                 # quota-capped
+  backoffLimitPerIndex: 2
+  successPolicy:
+    rules: [{succeededCount: 1566}] # floor 95 %
+  activeDeadlineSeconds: 7200
+  ttlSecondsAfterFinished: 86400
+  template:
+    metadata:
+      labels: {convoy.io/pid: "5678"}
+    spec:
+      restartPolicy: Never
+      serviceAccountName: user-marcio
+      containers:
+      - name: stage
+        image: registry.example.com/convoy/toolbox:1.4
+        command: [sh, -o, pipefail, -c]
+        args:
+        - >
+          convoy-get "$IN_PREFIX/part-$JOB_COMPLETION_INDEX"
+          | grep error | awk '{print $1}' | sort
+          | convoy-put "$OUT_PREFIX/part-$JOB_COMPLETION_INDEX"
+        env:
+        - {name: IN_PREFIX,  value: "cas/plan-7f3a/stage-0"}
+        - {name: OUT_PREFIX, value: "cas/plan-7f3a/stage-1"}
+        resources:
+          requests: {cpu: "1", memory: "1Gi"}
+          limits:   {cpu: "2", memory: "2Gi"}
+---
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: pid-5678-merge
+  labels: {convoy.io/pid: "5678", convoy.io/plan: "7f3a", convoy.io/stage: "2"}
+spec:
+  backoffLimit: 2
+  template:
+    spec:
+      restartPolicy: Never
+      containers:
+      - name: stage
+        image: registry.example.com/convoy/toolbox:1.4
+        command: [sh, -o, pipefail, -c]
+        args:
+        - >
+          convoy-get-all "cas/plan-7f3a/stage-1/" --as-files /work
+          && sort -m /work/part-* | uniq -c
+          | convoy-put "cas/plan-7f3a/stage-2/out"

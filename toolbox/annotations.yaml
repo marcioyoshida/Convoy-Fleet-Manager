@@ -1,0 +1,107 @@
+# Convoy command annotation database — seed.
+# Classes: stateless | aggregate | pattern | limit | fan-in | fan-out | typed | non-parallel | unknown
+# Semantics are defined in docs/pipeline-compiler.md §3 and ADR 0002.
+# A command absent from this file is class: unknown and runs on one node.
+version: 0.1
+defaults:
+  locale: C            # LC_ALL=C pinned in the toolbox so sort/merge agree across nodes
+  split: lines
+  requests: {cpu: 100m, memory: 128Mi}   # stateless text stages; aggregates are sized from input
+
+commands:
+  # --- stateless: f(concat(parts)) == concat(f(parts)) ------------------------
+  grep:  {class: stateless, merge: concat, order: within-partition, limit_pushdown: true}
+  tr:    {class: stateless, merge: concat}
+  cut:   {class: stateless, merge: concat}
+  fold:  {class: stateless, merge: concat}
+  expand:   {class: stateless, merge: concat}
+  unexpand: {class: stateless, merge: concat}
+  basename: {class: stateless, merge: concat}
+  dirname:  {class: stateless, merge: concat}
+  iconv: {class: stateless, merge: concat, split: records}   # multibyte: split on record boundaries only
+  strings: {class: stateless, merge: concat, split: bytes, overlap: 4}
+  uuencode: {class: stateless, merge: concat}
+  uudecode: {class: stateless, merge: concat}
+
+  # --- aggregate: partial on each partition, then a merge program --------------
+  sort:
+    class: aggregate
+    partial: sort
+    merge: sort -m
+    order: global
+    topk_rewrite: true          # sort | head -n K → per-partition top-K then merge
+    requests: {cpu: 1, memory: from-input}
+  uniq:
+    class: aggregate
+    requires: sorted-input
+    partial: uniq
+    merge: uniq                 # adjacent duplicates across partition edges collapse in the merge
+    variants:
+      "-c": {partial: "uniq -c", merge: sum-by-key}
+  wc:
+    class: aggregate
+    partial: wc
+    merge: sum
+  cksum: {class: non-parallel, note: "artifacts already carry sha256; cksum of an artifact returns the stored hash"}
+  nl:    {class: aggregate, partial: "wc -l", merge: offset-renumber, note: "two-pass: count lines per partition, then number with offsets"}
+
+  # --- pattern: stateless only for a recognized subset of the program ----------
+  awk:
+    class: pattern
+    stateless_if: "no BEGIN/END blocks, no user variables, no getline, no NR/FNR references"
+    else: non-parallel
+  sed:
+    class: pattern
+    stateless_if: "no hold space (h/H/g/G/x), no N/D/P, no line-range or numeric addresses"
+    else: non-parallel
+
+  # --- limit: closes upstream early (the SIGPIPE equivalent) ----------------------
+  head: {class: limit, pushdown: cancel-upstream}
+  tail:
+    class: aggregate
+    partial: tail
+    merge: tail
+    variants:
+      "-f": {class: stream, note: "opt-in live follow of a log or queue; never an artifact"}
+
+  # --- fan-in / fan-out -------------------------------------------------------------
+  cat:   {class: fan-in, merge: concat}
+  tee:   {class: fan-out}
+  join:  {class: fan-in, requires: sorted-input, parallel_if: co-partitioned-by-key, else: non-parallel}
+  comm:  {class: fan-in, requires: sorted-input, parallel_if: range-partitioned, else: non-parallel}
+  paste: {class: fan-in, parallel_if: aligned-partitions, else: non-parallel}
+  split: {class: fan-out, note: "explicit partitioning of an artifact; the planner's own partitioner"}
+  xargs: {class: fan-out, parallelism_flag: -P, partition_size_flag: -n, compiles_to: indexed-job}
+
+  # --- non-parallel: global state or global positions --------------------------
+  od:     {class: non-parallel, note: offsets are global}
+  pr:     {class: non-parallel, note: page numbers are global}
+  csplit: {class: non-parallel}
+  cmp:    {class: non-parallel, parallel_if: aligned-partitions}
+  diff:   {class: non-parallel}
+  patch:  {class: non-parallel}
+  ed:     {class: non-parallel}
+  compress:   {class: non-parallel, note: whole-stream codec}
+  uncompress: {class: non-parallel}
+  zcat:   {class: non-parallel, parallel_if: bgzip-blocks}
+  tsort:  {class: non-parallel}
+  m4:     {class: non-parallel}
+  bc:     {class: non-parallel}
+  dd:     {class: non-parallel, side_effects: false, devices: refused}
+
+  # --- typed verbs: the only commands that map to engine operators -------------
+  select: {class: typed, engine: dataframe, op: select}
+  filter: {class: typed, engine: dataframe, op: filter}
+  group:  {class: typed, engine: dataframe, op: groupBy}
+  tjoin:  {class: typed, engine: dataframe, op: join}
+
+  # --- side effects: never fan out without an explicit xargs/fork -----------------
+  curl:   {class: unknown, side_effects: true}
+  logger: {class: translate, note: "emits a Kubernetes Event on the process object and an audit line"}
+
+merge_programs:
+  concat:          {impl: cat}
+  sort -m:         {impl: "sort -m"}
+  sum:             {impl: convoy-merge-sum}
+  sum-by-key:      {impl: convoy-merge-sum-by-key, input: "count-key lines from uniq -c"}
+  offset-renumber: {impl: convoy-merge-renumber}

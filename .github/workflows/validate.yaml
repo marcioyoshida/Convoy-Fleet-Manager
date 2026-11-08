@@ -1,0 +1,42 @@
+name: validate
+on:
+  push:
+    branches: [main]
+  pull_request:
+jobs:
+  yaml-and-links:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: "3.12"}
+      - run: pip install pyyaml
+      - name: every YAML example and the annotation database must parse
+        run: |
+          python - <<'PY'
+          import glob, yaml, sys
+          files = glob.glob('examples/*.yaml') + glob.glob('toolbox/*.yaml') + glob.glob('.github/workflows/*.yaml')
+          for f in files:
+              list(yaml.safe_load_all(open(f))); print('OK', f)
+          PY
+      - name: YAML blocks inside the design docs must parse
+        run: |
+          python - <<'PY'
+          import glob, re, yaml
+          for f in glob.glob('docs/**/*.md', recursive=True):
+              for i, b in enumerate(re.findall(r'```yaml\n(.*?)```', open(f).read(), re.S)):
+                  list(yaml.safe_load_all(b)); print('OK', f, 'block', i + 1)
+          PY
+      - name: relative links in markdown must resolve
+        run: |
+          python - <<'PY'
+          import glob, re, os, sys
+          bad = []
+          for f in glob.glob('**/*.md', recursive=True):
+              for m in re.finditer(r'\]\((?!https?://|#)([^)]+)\)', open(f).read()):
+                  target = m.group(1).split('#')[0]
+                  if target and not os.path.exists(os.path.join(os.path.dirname(f), target)):
+                      bad.append((f, target))
+          for b in bad: print('BROKEN', *b)
+          sys.exit(1 if bad else 0)
+          PY

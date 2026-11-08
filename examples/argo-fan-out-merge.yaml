@@ -1,0 +1,68 @@
+# Compiled target from docs/pipeline-compiler.md §9 for the pipeline:
+#   cat /s3/logs/2026-11/*.log | grep error | awk '{print $1}' | sort | uniq -c
+# Illustrative; convoy-get/convoy-put helpers are M1 deliverables.
+apiVersion: argoproj.io/v1alpha1
+kind: Workflow
+metadata:
+  generateName: pid-5678-
+  labels: {convoy.io/pid: "5678", convoy.io/session: "sid-1234", convoy.io/plan: "7f3a"}
+spec:
+  entrypoint: pipeline
+  serviceAccountName: user-marcio
+  activeDeadlineSeconds: 7200
+  arguments:
+    parameters:
+    - {name: parts, value: "1648"}
+  artifactRepositoryRef: {configMap: convoy-artifacts, key: s3}
+  templates:
+  - name: pipeline
+    dag:
+      tasks:
+      - name: map
+        template: stage
+        withSequence: {count: "{{workflow.parameters.parts}}"}
+        arguments:
+          parameters:
+          - {name: cmd,  value: "grep error | awk '{print $1}' | sort"}
+          - {name: part, value: "{{item}}"}
+          artifacts:
+          - name: in
+            s3: {key: "cas/plan-7f3a/stage-0/part-{{item}}"}
+      - name: merge
+        dependencies: [map]
+        template: merge-stage
+        arguments:
+          parameters:
+          - {name: cmd, value: "sort -m /in/part-* | uniq -c"}
+          artifacts:
+          - name: in
+            s3: {key: "cas/plan-7f3a/stage-1/"}   # directory key = all map outputs
+
+  - name: stage
+    inputs:
+      parameters: [{name: cmd}, {name: part}]
+      artifacts: [{name: in, path: /in/data}]
+    outputs:
+      artifacts:
+      - name: out
+        path: /out/data
+        s3: {key: "cas/plan-7f3a/stage-1/part-{{inputs.parameters.part}}"}
+    container:
+      image: registry.example.com/convoy/toolbox:1.4
+      command: [sh, -o, pipefail, -c]
+      args: ["{{inputs.parameters.cmd}} < /in/data > /out/data"]
+      resources: {requests: {cpu: "1", memory: "1Gi"}}
+
+  - name: merge-stage
+    inputs:
+      parameters: [{name: cmd}]
+      artifacts: [{name: in, path: /in}]
+    outputs:
+      artifacts:
+      - name: out
+        path: /out/data
+        s3: {key: "cas/plan-7f3a/stage-2/out"}
+    container:
+      image: registry.example.com/convoy/toolbox:1.4
+      command: [sh, -o, pipefail, -c]
+      args: ["{{inputs.parameters.cmd}} > /out/data"]

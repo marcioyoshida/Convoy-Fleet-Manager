@@ -1,0 +1,16 @@
+# source binaries of the research notes stay local; the converted text is committed
+research/sources/
+*.pdf
+*.docx
+
+# OS and sync noise
+.DS_Store
+Thumbs.db
+desktop.ini
+~$*
+*.tmp
+
+# local tooling
+.venv/
+venv/
+__pycache__/
