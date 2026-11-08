@@ -1,5 +1,7 @@
 # User stories and open abstractions
 
+> This document lists short stories the research missed and the abstractions still to design. The nine corporate workloads, written as full persona-driven probes against a fixed template, are in [user-stories/](user-stories/README.md).
+
 The research notes contained some twenty user stories. The critique of those is summarized in `debate-review.md` and in the research README. This document holds the stories the research missed, each in the same shape plus the part the research never wrote: what happens on failure. The second half lists the abstractions still to design.
 
 ## Stories the research missed

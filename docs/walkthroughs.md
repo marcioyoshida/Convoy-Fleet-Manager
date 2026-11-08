@@ -2,7 +2,7 @@
 
 The first six workloads were set by the owner; the last three were chosen by the builder to stress parts of the design the first six do not reach (external spend and non-determinism, residency and evidence, fleet-wide references). Each walkthrough runs a workload through the design as it stands: the session as the user sees it, what the planner emits, what happens on failure, and where the design strains. A strain is annotated as a **GAP** with the amendment that closes it. The gaps found here are collected at the end and are applied as amendments to [ADR 0004](adr/0004-completion-contract-and-exit-codes.md) and [ADR 0008](adr/0008-signal-routing.md), plus roadmap and annotation-database changes.
 
-Verbs and flags used below that are not yet specified elsewhere are introduced here and marked as such. Nothing in this document runs yet.
+Verbs and flags used below that are not yet specified elsewhere are introduced here and marked as such. Nothing in this document runs yet. The same nine workloads are probed persona by persona, aspect by aspect, in [user-stories/](user-stories/README.md); the fifty-eight findings there go beyond the ten gaps below and are not yet applied.
 
 | # | Workload | Runs on the design as written? | Gaps |
 |---|---|---|---|
