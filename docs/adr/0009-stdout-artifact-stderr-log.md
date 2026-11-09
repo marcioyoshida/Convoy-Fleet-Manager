@@ -22,3 +22,11 @@ Remote stages write stdout to their artifact and stderr to the container log; `2
 **Decision.** The receipt is persisted where the object completes, by the node agent or a per-device receipt spool, at the moment of completion. TTL deletion is deferred until the session acknowledges the receipt: the Job carries a finalizer that the acknowledgement removes, or `ttlSecondsAfterFinished` is set only on acknowledgement, whichever the platform chooses and `explain` prints. When the link returns the spool drains into the session's receipts in order, and the audit stream marks each entry with both timestamps.
 
 **Consequences.** A site can finish a night's work with no link and lose nothing but latency. A spool has a size; a site with no acknowledgement for longer than the platform's spool retention raises a hotplug event rather than silently dropping receipts. ROADMAP M10 gains the spool.
+
+## Rules · 2026-11-09 · from the user-story probes
+
+Each line is a `rule` finding from `docs/user-stories/README.md` written here as decided; the story holds the reasoning.
+
+- **L4.2** (US-04) the toolbox provides `convoy-metric key=value` writing to `/sys/receipt/$pid/metrics`; receipts carry a `metrics` map flagged self-reported (see US-07 L7.2).
+- **L8.5** (US-08) `replay` runs under the caller's identity, which needs read on the held closure only; the replay receipt links to the original and records both identities.
+- **L16.2** (US-16) the receipt records node and attempt per partition and per group member; `status <pid>` lists partitions with node, attempt and kernel state (from the node agent) and `top` surfaces partitions stuck in D state; `ps --node <name>` and `ps -o node` exist.

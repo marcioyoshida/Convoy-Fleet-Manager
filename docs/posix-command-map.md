@@ -256,3 +256,22 @@
 - A **mount** row depends on the session fileserver and the mount namespace design (`/pvc`, `/s3`, `/clusters`), which supersedes the disk-operations note.
 - **Partial** rows are where leaks live. Each note names the difference the user will see; none of them is hidden behind emulation.
 - The ten **Dropped** rows are SCCS, printing and terminal chat. Their use cases are covered by Git, artifacts and collaborative sessions.
+
+## Rules from the user-story probes · 2026-11-09
+
+Rules the sixteen stories in `docs/user-stories/` decided for specific commands. The row in the full table is unchanged; this table is where the command's behaviour on Convoy is refined.
+
+| Commands | Rule | Finding |
+|---|---|---|
+| `crontab` | `crontab` derives `startingDeadlineSeconds` from `--deadline`, and a skipped run writes a receipt with exit 2 and the declared action | L1.6 |
+| `cp` | copy Jobs pre-flight the destination's free capacity × replication factor from `/sys`; `explain cp` prints it | L2.5 |
+| `wait` | `caps: metrics` is required for any metric condition; absence is a plan-time refusal, never a fallback | L3.5 |
+| `cp`, `ln` | object-store mounts record the source artifact id as object metadata on `cp`; `ls -l` shows it; `run --model=` resolves and pins the id in the unit receipt; when the registry is the artifact store itself, `ln -s` is the recommended spelling | L4.1 |
+| `xargs` | `explain` warns when fail-fast can cancel independent siblings; `--keep-going` runs every index and exits 1 with the failed list; platforms may set it as the `xargs -P` default | L4.4 |
+| `rmdir`, `rm` | `rmdir` refuses a non-empty namespace; `rm -r` lists everything that would be lost and requires `--with-data` and, for namespaces with volumes, a second approval (US-03 L3.1); reclaim policy Retain is the platform default | L6.2 |
+| `ls`, `chown` | `ls -l` under a cluster mount shows `?` as owner for unlabelled namespaces; `chown` adopts them; the inventory counts them as unmanaged | L6.6 |
+| several | prompts in non-interactive sessions are exit 3 with the required flag (`--yes`), consistent with `rm -i` | L6.7 |
+| `crontab`, `at` | wall-clock deadlines are read in the session's `TZ`; receipts store UTC and the zone; `crontab` sets `timeZone` | L8.4 |
+| `chmod`, `getfacl` | `chmod` maps `r` to Read and Describe, `w` to Write, `x` to Create under the prefix; everything else is `setfacl`/`getfacl`; `ls -l` marks a `+` when ACLs exceed the mode, as POSIX ACLs do | L13.2 |
+| `xargs` | reading a queue by redirection is a bounded drain to the depth observed at plan time and compiles to a work-queue Job; a follow into `xargs` is continuous and requires `run --unit`, scaled by queue depth when `caps: keda` exists | L13.5 |
+

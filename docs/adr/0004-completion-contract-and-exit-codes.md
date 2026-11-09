@@ -40,3 +40,16 @@ Amendment note 2026-11-09: the complete table of contract flags, shared by `run`
 **Decision.** Budget and deadline are inherited like cgroup limits. A child process's budget and deadline are capped by the parent's remaining budget and remaining time at the moment the child is created; a child that asks for more is refused with exit 3 and the parent's remaining figures. `ps --tree` and the parent's receipt sum the tree, so the parent's budget binds on its own spend plus its descendants'. Retries and group restarts are children for this purpose. Identity and residency inherit the same way (ADR 0011 amendment 3).
 
 **Consequences.** Metered spend declared by a child (ADR 0004 budget over compute plus declared metered spend) counts against the parent at the moment it is declared. A parent that is cancelled on budget cancels its tree with the same fail-fast rule as partitions. `explain` prints the inherited ceiling for any line run from inside a process.
+
+## Rules · 2026-11-09 · from the user-story probes
+
+Each line is a `rule` finding from `docs/user-stories/README.md` written here as decided; the story holds the reasoning.
+
+- **L1.3** (US-01) the planner computes the effective floor per stage from downstream classes and refuses a `--min-success` that a fan-in cannot honour (exit 3 at plan time).
+- **L2.6** (US-02) annotation `checkpoint: none` makes `--on-budget=pause` and `--on-deadline=pause` a plan-time refusal; the default for such executables is `cancel` and `explain` says so.
+- **L4.4** (US-04) `explain` warns when fail-fast can cancel independent siblings; `--keep-going` runs every index and exits 1 with the failed list; platforms may set it as the `xargs -P` default.
+- **L5.1** (US-05) `--gang` requires `--checkpoint` on a zone-independent device (object store or RWX); the planner refuses a per-replica PVC path for checkpoints; `explain` prints the rule.
+- **L5.5** (US-05) the deadline counts from submission by default, queue and pause time included; `--deadline-from=start` opts out; `explain` prints the choice and the queue estimate.
+- **L7.4** (US-07) the annotation `transient_exit_codes` (or the package's declaration) marks attempts that do not burn the floor but do burn deadline and budget; the receipt counts attempts per index.
+- **L8.4** (US-08) wall-clock deadlines are read in the session's `TZ`; receipts store UTC and the zone; `crontab` sets `timeZone`.
+- **L8.7** (US-08) `caps: alerting` is required for `page:` actions; absence is a plan-time refusal.

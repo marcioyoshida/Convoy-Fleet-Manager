@@ -30,3 +30,10 @@ Reruns skip unchanged stages. A downstream restart loses nothing. Small outputs 
 **Decision.** The artifact store is a device class under `/dev/obj/by-id/cas-<topology>` (ADR 0011 amendment 2), one device per topology the platform serves. The planner selects, for every stage, a store within the stage's residency (the intersection of the `residency=` options of the mounts the stage touches, ADR 0011 amendment 3) and refuses the plan when no such store exists, naming the stores it considered. The receipt names the store of every artifact. A session pod serving a residency-bound mount runs in that region or holds no artifact data itself; which of the two the platform chose is printed by `explain` as a default.
 
 **Consequences.** Content ids are unchanged, so a cache hit is still a cache hit within a store; the same id in two stores is two copies, and a cross-topology stage reads from the store its input is in and writes to the store its residency permits, with the egress line priced. ROADMAP M4 gains the per-topology store and M8 the device entries.
+
+## Rules · 2026-11-09 · from the user-story probes
+
+Each line is a `rule` finding from `docs/user-stories/README.md` written here as decided; the story holds the reasoning.
+
+- **L1.1** (US-01) annotated commands hash their declared `env` list; `unknown` commands and executables hash the whole environment minus a platform-declared volatile list (`PWD`, `OLDPWD`, `CONVOY_PID`, `_`, `SHLVL`); `type` and `explain --cache` print the subset; a cache hit names the subset in the receipt.
+- **L4.5** (US-04) the fileserver resolves every path argument to a content id at plan time, by sha256 for small objects and by object version id plus size for large ones, and the receipt says which.

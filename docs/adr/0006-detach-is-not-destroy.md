@@ -32,3 +32,13 @@ Amendment note 2026-11-08: `scale` down on a unit with per-replica volumes deleg
 **Decision.** `--retain` extends to external inputs in one of two ways, chosen per device and printed by `explain --retain` with its monthly price: a copy of the input closure into the held artifact store of the stage's residency (ADR 0001 amendment 2), or an object lock on the device for the hold's duration where the device supports one (`caps: object-lock`). A topic's offset range is always copied (ADR 0012 decision 3). The receipt records which mechanism held each input and where. A hold that can do neither is refused with the reason, before the run.
 
 **Consequences.** The held closure is complete, so `replay` under a later identity needs read on the held store or the locked objects and nothing else (US-08, L8.5). The cost of a hold is dominated by its inputs for large reads, which is why the price is printed first.
+
+## Rules · 2026-11-09 · from the user-story probes
+
+Each line is a `rule` finding from `docs/user-stories/README.md` written here as decided; the story holds the reasoning.
+
+- **L1.5** (US-01) retention class `partial`, default seven days, marked in `ls -l /artifacts` and priced in the receipt.
+- **L5.6** (US-05) the session pre-creates PVCs named `<pid>-<index>` and mounts them by index through the downward API; they are retained on restart and on `kill` (ADR 0006); M3 exit criterion gains this case.
+- **L6.2** (US-06) `rmdir` refuses a non-empty namespace; `rm -r` lists everything that would be lost and requires `--with-data` and, for namespaces with volumes, a second approval (US-03 L3.1); reclaim policy Retain is the platform default.
+- **L8.6** (US-08) holds copy the image by digest into a platform-held registry device (`/dev/registry/by-id/held`), or refuse when none exists.
+- **L11.4** (US-11) `explain --retain` prices the copy per month in the band.

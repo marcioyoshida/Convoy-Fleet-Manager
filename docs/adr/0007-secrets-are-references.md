@@ -46,3 +46,12 @@ Nothing to scrub. Attribution of secret use is emitted by the session at launch,
 **Decision.** A mount declares where its references resolve: `secrets=central` (the default) or `secrets=site-replica`, naming a replica the platform runs at the site with a visible sync age under `/sys/<class>/<id>/secrets`. `explain` prints the source and the age for every reference a plan uses. A reference with no reachable source at plan time is exit 3 with the reference and the source named, never a pending pod. Replicas receive versions by the platform's sync, and `fuser` reports a replica that lags as a holder of the old version.
 
 **Consequences.** Rotation at a disconnected site completes when the link returns, and the reference index knows it has not. `secret retire` of a version a replica still holds is refused like any reachable reference (amendment 1).
+
+## Rules · 2026-11-09 · from the user-story probes
+
+Each line is a `rule` finding from `docs/user-stories/README.md` written here as decided; the story holds the reasoning.
+
+- **L6.4** (US-06) `backup` excludes Secret objects by default; `--include-secrets` is audited; the receipt lists exclusions.
+- **L9.2** (US-09) the producer declares `rotation: dual` (both valid for a window) or `cutover` (rotate and reload all consumers as one coordinated group in index order, with a declared blackout); `explain` prints the strategy and the blackout.
+- **L9.4** (US-09) `secret retire` is two-phase: disable (version kept, reads denied and logged) for a cooling period, then delete; `fuser --unknown` lists Secret objects referenced by any pod path (env, envFrom, volumes, CSI) that the index did not create; denied reads reopen the retirement.
+- **L9.8** (US-09) `secret retire --force` requires a second approval through the approvals object (US-03 L3.1); the deferred object shows its age in `ps`.

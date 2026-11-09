@@ -14,3 +14,9 @@ One session pod per user runs the parser, planner, local backend, mount table, e
 ## Consequences
 
 Detach and reattach work. The audit stream is trustworthy. Session state (mount table, env, cwd) is server-side and inherited by launched processes at creation time, Plan 9 style. Identity, ownership and networking all store their state here, so this decision precedes them.
+
+## Rules · 2026-11-09 · from the user-story probes
+
+Each line is a `rule` finding from `docs/user-stories/README.md` written here as decided; the story holds the reasoning.
+
+- **L6.7** (US-06) prompts in non-interactive sessions are exit 3 with the required flag (`--yes`), consistent with `rm -i`.

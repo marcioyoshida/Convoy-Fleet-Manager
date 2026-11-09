@@ -22,3 +22,55 @@ Not scheduled: debugging (ephemeral containers), devices (DRA claims), events an
 ## Non-goals, permanently
 
 Translating text tools into engine operators. Deciding from output size. Streams as the default pipe. Auto-upgrading a pipeline to a cluster engine because the input looks big. Emulating `fork`, `ptrace`, shared memory or real-time scheduling across pods.
+
+## Rules bound to milestones · 2026-11-09
+
+From the user-story probes. Each milestone's exit criteria include the rules listed under it.
+
+**M1**
+
+- **L4.2** the toolbox provides `convoy-metric key=value` writing to `/sys/receipt/$pid/metrics`; receipts carry a `metrics` map flagged self-reported (see US-07 L7.2).
+
+**M2**
+
+- **L7.2** metered entries are labelled `declared`; a later `settled` source (provider billing export) reconciles; FinOps sees both; a package whose declared spend is under settled by a platform threshold is flagged in `pkg list`.
+
+**M3**
+
+- **L5.1** `--gang` requires `--checkpoint` on a zone-independent device (object store or RWX); the planner refuses a per-replica PVC path for checkpoints; `explain` prints the rule.
+- **L5.6** the session pre-creates PVCs named `<pid>-<index>` and mounts them by index through the downward API; they are retained on restart and on `kill` (ADR 0006); M3 exit criterion gains this case.
+
+**M4**
+
+- **L1.6** `crontab` derives `startingDeadlineSeconds` from `--deadline`, and a skipped run writes a receipt with exit 2 and the declared action.
+
+**M5**
+
+- **L4.1** object-store mounts record the source artifact id as object metadata on `cp`; `ls -l` shows it; `run --model=` resolves and pins the id in the unit receipt; when the registry is the artifact store itself, `ln -s` is the recommended spelling.
+- **L4.5** the fileserver resolves every path argument to a content id at plan time, by sha256 for small objects and by object version id plus size for large ones, and the receipt says which.
+- **L6.4** `backup` excludes Secret objects by default; `--include-secrets` is audited; the receipt lists exclusions.
+
+**M6**
+
+- **L5.5** the deadline counts from submission by default, queue and pause time included; `--deadline-from=start` opts out; `explain` prints the choice and the queue estimate.
+
+**M7**
+
+- **L6.6** `ls -l` under a cluster mount shows `?` as owner for unlabelled namespaces; `chown` adopts them; the inventory counts them as unmanaged.
+- **L7.6** `egress:` with hostnames requires `caps: fqdn-policy`; without it the planner refuses or routes through the platform's egress proxy package; `explain` names the mechanism.
+- **L9.4** `secret retire` is two-phase: disable (version kept, reads denied and logged) for a cooling period, then delete; `fuser --unknown` lists Secret objects referenced by any pod path (env, envFrom, volumes, CSI) that the index did not create; denied reads reopen the retirement.
+
+**M8**
+
+- **L10.9** `caps` is evaluated per target device at plan time; a backend the site lacks is a plan-time refusal naming the capability and the site.
+
+**M9**
+
+- **L8.6** holds copy the image by digest into a platform-held registry device (`/dev/registry/by-id/held`), or refuse when none exists.
+
+**M11**
+
+- **L3.5** `caps: metrics` is required for any metric condition; absence is a plan-time refusal, never a fallback.
+- **L4.3** platform default `idle_timeout` per unit class with a GPU; idle is scale-to-zero with volumes retained (ADR 0006); `ps` shows IDLE and the receipt the idle cost.
+- **L12.3** consumer units default to `maxSurge: 0`, the cooperative-sticky assignor and a drain on TERM that commits before leaving; printed by `explain`.
+

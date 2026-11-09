@@ -78,3 +78,18 @@ Facts that constrain the design:
 - Cost: a Kafka protocol driver in the session fileserver (`caps: queue:kafka`), a second price shape under `/sys`, a consumer-group index for `ps`, and a wider M5. The `seek` verb and the `--from`/`--to` read options are new surface.
 - Open, to be settled when M5 is designed against this ADR: schema registries (an Avro or Protobuf topic could feed the `typed` class directly; ADR 0015 decision 9 takes the first half by making a schema the type a table driver exposes); keyed writes (`tee --key=`) and whether order is per partition or global for a downstream `sort`; exactly-once across a pipeline that ends in a side-effect sink; what `ls` shows for a topic with ten thousand partitions.
 - User stories [US-10](../user-stories/US-10-edge-telemetry.md) (edge telemetry), [US-11](../user-stories/US-11-topic-reprocess.md) (reprocessing by offset range), [US-12](../user-stories/US-12-continuous-consumer-unit.md) (a continuous consumer unit and the engine package) and [US-13](../user-stories/US-13-tenant-topics-and-work-queues.md) (tenant topics, ACLs, quotas and work queues) exercise every decision above. They raised 27 findings; the four that amend this ADR, L11.2 (a rerun appends), L11.5 (partitions are the granularity, not the count), L12.1 (exactly-once for follows) and L13.3 (partition quotas), are applied inline in decisions 1 and 2 as of 2026-11-09 and collected in `docs/user-stories/README.md` under misroute S12.
+
+## Rules · 2026-11-09 · from the user-story probes
+
+Each line is a `rule` finding from `docs/user-stories/README.md` written here as decided; the story holds the reasoning.
+
+- **L10.3** (US-10) `df` on a queue device shows oldest unread offset per consumer group against retention; `explain` warns under a platform margin; `cat --from` before the earliest offset is exit 1 naming the lost range, never a partial success.
+- **L11.1** (US-11) `--from` and `--to` resolve to per-partition offsets at plan time; the receipt stores them; `explain` warns on CreateTime topics.
+- **L11.3** (US-11) queue reads carry `order: per-partition` as a stage property, like partitioned file reads; the compiler warns when an order-sensitive class follows without a global sort.
+- **L11.6** (US-11) bounded reads use direct partition assignment and commit nothing; only units (follows) own a group, prefixed by the mount's `group=` option.
+- **L12.4** (US-12) lag is computed from the broker's group offsets through the queue device, under `/sys/queue/<id>/groups/`; no metrics capability required.
+- **L12.6** (US-12) unit groups are prefixed by the mount's `group=` option; a group that exists with members not labelled by Convoy is a plan-time refusal; `ps` shows foreign groups with owner `?`.
+- **L13.1** (US-13) `rm` on a topic with retained bytes requires `--with-data`, a second approval above a platform threshold (US-03 L3.1), and prints the `backup` spelling that copies the retained range into the artifact store first.
+- **L13.2** (US-13) `chmod` maps `r` to Read and Describe, `w` to Write, `x` to Create under the prefix; everything else is `setfacl`/`getfacl`; `ls -l` marks a `+` when ACLs exceed the mode, as POSIX ACLs do.
+- **L13.4** (US-13) `mkfifo` creates a dead-letter topic by default with `max-deliveries` from the platform template; consumers move an item after the limit and the process exits degraded with the count; `mkfifo --no-dead-letter` is explicit.
+- **L13.5** (US-13) reading a queue by redirection is a bounded drain to the depth observed at plan time and compiles to a work-queue Job; a follow into `xargs` is continuous and requires `run --unit`, scaled by queue depth when `caps: keda` exists.

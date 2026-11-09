@@ -384,3 +384,15 @@ Plan: input 38 GiB Parquet → engine `dataframe` → DuckDB in one pod (fits a 
 3. Top-K rewrite correctness with `sort -u` and locale-dependent collation: pin `LC_ALL=C` in the toolbox or expose collation as a plan parameter.
 4. Argo-side enforcement of floors: wait for a native `successPolicy` equivalent, or keep it in the session as designed here.
 5. Whether `fork N cmd` (explicit) and the planner's own partitioning (implicit) should be the same mechanism with different defaults. Current answer: yes, both emit §9.1.
+
+## 13. Rules from the user-story probes · 2026-11-09
+
+The stories in `docs/user-stories/` decided the following for the compiler and the planner. Each is also recorded under the ADR it touches.
+
+- **L1.1** annotated commands hash their declared `env` list; `unknown` commands and executables hash the whole environment minus a platform-declared volatile list (`PWD`, `OLDPWD`, `CONVOY_PID`, `_`, `SHLVL`); `type` and `explain --cache` print the subset; a cache hit names the subset in the receipt.
+- **L1.3** the planner computes the effective floor per stage from downstream classes and refuses a `--min-success` that a fan-in cannot honour (exit 3 at plan time).
+- **L2.2** bands for executables are tagged `declared` in `explain`; the receipt records declared versus observed; a package may provide an estimator hook that reads the job config.
+- **L5.3** `/sys/k8s/<id>/preemption_rate` per node group (ADR 0011 decision 7); the band widens by expected restart loss on spot; the receipt separates productive from lost time.
+- **L11.3** queue reads carry `order: per-partition` as a stage property, like partitioned file reads; the compiler warns when an order-sensitive class follows without a global sort.
+- **L12.2** on a follow the planner refuses aggregate and fan-in classes and `order: global`, and prints the two alternatives: a bounded read on a schedule, or an engine package with a window; `limit` (`head`) stays allowed and closes the follow.
+

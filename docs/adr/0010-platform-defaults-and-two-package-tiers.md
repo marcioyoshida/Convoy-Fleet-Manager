@@ -22,3 +22,15 @@ Users see which default came from which profile through `explain`. `pkg remove` 
 **Decision.** Every mutation of an object under GitOps management is written as intent. Management is detected from the tracking label or annotation Argo CD or Flux sets. The session writes the change to the repository and branch the platform's `release_path` names, waits for reconciliation, and records the commit and the resulting object hash in the receipt. This covers `release`, `scale`, route weights, `kill -HUP` under `reload: restart` (a version annotation bump), `mkdir` of a managed topic or namespace, and `chmod` where the ACL object is managed. `explain` prints `managed-by: gitops → via commit to <repo>@<branch>` for every such step. A direct patch to a managed object is refused with exit 3 and the intent spelling; `release_path=direct` is allowed only for namespaces the platform marks as development.
 
 **Consequences.** The repository must be a device the session can write (ADR 0011 amendment 2). Reconciliation time is part of every unit verb's latency and is printed. Residency and other defaults that the platform sets per namespace (ADR 0011 amendment 3) travel the same way: they are profile values the platform commits, not flags users remember.
+
+## Rules · 2026-11-09 · from the user-story probes
+
+Each line is a `rule` finding from `docs/user-stories/README.md` written here as decided; the story holds the reasoning.
+
+- **L2.2** (US-02) bands for executables are tagged `declared` in `explain`; the receipt records declared versus observed; a package may provide an estimator hook that reads the job config.
+- **L4.3** (US-04) platform default `idle_timeout` per unit class with a GPU; idle is scale-to-zero with volumes retained (ADR 0006); `ps` shows IDLE and the receipt the idle cost.
+- **L7.2** (US-07) metered entries are labelled `declared`; a later `settled` source (provider billing export) reconciles; FinOps sees both; a package whose declared spend is under settled by a platform threshold is flagged in `pkg list`.
+- **L7.6** (US-07) `egress:` with hostnames requires `caps: fqdn-policy`; without it the planner refuses or routes through the platform's egress proxy package; `explain` names the mechanism.
+- **L12.3** (US-12) consumer units default to `maxSurge: 0`, the cooperative-sticky assignor and a drain on TERM that commits before leaving; printed by `explain`.
+- **L16.4** (US-16) `managed-by` under the node names the manager and its object; `rm` on a node is written as intent to that object (ADR 0010 a1), fencing follows the instance's power-off, and the replacement is the manager's; with no manager `rm` is refused and names the `page:` route for the hardware owner.
+- **L16.5** (US-16) every `health` source is a capability (`dcgm`, `node-agent`); an absent source reads `unknown`, never `ok`, and `explain` on a GPU plan prints `gpu health: unknown` when `dcgm` is missing.

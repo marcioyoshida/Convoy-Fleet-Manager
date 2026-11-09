@@ -184,3 +184,9 @@ The remark that prompted this record: the non-Linux commands could be more compr
 - ROADMAP M2 gains `explain` in the full form of decision 3 and `type`; M3 the contract flags table; M11 the unit verbs; M5 and M8 the device verbs with `caps` per device; M9 the platform verbs with their refusals.
 - Open: the approvals object behind `approve` (L3.1), the networking design behind `expose` (L4.6), the schema registry option (L12.5), the `--json` schema. Each is marked `open` in its entry and nothing here pre-empts it.
 - [US-14](../user-stories/US-14-assisted-shell.md) probes decisions 3 and 10 from the completion side and adds L14.3 (a gloss per candidate is a plan per candidate; `explain` from cache never populates a priced listing). A probe story against the whole record (every verb, every refusal, the uniform exit 3) is worth writing once the register's amendments have been decided, so the story checks the decided text and not this draft.
+
+## Rules · 2026-11-09 · from the user-story probes
+
+Each line is a `rule` finding from `docs/user-stories/README.md` written here as decided; the story holds the reasoning.
+
+- **L14.3** (US-14) completion glosses at most the platform's `gloss_top_k` candidates after grammar ranking, never populates a priced listing (a cold path shows `size unknown` instead), and the plan it shows is the one `explain` would print from cache.

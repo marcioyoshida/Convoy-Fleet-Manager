@@ -22,3 +22,10 @@ Most commands never create a pod. Cold start is avoided rather than mitigated. Q
 **Decision.** Among the clusters the session has mounted, a stage runs on the cluster where its largest input device is local, provided that cluster's `caps` satisfy the stage; otherwise on the cwd's cluster with the egress line priced. Locality is read from the topology of the device path (ADR 0011 decision 2). `explain` prints `placement: <cluster>` with the reason for every stage, and only the stage's outputs cross the link. The user may pin a stage with `--engine` or `@<mount>` as before, and the pin is printed with its egress.
 
 **Consequences.** A site needs the capabilities a stage requires, evaluated per device (`caps` per target, ADR 0013 decision 8); a one-node site without Argo runs linear scripts only and `explain` says so. The input-size rule is unchanged: size still decides the backend, locality decides the cluster.
+
+## Rules · 2026-11-09 · from the user-story probes
+
+Each line is a `rule` finding from `docs/user-stories/README.md` written here as decided; the story holds the reasoning.
+
+- **L10.9** (US-10) `caps` is evaluated per target device at plan time; a backend the site lacks is a plan-time refusal naming the capability and the site.
+- **L16.6** (US-16) cordoned and fenced nodes are excluded from allocatable in `/sys/k8s/<id>/` and from the plan-time check (ADR 0003); the node receipt prices cordoned hours and `df`-style output for the pool shows them.

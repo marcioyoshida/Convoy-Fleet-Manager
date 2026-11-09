@@ -80,3 +80,10 @@ The probes already written constrain the build: identity (P4), cost (P5), discon
 - ROADMAP M2 gains type-directed completion without a model, since it needs only the annotation database and the verb tables; the model device belongs with the other device classes in M5 and M8.
 - [US-14](../user-stories/US-14-assisted-shell.md) probes this record in the regulated setting of US-08 and the edge setting of US-10 under the AI Engineer and Security personas. It raised six findings: L14.2 (the translation comment is free text and needs the artifact scrub) and L14.4 (provider-side retention as a `/sys` file and a `retention=0` mount option) are applied inline in decisions 5 and 3 as of 2026-11-09; L14.1, L14.3 and L14.5 are rules on the fallback notice, the number of glossed candidates and the identity and residency in force at a keystroke; L14.6 accepts that ranking is non-deterministic. They cluster with misroute S13 in the register: context that leaves the session is data at rest somewhere else.
 - Open: whether a gloss may quote a receipt of the user's own earlier run; what the ranker is allowed to learn across sessions, if anything; the `scope` option's default.
+
+## Rules · 2026-11-09 · from the user-story probes
+
+Each line is a `rule` finding from `docs/user-stories/README.md` written here as decided; the story holds the reasoning.
+
+- **L14.1** (US-14) every list states its source, `ranked by <device>` or `grammar order`, and the reason for the latter (timeout, cap, residency, stale listing); the notice is the same line that appears in `/sys/cost/session/completion` counters.
+- **L14.5** (US-14) candidates are filtered by the effective identity at the keystroke and re-filtered when it changes; the residency of outbound context is the intersection of the model mount's `residency` and the topology of every device the line names, and an empty intersection means the model is not consulted, with the notice of L14.1.
