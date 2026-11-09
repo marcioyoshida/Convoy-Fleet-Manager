@@ -1,6 +1,6 @@
 # User stories as design probes
 
-The nine workloads in [walkthroughs.md](../walkthroughs.md) showed that the design carries them. This directory asks a harder question of the same nine, plus four written against [ADR 0012](../adr/0012-logs-and-queues-are-devices.md) to reach the edge and the Kafka primitive, and one against [ADR 0013](../adr/0013-native-verbs-have-one-shape.md) and [ADR 0014](../adr/0014-assisted-completion-the-model-proposes.md) for the assisted shell: for each persona who would run them, does every aspect of the abstraction hold, and where does a verb route to the wrong place? Each story follows [TEMPLATE.md](TEMPLATE.md), which fixes sixteen aspects to cover and twelve loophole probes to run, so that a reader can tell "checked and fine" from "never checked". Findings are collected below with a proposed disposition. **Nothing here has been applied to an ADR yet**; the register is the input to that decision.
+The nine workloads in [walkthroughs.md](../walkthroughs.md) showed that the design carries them. This directory asks a harder question of the same nine, plus four written against [ADR 0012](../adr/0012-logs-and-queues-are-devices.md) to reach the edge and the Kafka primitive, and one against [ADR 0013](../adr/0013-native-verbs-have-one-shape.md) and [ADR 0014](../adr/0014-assisted-completion-the-model-proposes.md) for the assisted shell: for each persona who would run them, does every aspect of the abstraction hold, and where does a verb route to the wrong place? Each story follows [TEMPLATE.md](TEMPLATE.md), which fixes sixteen aspects to cover and twelve loophole probes to run, so that a reader can tell "checked and fine" from "never checked". Findings are collected below with a proposed disposition. **The twenty-five `amend` findings were applied on 2026-11-09**: as dated amendments to ADR 0001 to 0011 and as inline revisions of the drafts ADR 0012 and 0014, each citing its finding. The `rule`, `open` and `accepted` findings stand as written in each story and are not yet written into the command map, compiler, roadmap or defaults.
 
 | Story | Title | Primary | Secondary | Findings |
 |---|---|---|---|---|
@@ -63,25 +63,25 @@ The first five were set by the owner; the other five were added because the walk
 
 ## Findings register
 
-Ninety-one findings. Disposition counts: **25 amend** (an ADR amendment is proposed), **51 rule** (a sentence in an existing document), **5 open** (design that does not exist yet), **9 accepted** (a surfaced limitation), 1 cross-reference. Full text is in each story's section 10.
+Ninety-one findings. Disposition counts: **25 amend** (applied to the ADRs on 2026-11-09), **51 rule** (a sentence in an existing document), **5 open** (design that does not exist yet), **9 accepted** (a surfaced limitation), 1 cross-reference. Full text is in each story's section 10.
 
 | Id | Short name | Probe | Disposition | Touches |
 |---|---|---|---|---|
 | L1.1 | env subset in the artifact id is undefined | P6 | rule | ADR 0001, compiler §3 |
-| L1.2 | side-effecting stage reruns are not idempotent | P7 | amend | ADR 0002 |
+| L1.2 | side-effecting stage reruns are not idempotent | P7 | amend, applied | ADR 0002; ADR 0002 a1 |
 | L1.3 | user floor contradicts a downstream fan-in | P12 | rule | ADR 0004 |
 | L1.4 | process substitution is a bash dialect | P2 | accepted | command map |
 | L1.5 | partial artifacts look complete, have no class | P3, P5 | rule | ADR 0006 a1 |
 | L1.6 | a skipped CronJob is silent | P7 | rule | command map, M4 |
-| L2.1 | `/dev/fs` devices need a fileserver driver | P7 | amend | ADR 0011 d9 |
+| L2.1 | `/dev/fs` devices need a fileserver driver | P7 | amend, applied | ADR 0011 d9; ADR 0011 a1 |
 | L2.2 | executables control their own footprint; band is declared | P5 | rule | ADR 0010 |
-| L2.3 | signals to one group member are undefined | P12 | amend | ADR 0008 a1 |
+| L2.3 | signals to one group member are undefined | P12 | amend, applied | ADR 0008 a1; ADR 0008 a3 |
 | L2.4 | executors are created by the operator, seen by label only | P9 | accepted | annotations |
 | L2.5 | copy into a replicated filesystem needs capacity × replication | P3 | rule | ADR 0011 d7 |
 | L2.6 | pause-with-checkpoint is impossible without a checkpoint | P2 | rule | ADR 0004 |
 | L3.1 | approval through the author's own stdin | P10 | **open** | ADR 0005, identity |
-| L3.2 | canary weight patched on a GitOps-managed route | P1 | amend | ADR 0010 |
-| L3.3 | the GitOps repository is not a device | P4, P11 | amend | ADR 0011 |
+| L3.2 | canary weight patched on a GitOps-managed route | P1 | amend, applied | ADR 0010; ADR 0010 a1 |
+| L3.3 | the GitOps repository is not a device | P4, P11 | amend, applied | ADR 0011; ADR 0011 a2 |
 | L3.4 | no transaction across clusters | P3, P8 | accepted | M11 |
 | L3.5 | metric conditions with no metrics package | P7 | rule | M11 |
 | L4.1 | `cp` out of `/artifacts` drops the content id | P11 | rule | ADR 0011 d9, M5 |
@@ -91,56 +91,56 @@ Ninety-one findings. Disposition counts: **25 amend** (an ADR amendment is propo
 | L4.5 | content id of `/s3` objects undefined | P6 | rule | ADR 0001, M5 |
 | L4.6 | `expose` depends on undesigned networking | P9 | **open** | stories.md |
 | L5.1 | zonal checkpoint disk unreachable after cross-zone restart | P3 | rule | ADR 0004 a1 |
-| L5.2 | group freeze has no bound; collectives time out | P2 | amend | ADR 0008 a1 |
+| L5.2 | group freeze has no bound; collectives time out | P2 | amend, applied | ADR 0008 a1; ADR 0008 a3 |
 | L5.3 | preemption loss is billed but not in the band | P5 | rule | ADR 0011 d7 |
 | L5.4 | rank-0 DNS at start | P2 | accepted | walkthroughs |
 | L5.5 | what the deadline counts from | P12 | rule | ADR 0004 |
 | L5.6 | Jobs have no per-index volume claims | P7 | rule | M3, ADR 0006 |
-| L6.1 | hierarchical paths over flat namespaces | P2 | amend | ADR 0011 |
+| L6.1 | hierarchical paths over flat namespaces | P2 | amend, applied | ADR 0011; ADR 0011 a3 |
 | L6.2 | namespace deletion cascades to volumes | P2, P3 | rule | command map, ADR 0006 |
 | L6.3 | a policy as a `fuser` holder | P7 | accepted | command map |
 | L6.4 | backups copy Secrets | P4 | rule | ADR 0007, M5 |
 | L6.5 | tenancy depends on the identity design | P9 | **open** | stories.md |
 | L6.6 | namespaces created outside Convoy have no owner | P9 | rule | command map |
 | L6.7 | prompts in non-interactive sessions | P10 | rule | ADR 0005 |
-| L7.1 | the artifact store is a secret sink | P4, P11 | amend | ADR 0007, ADR 0009 |
+| L7.1 | the artifact store is a secret sink | P4, P11 | amend, applied | ADR 0007, ADR 0009; ADR 0007 a2 |
 | L7.2 | metered spend is self-reported | P5 | rule | M2, ADR 0010 |
-| L7.3 | budget and deadline do not propagate to children | P12 | amend | ADR 0004, ADR 0005 |
+| L7.3 | budget and deadline do not propagate to children | P12 | amend, applied | ADR 0004, ADR 0005; ADR 0004 a3 |
 | L7.4 | external transient failures are unclassified | P2 | rule | ADR 0004 |
 | L7.5 | degraded flag lost in a pipeline | P8 | see L9.5 | ADR 0004 |
 | L7.6 | hostname egress needs FQDN-aware policy | P7 | rule | ADR 0010, M7 |
 | L7.7 | queue items are data at rest | P11 | rule | ADR 0011 |
-| L8.1 | the artifact store was never placed; residency of pipes | P11 | amend | ADR 0001, ADR 0011 |
-| L8.2 | residency as a flag is bypassable | P12, P4 | amend | ADR 0011, ADR 0010 |
-| L8.3 | a hold must cover external inputs | P9 | amend | ADR 0006 a1 |
+| L8.1 | the artifact store was never placed; residency of pipes | P11 | amend, applied | ADR 0001, ADR 0011; ADR 0001 a2, ADR 0011 a2 |
+| L8.2 | residency as a flag is bypassable | P12, P4 | amend, applied | ADR 0011, ADR 0010; ADR 0011 a3 |
+| L8.3 | a hold must cover external inputs | P9 | amend, applied | ADR 0006 a1; ADR 0006 a2 |
 | L8.4 | deadline time zone | P2 | rule | ADR 0004 |
 | L8.5 | who replays, under what rights | P4 | rule | ADR 0009 |
 | L8.6 | held images in an external registry | P7 | rule | ADR 0006 a1, M9 |
 | L8.7 | `page:` with no alerting package | P7 | rule | ADR 0004, ADR 0010 |
-| L9.1 | a secret has a producer; rotation is two-sided | P10 | amend | ADR 0007 a1 |
+| L9.1 | a secret has a producer; rotation is two-sided | P10 | amend, applied | ADR 0007 a1; ADR 0007 a3 |
 | L9.2 | dual validity versus cutover | P2 | rule | ADR 0007, ADR 0008 a1 |
-| L9.3 | `reload: restart` fights GitOps | P1 | amend | ADR 0010 |
+| L9.3 | `reload: restart` fights GitOps | P1 | amend, applied | ADR 0010; ADR 0010 a1 |
 | L9.4 | the reference index cannot see every consumer | P9 | rule | ADR 0007 a1 |
-| L9.5 | degraded has no POSIX channel | P8 | amend | ADR 0004, ADR 0005 |
+| L9.5 | degraded has no POSIX channel | P8 | amend, applied | ADR 0004, ADR 0005; ADR 0004 a2 |
 | L9.6 | HUP swallowed by a wrapper entrypoint | P7 | rule | ADR 0008 a2 |
 | L9.7 | the leaked value stays in logs and artifacts | P4 | **open** | ADR 0007, ADR 0009 |
 | L9.8 | forcing a deferred retirement is two-person | P3, P10 | rule | ADR 0007 |
-| L10.1 | a disconnected device is not a removed device | P8 | amend | ADR 0011 d8 |
-| L10.2 | receipts lost when an outage outlasts the pod TTL | P7 | amend | ADR 0009 |
+| L10.1 | a disconnected device is not a removed device | P8 | amend, applied | ADR 0011 d8; ADR 0011 a4 |
+| L10.2 | receipts lost when an outage outlasts the pod TTL | P7 | amend, applied | ADR 0009; ADR 0009 a1 |
 | L10.3 | reads before the earliest offset must fail, not shrink | P2 | rule | ADR 0012 |
 | L10.4 | deadline expires while queued for a down site | P12 | accepted | ADR 0004 via L5.5 |
 | L10.5 | links have a price per gigabyte and a state | P5 | rule | ADR 0011 d7 |
-| L10.6 | secret references need a site-local source | P4, P8 | amend | ADR 0007 |
-| L10.7 | stages must run where their input device is | P11, P5 | amend | ADR 0003 |
+| L10.6 | secret references need a site-local source | P4, P8 | amend, applied | ADR 0007; ADR 0007 a4 |
+| L10.7 | stages must run where their input device is | P11, P5 | amend, applied | ADR 0003; ADR 0003 a1 |
 | L10.8 | a replaced broker is a new by-id | P9 | accepted | ADR 0011 d2 |
 | L10.9 | `caps` is per device, not per fleet | P7 | rule | ADR 0003, ADR 0010 |
 | L11.1 | time cuts resolve to offsets at plan time; CreateTime late events | P6 | rule | ADR 0012 d2 |
-| L11.2 | a rerun appends; a log cannot be replaced | P3 | amend | ADR 0012 d2 |
+| L11.2 | a rerun appends; a log cannot be replaced | P3 | amend, applied | ADR 0012 d2; ADR 0012 d2 revised |
 | L11.3 | topic reads are ordered per partition only | P2 | rule | ADR 0012, compiler §4 |
 | L11.4 | the hold copy is the recurring cost | P5 | rule | ADR 0006 a1, ADR 0012 d3 |
-| L11.5 | topic partitions are the granularity, not the count | P12 | amend | ADR 0012 d2 |
+| L11.5 | topic partitions are the granularity, not the count | P12 | amend, applied | ADR 0012 d2; ADR 0012 d2 revised |
 | L11.6 | bounded reads must not commit group offsets | P7 | rule | ADR 0012 d2, d4 |
-| L12.1 | a follow has no artifact id to key exactly-once on | P7 | amend | ADR 0012 d2 |
+| L12.1 | a follow has no artifact id to key exactly-once on | P7 | amend, applied | ADR 0012 d2; ADR 0012 d2 revised |
 | L12.2 | aggregate and fan-in never terminate on a follow | P2 | rule | ADR 0002, ADR 0012 d4 |
 | L12.3 | rolling restarts rebalance the group | P12 | rule | ADR 0010, M11 |
 | L12.4 | lag comes from the device, not the metrics package | P7 | rule | ADR 0012 d7 |
@@ -148,14 +148,14 @@ Ninety-one findings. Disposition counts: **25 amend** (an ADR amendment is propo
 | L12.6 | a unit joining a foreign group steals partitions | P9 | rule | ADR 0012 d1, d7 |
 | L13.1 | `rm` on a topic has no detach; backup and approval | P3 | rule | ADR 0012 d7, ADR 0006 |
 | L13.2 | POSIX modes cannot express Kafka ACLs | P2 | rule | ADR 0012 d7, command map |
-| L13.3 | partitions are a quota, not only a price | P5 | amend | ADR 0012 d1 |
+| L13.3 | partitions are a quota, not only a price | P5 | amend, applied | ADR 0012 d1; ADR 0012 d1 revised |
 | L13.4 | a queue without a dead letter stalls on poison | P7 | rule | ADR 0012 d6 |
 | L13.5 | `xargs < queue` ends; `tail -f queue \| xargs` does not | P12 | rule | ADR 0012 d2, d6 |
 | L13.6 | `ls` on ten thousand topics | P12 | accepted | ADR 0012 d7 |
 | L14.1 | a fallback to grammar order must say so | P2 | rule | ADR 0014 d6, d7 |
-| L14.2 | the translation comment is unscrubbed free text | P4 | amend | ADR 0014 d5 |
+| L14.2 | the translation comment is unscrubbed free text | P4 | amend, applied | ADR 0014 d5; ADR 0014 d5 revised |
 | L14.3 | a gloss per candidate is a plan per candidate | P5 | rule | ADR 0013 d3, ADR 0014 d10 |
-| L14.4 | residency says where, not how long the provider keeps it | P11 | amend | ADR 0014 d3 |
+| L14.4 | residency says where, not how long the provider keeps it | P11 | amend, applied | ADR 0014 d3; ADR 0014 d3 revised |
 | L14.5 | identity and residency at the keystroke are undefined | P12 | rule | ADR 0014 d4, d5 |
 | L14.6 | ranking is non-deterministic | none | accepted | ADR 0014 d2, d9 |
 
@@ -179,7 +179,9 @@ Reading the register across stories, the findings cluster into thirteen patterns
 | S12 | **A log is append-only; reruns, replacements and deletes do not mean what they mean on a file** | A rerun of a write appends beside the old records, a replacement is impossible, a delete is immediate and total, and an unbounded read never ends. Every verb that assumes file semantics must say what it does on a log. | L11.2, L11.3, L12.2, L13.1, L13.5 | ADR 0012 |
 | S13 | **Context that leaves the session is data at rest somewhere else** | Anything sent to a model, a provider or a remote service for the user's convenience (a comment to translate, a candidate list, a plan) is retained there under rules the session does not control; residency names a place, not a duration, and free text typed by a user is not covered by "secrets are references". | L14.2, L14.4, L14.5 | ADR 0014 decisions 3 and 5 |
 
-## Proposed amendments by ADR
+## Amendments by ADR
+
+The first table lists every finding that touches an ADR, whatever its disposition. The second lists the amendments actually written on 2026-11-09 and the findings each applies.
 
 | ADR | Findings that touch it |
 |---|---|
@@ -197,6 +199,21 @@ Reading the register across stories, the findings cluster into thirteen patterns
 | 0012 logs and queues are devices | L10.3, L11.1, L11.2, L11.3, L11.5, L11.6, L12.1, L12.2, L12.4, L12.5, L12.6, L13.1, L13.2, L13.3, L13.4, L13.5, L13.6 |
 | 0013 native verbs have one shape (draft) | closes as verb entries: L3.5, L4.4, L5.5, L8.7, L10.9, L11.4, L12.2, L13.5; references without deciding: L3.1, L7.3, L9.5; L14.3 |
 | 0014 assisted completion (draft) | L14.1, L14.2, L14.3, L14.4, L14.5, L14.6 |
+
+| ADR | Amendment | Applies |
+|---|---|---|
+| 0001 | a2 the artifact store is a device per topology | L8.1 |
+| 0002 | a1 side effects and idempotency | L1.2 |
+| 0003 | a1 placement by device locality | L10.7 |
+| 0004 | a2 the degraded channel; a3 the contract is inherited | L9.5; L7.3 |
+| 0006 | a2 a hold extends to inputs | L8.3 |
+| 0007 | a2 the artifact store is a secret sink; a3 a secret has a producer; a4 a mount declares its secret source | L7.1; L9.1; L10.6 |
+| 0008 | a3 member signals and the freeze bound | L2.3, L5.2 |
+| 0009 | a1 receipts survive a lost link | L10.2 |
+| 0010 | a1 managed objects are written as intent | L3.2, L9.3 |
+| 0011 | a1 drivers from packages; a2 source repositories and artifact stores; a3 `nsmap` and `residency`; a4 disconnected is a state | L2.1; L3.3, L8.1; L6.1, L8.2; L10.1 |
+| 0012 | decisions 1 and 2 revised inline | L13.3; L11.2, L11.5, L12.1 |
+| 0014 | decisions 3 and 5 revised inline | L14.4; L14.2 |
 
 ## Writing a new story
 

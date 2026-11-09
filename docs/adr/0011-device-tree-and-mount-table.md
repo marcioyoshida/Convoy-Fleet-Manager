@@ -84,5 +84,37 @@ Facts that constrain the design:
 - Identity (ROADMAP M7) gains a concrete anchor: the mount's identity is what every process launched under that path runs as, and `sudo --as` is a remount.
 - `all` can never silently do the wrong thing, at the price of being read-only.
 - Cost: one more component (the inventory and its event stream) in M8, and `/sys` files must be refreshed on a cadence that does not hammer the API servers. Price rate files depend on the platform wiring OpenCost or the cloud price list in (ADR 0010).
-- ADR 0012 adds `/dev/queue` as a class under decision 9, and ADR 0014 drafts `/dev/model` for language models attached to the session, mounted with `identity`, `residency` and `scope` options; both follow every rule above.
+- ADR 0012 adds `/dev/queue` as a class under decision 9, ADR 0014 drafts `/dev/model` for language models attached to the session, and amendment 2 below adds `/dev/scm` and the per-topology artifact store; all follow every rule above.
 - `/dev/k8s/current` from the proposal is replaced by `self`; `/cluster/…` from the proposal is spelled `/clusters/…` to match every earlier document.
+
+## Amendment 1 · 2026-11-09 · a device type needs a driver from a package (user story US-02, L2.1)
+
+**Context.** Decision 9 names device classes; a filesystem device (`/dev/fs/by-id/hdfs-…`) is usable only if the session fileserver has a driver for its type, and nothing said where the driver comes from.
+
+**Decision.** A device type is mountable only when a package provides its fileserver driver, discovered by `caps` as `fs:<type>`, `queue:<type>`, `obj:<type>`, `model:<provider>` and so on. `mount` of a device whose type has no driver on the session's platform is refused with the capability name. `caps` lists every driver with the package that provides it.
+
+**Consequences.** Drivers are platform packages (ADR 0010) and go through GitOps like operators. ROADMAP M5 is a set of drivers, not one fileserver.
+
+## Amendment 2 · 2026-11-09 · source repositories and artifact stores are devices (user stories US-03 and US-08, L3.3 and L8.1)
+
+**Context.** `release` writes to a GitOps repository that is not in the device tree: no identity, no mount options, no `df`. The artifact store, where every pipe and receipt lives, was never placed at all; a single global store breaks residency for every intermediate artifact (ADR 0001 amendment 2).
+
+**Decision.** Two more classes under decision 9. Source repositories are `/dev/scm/by-id/<id>`, mounted with a write identity and a `branch=` option, so `release` and every other intent write (ADR 0010 amendment 1) has a place to write and the credential is a reference. Artifact stores are `/dev/obj/by-id/cas-<topology>`, one per topology the platform serves, selected per stage by residency; the platform's inventory supplies them and the planner never writes to a store outside the stage's residency. Both appear in `df` with usage, cost and retention, and both have `/sys` metadata including topology.
+
+**Consequences.** The GitOps repository is now something `fuser` can report holders of and `ls -l` can show the identity of. Receipts name the store of every artifact. A fleet with one region has one store and sees no difference.
+
+## Amendment 3 · 2026-11-09 · `nsmap` and `residency` are mount options (user stories US-06 and US-08, L6.1 and L8.2)
+
+**Context.** Namespaces are flat and paths are hierarchical; `tenants/acme` and `teams/acme` both want to be `acme`, and the hierarchy under a cluster mount was a convention nobody declared. Residency as a per-command flag is bypassable by forgetting it; the walkthrough's own `cp` moved data across regions unchecked.
+
+**Decision.** A cluster mount carries `nsmap=<rule>`, a declared bijection from path segments to namespace names, with the reverse recorded as labels on the namespace. `explain mkdir` prints the resulting name; a collision is refused; a path with no mapping is a read-only view. Every mount may carry `residency=<topology>`, enforced for every command that touches the mount: a stage whose inputs and outputs span residencies is refused unless `--allow-cross-region` is given, which is audited per command and printed in the receipt. Residency of a process is the intersection of its mounts' options, inherits to children (ADR 0004 amendment 3) and selects the artifact store (ADR 0001 amendment 2). The platform sets both options per namespace through its profile (ADR 0010), so users never have to remember them.
+
+**Consequences.** A mount is the unit of policy, which is where misroute S3 said it should be. `cp` across residencies is a refusal with the override spelling, not a silent transfer.
+
+## Amendment 4 · 2026-11-09 · disconnected is a state, not removal (user story US-10, L10.1)
+
+**Context.** Decision 8 knows removed devices only. A site whose link is down is not removed; treating it as removed fails every `ls` and drops queued work, and treating it as present hangs every command.
+
+**Decision.** A device has a `disconnected` state distinct from `removed` and `ready`, with `disconnected since` shown by `mount` and in `/sys/<class>/<id>/state`. Commands against a disconnected device follow the mount's `queue=<ttl>|fail` option: queued commands are listed with their count and expire at the TTL with a receipt that says so. Listings follow `stale=cache|fail`: the metadata cache is served with its age, or the command fails fast. Hotplug emits `connected` and `disconnected` events, and a device disconnected longer than the platform's threshold raises an alert through the alerting capability. Nothing is ever deleted because a device is disconnected.
+
+**Consequences.** A session cut off from a site keeps working against the fleet it can reach, and the part it cannot is visible rather than absent. Completion and `ls` read the cache under this rule (ADR 0014 decision 7). The per-device link metadata (`/sys/k8s/<id>/link`) the stories asked for lives here.

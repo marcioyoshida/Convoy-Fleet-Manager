@@ -108,7 +108,7 @@ The remark that prompted this record: the non-Linux commands could be more compr
    - **explain** every section of decision 3. For `--unit` with a follow, the planner refuses aggregate and fan-in classes with the two alternatives (L12.2). For `--unit` whose consumer group already exists with members not labelled by Convoy, refusal (L12.6). For `scale` above the partition count, refusal with the count.
    - **devices** all. The target device is the cwd's, or the device of the stage's input when the platform's placement rule says locality (L10.7).
 
-   Contract fields inherit: a process started by a process gets the parent's remaining budget and deadline as its ceiling unless the parent tightens them (L7.3, proposed amendment to ADR 0004).
+   Contract fields inherit: a process started by a process gets the parent's remaining budget and deadline as its ceiling unless the parent tightens them (ADR 0004 amendment 3).
 
 5. **`wait` has three subjects, and the contract code is what it returns.**
 
@@ -116,7 +116,7 @@ The remark that prompted this record: the non-Linux commands could be more compr
    - **reads** receipts for pids; the rollout status and, for the metric conditions, the metrics source named by `caps: metrics` (L3.5); lag from the queue device, not from the unit (L12.4).
    - **writes** nothing.
    - **flags** `--healthy` is rollout complete and probes passing; `--error-rate-below` and `--lag-below` are conditions that need `caps: metrics` or a queue device, and their absence is a plan-time refusal, never a silent fallback to rollout status; `--timeout` makes `wait` itself exit 2.
-   - **exit** the contract code of the waited process: 0, 0 with the degraded flag, 1, 2, 3. With several pids, the worst code. The degraded flag is readable after `wait` as `CONVOY_DEGRADED` and at `/sys/proc/<pid>/degraded`; `set -o nodegraded` turns it into exit 1 (L9.5, proposed amendment to ADR 0004). `wait` with no argument joins every process of the session, which is the barrier spelling (walkthrough gap G1).
+   - **exit** the contract code of the waited process: 0, 0 with the degraded flag, 1, 2, 3. With several pids, the worst code. The degraded flag is readable after `wait` as `CONVOY_DEGRADED` and at `/sys/proc/<pid>/degraded`; `set -o nodegraded` turns it into exit 1 (ADR 0004 amendment 2). `wait` with no argument joins every process of the session, which is the barrier spelling (walkthrough gap G1).
    - **explain** `explain 'wait …'` prints which source each condition reads from and refuses conditions with no source.
    - **devices** processes on any device; metric conditions per target device's `caps`.
 
@@ -145,7 +145,7 @@ The remark that prompted this record: the non-Linux commands could be more compr
 
 8. **Device verbs are POSIX verbs with device semantics, and `caps` is one of them.**
 
-   - `mount -o <options> /dev/<class>/by-id/<id> <path>` and `umount <path>`: edit the session mount table; `umount` detaches and never deletes (ADR 0006). Options are the policy surface and are listed per class in ADR 0011 and 0012: `identity`, `ro`, `nsmap` (L6.1), `residency` (L8.2), `secrets=central\|site-replica` (L10.6), `topics`, `group`, `quota` (L13.3), `schema` (L12.5, open), `completion` (ADR 0014). An option the driver does not know is a refusal, never ignored.
+   - `mount -o <options> /dev/<class>/by-id/<id> <path>` and `umount <path>`: edit the session mount table; `umount` detaches and never deletes (ADR 0006). Options are the policy surface and are listed per class in ADR 0011 and 0012: `identity`, `ro`, `nsmap` (L6.1), `residency` (ADR 0011 amendment 3), `secrets=central\|site-replica` (ADR 0007 amendment 4), `topics`, `group`, `quota` (L13.3), `schema` (L12.5, open), `completion` (ADR 0014). An option the driver does not know is a refusal, never ignored.
    - `caps [<path>…]`: prints the capabilities of the device each path resolves to, with the package that provides each (ADR 0010) and the driver for the device type (L2.1). With no path, the cwd's device. `caps` is evaluated per device, never per fleet (L10.9). Exit 0; exit 1 when a device cannot be reached, with that device marked `disconnected`, never omitted.
    - `df [<path>]`, `du <path>`: capacity, usage, cost and retention per mount; for queue devices bytes, partitions against quota, oldest unread offset against retention (US-10, US-13); `du` warns before a priced listing (command map).
    - `fuser <path> [--version=vN] [--cluster=<mount>\|all]`: holders of a volume or secret with a TYPE column (`process`, `unit`, `policy`, `snapshot`), partial and degraded on an unreachable member (ADR 0007 amendment 1, L6.3).
@@ -179,7 +179,7 @@ The remark that prompted this record: the non-Linux commands could be more compr
 
 ## Consequences
 
-- The thirteen stories can now be checked against a text. A first pass finds eight findings that were verb defects in disguise and are closed by entries here rather than by an ADR amendment of their own: L3.5, L4.4, L5.5, L8.7, L10.9, L11.4, L12.2, L13.5. L9.5 and L7.3 remain amendments to ADR 0004 and are referenced, not decided, here.
+- The thirteen stories can now be checked against a text. A first pass finds eight findings that were verb defects in disguise and are closed by entries here rather than by an ADR amendment of their own: L3.5, L4.4, L5.5, L8.7, L10.9, L11.4, L12.2, L13.5. L9.5 and L7.3 are decided in ADR 0004 amendments 2 and 3 and only referenced here.
 - `explain --json` needs a schema; it is the contract between the planner and any tool that reads plans, including the assisted completion in ADR 0014, which ranks candidates by what `explain` would print for them.
 - ROADMAP M2 gains `explain` in the full form of decision 3 and `type`; M3 the contract flags table; M11 the unit verbs; M5 and M8 the device verbs with `caps` per device; M9 the platform verbs with their refusals.
 - Open: the approvals object behind `approve` (L3.1), the networking design behind `expose` (L4.6), the schema registry option (L12.5), the `--json` schema. Each is marked `open` in its entry and nothing here pre-empts it.

@@ -30,3 +30,11 @@ STOP without the node agent is refused with the reason. Preempted training jobs 
 **Decision.** `kill -HUP` on a process whose unit declares `reload: hup` delivers SIGHUP to the process and waits for the readiness probe. On `reload: restart`, or with no declaration, it becomes a rolling restart of the owning object with the unit's rollout settings, and `type` says which. On a batch Job, HUP is refused with the reason. `--cluster=<id>` scopes the pids; the `all` union is never a write target.
 
 **Consequences.** A reload that fails its probe is rolled back by the rollout, and the exit code is 1. See docs/walkthroughs.md, gap G10.
+
+## Amendment 3 · 2026-11-09 · member signals and the freeze bound (user stories US-02 and US-05, L2.3 and L5.2)
+
+**Context.** Amendment 1 defines signals to a group and refuses `STOP` on one member. It leaves two things undefined: a signal addressed to one member of a group (`kill -TERM 7301.7`, an executor or a rank), and how long a group freeze may last. A freeze longer than the collective's timeout (NCCL, c10d, Spark heartbeats) kills the job on `CONT`, which turns a pause into a loss.
+
+**Decision.** Signals to a single member are refused unless the executable's annotation lists the signal under `member_signals`; Spark lists `TERM`, because the driver handles executor loss, and torchrun and MPI list none. The annotation also carries `freeze_max_seconds`, derived from the package's collective timeout. `kill -STOP --group` prints the bound when it freezes; when the bound is reached the freeze is converted to stop-with-checkpoint (the group's graceful stop with a checkpoint, as on preemption) and the receipt says `freeze bound reached`. `-CONT --group` before the bound thaws as before.
+
+**Consequences.** A frozen training job never dies on resume; it stops cleanly instead and can be relaunched from its checkpoint. The node agent's barrier needs a timer per group. The annotation database gains `member_signals` and `freeze_max_seconds` on grouped executables.

@@ -22,3 +22,11 @@ Reruns skip unchanged stages. A downstream restart loses nothing. Small outputs 
 **Decision.** The annotation database gains `deterministic: false`. The planner salts the id of such a stage with the pid, so the artifact is stored and the receipt records its lineage, but it is never served as a cache hit. `explain` marks the stage `no-cache`. A user may force reuse of a specific prior artifact by naming its id as an input, which is an explicit choice recorded in the receipt.
 
 **Consequences.** Downstream deterministic stages still cache against the salted id, so a rerun of the pipeline recomputes the non-deterministic stage and everything after it, and nothing before it. See docs/walkthroughs.md, gap G7.
+
+## Amendment 2 · 2026-11-09 · the artifact store is a device per topology (user story US-08, L8.1)
+
+**Context.** Every non-local pipe, every receipt and every log lives in the artifact store, and the decision above never placed it. A single global store moves every intermediate artifact out of the region a regulated workload is confined to, which breaks residency for the pipeline even when its inputs and outputs are in-region.
+
+**Decision.** The artifact store is a device class under `/dev/obj/by-id/cas-<topology>` (ADR 0011 amendment 2), one device per topology the platform serves. The planner selects, for every stage, a store within the stage's residency (the intersection of the `residency=` options of the mounts the stage touches, ADR 0011 amendment 3) and refuses the plan when no such store exists, naming the stores it considered. The receipt names the store of every artifact. A session pod serving a residency-bound mount runs in that region or holds no artifact data itself; which of the two the platform chose is printed by `explain` as a default.
+
+**Consequences.** Content ids are unchanged, so a cache hit is still a cache hit within a store; the same id in two stores is two copies, and a cross-topology stage reads from the store its input is in and writes to the store its residency permits, with the egress line priced. ROADMAP M4 gains the per-topology store and M8 the device entries.

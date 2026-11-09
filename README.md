@@ -248,7 +248,7 @@ research/
 | Native verbs (`explain`, `run`, `wait`, `replay`, unit, device and platform verbs) | Drafted in ADR 0013 as a closed set with one seven-field shape; `explain` is the gate every creating verb passes through; eight register findings close into verb entries |
 | Assisted completion | Drafted in ADR 0014: type-directed completion from the grammar and device tree first; a model may only rank and translate, and the model is a device under `/dev/model` |
 | Walkthroughs | Nine workloads exercised in `docs/walkthroughs.md`; ten gaps found, all closed by ADR amendments, flags or fields |
-| User-story probes | Fourteen persona-driven probes in `docs/user-stories/`; 91 findings, 13 structural misroutes, 25 proposed ADR amendments awaiting decision |
+| User-story probes | Fourteen persona-driven probes in `docs/user-stories/`; 91 findings, 13 structural misroutes; the 25 ADR amendments applied on 2026-11-09, the 51 rule findings still to be written into their documents |
 | Mount namespace and fileserver | Reviewed, superseding design pending |
 | Session placement, identity and ownership, networking | Identified as the three architecture-changing gaps, not yet designed |
 | Code | None |

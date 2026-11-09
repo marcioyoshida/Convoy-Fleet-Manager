@@ -14,3 +14,11 @@ Remote stages write stdout to their artifact and stderr to the container log; `2
 ## Consequences
 
 `$?` reads the receipt, never the API. Terminal output of a pipeline is stderr live plus the final artifact, honouring early close.
+
+## Amendment 1 · 2026-11-09 · receipts survive a lost link (user story US-10, L10.2)
+
+**Context.** The decision has the session watch the object and persist the exit code before TTL deletion. When the session cannot reach the cluster for longer than the TTL, the object is gone before anyone recorded how it ended, and the receipt has no exit code.
+
+**Decision.** The receipt is persisted where the object completes, by the node agent or a per-device receipt spool, at the moment of completion. TTL deletion is deferred until the session acknowledges the receipt: the Job carries a finalizer that the acknowledgement removes, or `ttlSecondsAfterFinished` is set only on acknowledgement, whichever the platform chooses and `explain` prints. When the link returns the spool drains into the session's receipts in order, and the audit stream marks each entry with both timestamps.
+
+**Consequences.** A site can finish a night's work with no link and lose nothing but latency. A spool has a size; a site with no acknowledgement for longer than the platform's spool retention raises a hotplug event rather than silently dropping receipts. ROADMAP M10 gains the spool.

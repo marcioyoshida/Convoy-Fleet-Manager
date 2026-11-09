@@ -15,7 +15,7 @@ Every plan carries a contract: best case, floor (`--min-success`), retries per p
 
 Maps to Job `successPolicy`, `backoffLimitPerIndex`, `activeDeadlineSeconds` (Kubernetes 1.31+). Fail-fast is done by the session; Kubernetes does not do it. Every emitted Job ignores `DisruptionTarget` in its `podFailurePolicy` so preemption never burns the floor.
 
-Amendment note 2026-11-09: the complete table of contract flags, shared by `run`, `batch`, `explain` and `cron`, and the three subjects of `wait`, are drafted in ADR 0013 decisions 4 and 5. The degraded channel (L9.5) and contract inheritance to child processes (L7.3) are referenced there as proposed amendments to this record, not decided.
+Amendment note 2026-11-09: the complete table of contract flags, shared by `run`, `batch`, `explain` and `cron`, and the three subjects of `wait`, are drafted in ADR 0013 decisions 4 and 5. The degraded channel (L9.5) and contract inheritance to child processes (L7.3) are decided in amendments 2 and 3 below.
 
 ## Amendment 1 · 2026-11-08 · gang contract (walkthrough 5)
 
@@ -24,3 +24,19 @@ Amendment note 2026-11-09: the complete table of contract flags, shared by `run`
 **Decision.** `--gang` is a contract flag. It sets the floor to 100 % and refuses `--min-success`; it replaces per-index retry with restart-the-group-from-checkpoint, counted against `--retries` as one; it requires all-or-nothing queue admission (Kueue). Preemption of one member still does not count against retries (`DisruptionTarget` ignored), but it triggers a group restart rather than a single-index restart. Deadline and budget are unchanged.
 
 **Consequences.** Maps to a JobSet with `failurePolicy` restart-all and `successPolicy` all, or to an Indexed Job with `podFailurePolicy` action `FailJob` plus a session-driven relaunch from the checkpoint path. Exit codes are unchanged; a gang that exhausts `--retries` exits 1 with the last failing rank in the receipt. See docs/walkthroughs.md, gap G4.
+
+## Amendment 2 · 2026-11-09 · the degraded channel (user story US-09, L9.5)
+
+**Context.** The decision gives exit 0 with a degraded flag when only the floor was met, and `&&` honours the flag. Nothing else does: `$?` is 0, so `fuser … | wc -l` on a partial fleet listing, or any script, reads a partial result as a complete one. The flag has no POSIX channel.
+
+**Decision.** Degraded status is written to `/sys/proc/<pid>/degraded` (the partitions or members that failed, and why) and exported to the next stage of a pipeline and to the shell as `CONVOY_DEGRADED=<pid>`. A session option `set -o nodegraded` turns a degraded 0 into exit 1; it is on by default in non-interactive `batch` and `cron` and off at an interactive prompt. Destructive verbs (`secret retire`, `rm`, `rmvol`, `seek`, `kill` with a list argument) refuse list input whose producer exited degraded, and print the producer's pid and the `nodegraded` spelling. `wait` returns the flag the same way.
+
+**Consequences.** A script written without knowing about the flag fails closed under `batch` instead of acting on a partial list. Interactive users keep POSIX `$?` and see the flag in the prompt and in `ps`. ADR 0013 decision 5 carries the spelling.
+
+## Amendment 3 · 2026-11-09 · the contract is inherited (user story US-07, L7.3)
+
+**Context.** Budget and deadline bind the process that declared them and no other. An agent running under `--budget=50` that calls `batch` spawns a child with no budget and spends past its parent's. The process tree does not inherit the contract.
+
+**Decision.** Budget and deadline are inherited like cgroup limits. A child process's budget and deadline are capped by the parent's remaining budget and remaining time at the moment the child is created; a child that asks for more is refused with exit 3 and the parent's remaining figures. `ps --tree` and the parent's receipt sum the tree, so the parent's budget binds on its own spend plus its descendants'. Retries and group restarts are children for this purpose. Identity and residency inherit the same way (ADR 0011 amendment 3).
+
+**Consequences.** Metered spend declared by a child (ADR 0004 budget over compute plus declared metered spend) counts against the parent at the moment it is declared. A parent that is cancelled on budget cancels its tree with the same fail-fast rule as partitions. `explain` prints the inherited ceiling for any line run from inside a process.

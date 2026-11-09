@@ -14,3 +14,11 @@ Each command has an entry in an annotation database with a class: stateless, agg
 ## Consequences
 
 Results are identical to Linux by construction. Coverage grows by adding entries, not by inferring behaviour. `tool add` must ship an annotation or the tool is non-parallel. Merge programs ship in the toolbox image and are versioned with the database.
+
+## Amendment 1 · 2026-11-09 · side effects and idempotency (user story US-01, L1.2)
+
+**Context.** A stage marked `side_effects: true` is never a cache hit, so a rerun after a half-written `load` writes its rows twice. The class says what parallelizes; it says nothing about what a retry may repeat.
+
+**Decision.** The annotation database gains `idempotent: true | false` beside `side_effects`. A side-effecting stage receives the content id of its input artifact as `CONVOY_IDEMPOTENCY_KEY` in its environment, so a command that can key its writes does. Automatic retry of a side-effecting stage (per-partition retries, `retry --failed`, a group restart) is refused unless the entry says `idempotent: true`; the refusal is printed by `explain` before the run and recorded in the receipt when a retry would have happened. `tool add` for a side-effecting tool must state the field, like the class.
+
+**Consequences.** `curl`, `agent-run` and any loader without a declared key run with `--retries=0` in effect and say so. A loader that uses the key (an upsert keyed by it, a transactional producer with it as transactional id, ADR 0012 decision 2) is declared idempotent and retries like any stage. Queue writes get their key from this field and ADR 0012 refines it for follows.

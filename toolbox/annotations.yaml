@@ -96,7 +96,7 @@ commands:
   tjoin:  {class: typed, engine: dataframe, op: join}
 
   # --- side effects: never fan out without an explicit xargs/fork -----------------
-  curl:   {class: unknown, side_effects: true}
+  curl:   {class: unknown, side_effects: true, idempotent: false}
   logger: {class: translate, note: "emits a Kubernetes Event on the process object and an audit line"}
 
 merge_programs:
@@ -110,14 +110,17 @@ merge_programs:
 # group: members that must be signalled together (ADR 0008 amendment 1). STOP on one member is refused.
 # deterministic: false marks output that differs for identical inputs; never a cache hit (ADR 0001 amendment 1).
 # reload: hup | restart decides what `kill -HUP` does on the unit (ADR 0008 amendment 2).
+# member_signals lists the signals a single member of a group accepts; absent = refused (ADR 0008 amendment 3).
+# freeze_max_seconds bounds a group freeze; at the bound it becomes stop-with-checkpoint (ADR 0008 amendment 3).
+# idempotent: true lets a side-effecting stage be retried; the stage receives CONVOY_IDEMPOTENCY_KEY (ADR 0002 amendment 1).
 executables:
-  spark-submit: {class: non-parallel, compiles_to: sparkapplication, group: spark,
-                 signals: {STOP: refused-without-group, TERM: graceful-stop}, floor: refused}
-  torchrun:     {class: non-parallel, compiles_to: jobset, group: torchrun, gang: required,
-                 signals: {STOP: refused-without-group, TERM: elastic-shutdown}, checkpoint_seconds: 600}
-  mpirun:       {class: non-parallel, compiles_to: jobset, group: mpi, gang: required,
-                 signals: {STOP: refused-without-group, TERM: KILL}}
+  spark-submit: {class: non-parallel, compiles_to: sparkapplication, group: spark, member_signals: [TERM],
+                 freeze_max_seconds: 100, signals: {STOP: refused-without-group, TERM: graceful-stop}, floor: refused}
+  torchrun:     {class: non-parallel, compiles_to: jobset, group: torchrun, gang: required, member_signals: [],
+                 freeze_max_seconds: 540, signals: {STOP: refused-without-group, TERM: elastic-shutdown}, checkpoint_seconds: 600}
+  mpirun:       {class: non-parallel, compiles_to: jobset, group: mpi, gang: required, member_signals: [],
+                 freeze_max_seconds: 120, signals: {STOP: refused-without-group, TERM: KILL}}
   flink:        {class: non-parallel, compiles_to: flinkdeployment, group: flink, checkpoint: savepoint,
                  signals: {STOP: refused-without-group, TERM: stop-with-savepoint}, floor: refused}   # ADR 0012: engines are packages
-  agent-run:    {class: non-parallel, deterministic: false, side_effects: true, egress: declared-by-package,
+  agent-run:    {class: non-parallel, deterministic: false, side_effects: true, idempotent: false, egress: declared-by-package,
                  metered: {source: /sys/cost/$pid/metered, unit: tokens}, reload: restart}
