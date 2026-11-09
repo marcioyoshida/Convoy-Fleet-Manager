@@ -1,6 +1,6 @@
 # User stories as design probes
 
-The nine workloads in [walkthroughs.md](../walkthroughs.md) showed that the design carries them. This directory asks a harder question of the same nine, plus four written against [ADR 0012](../adr/0012-logs-and-queues-are-devices.md) to reach the edge and the Kafka primitive, and one against [ADR 0013](../adr/0013-native-verbs-have-one-shape.md) and [ADR 0014](../adr/0014-assisted-completion-the-model-proposes.md) for the assisted shell, and one against [ADR 0015](../adr/0015-tables-and-catalogs-are-devices.md) for tables and catalogs: for each persona who would run them, does every aspect of the abstraction hold, and where does a verb route to the wrong place? Each story follows [TEMPLATE.md](TEMPLATE.md), which fixes sixteen aspects to cover and twelve loophole probes to run, so that a reader can tell "checked and fine" from "never checked". Findings are collected below with a proposed disposition. **The twenty-five `amend` findings raised through US-14 were applied on 2026-11-09**: as dated amendments to ADR 0001 to 0011 and as inline revisions of the drafts ADR 0012 and 0014, each citing its finding. The two raised afterwards by US-15 (L15.1, L15.5) are proposed and not yet applied. The `rule`, `open` and `accepted` findings stand as written in each story and are not yet written into the command map, compiler, roadmap or defaults.
+The nine workloads in [walkthroughs.md](../walkthroughs.md) showed that the design carries them. This directory asks a harder question of the same nine, plus four written against [ADR 0012](../adr/0012-logs-and-queues-are-devices.md) to reach the edge and the Kafka primitive, and one against [ADR 0013](../adr/0013-native-verbs-have-one-shape.md) and [ADR 0014](../adr/0014-assisted-completion-the-model-proposes.md) for the assisted shell, and one against [ADR 0015](../adr/0015-tables-and-catalogs-are-devices.md) for tables and catalogs: for each persona who would run them, does every aspect of the abstraction hold, and where does a verb route to the wrong place? Each story follows [TEMPLATE.md](TEMPLATE.md), which fixes sixteen aspects to cover and twelve loophole probes to run, so that a reader can tell "checked and fine" from "never checked". Findings are collected below with a proposed disposition. **All twenty-seven `amend` findings were applied on 2026-11-09**: as dated amendments to ADR 0001 to 0011 and as inline revisions of the drafts ADR 0012 and 0014, each citing its finding. The `rule`, `open` and `accepted` findings stand as written in each story and are not yet written into the command map, compiler, roadmap or defaults.
 
 | Story | Title | Primary | Secondary | Findings |
 |---|---|---|---|---|
@@ -64,7 +64,7 @@ The first five were set by the owner; the other five were added because the walk
 
 ## Findings register
 
-Ninety-eight findings. Disposition counts: **27 amend** (25 applied to the ADRs on 2026-11-09, 2 proposed by US-15), **55 rule** (a sentence in an existing document), **5 open** (design that does not exist yet), **10 accepted** (a surfaced limitation), 1 cross-reference. Full text is in each story's section 10.
+Ninety-eight findings. Disposition counts: **27 amend** (all applied to the ADRs on 2026-11-09), **55 rule** (a sentence in an existing document), **5 open** (design that does not exist yet), **10 accepted** (a surfaced limitation), 1 cross-reference. Full text is in each story's section 10.
 
 | Id | Short name | Probe | Disposition | Touches |
 |---|---|---|---|---|
@@ -159,11 +159,11 @@ Ninety-eight findings. Disposition counts: **27 amend** (25 applied to the ADRs 
 | L14.4 | residency says where, not how long the provider keeps it | P11 | amend, applied | ADR 0014 d3; ADR 0014 d3 revised |
 | L14.5 | identity and residency at the keystroke are undefined | P12 | rule | ADR 0014 d4, d5 |
 | L14.6 | ranking is non-deterministic | none | accepted | ADR 0014 d2, d9 |
-| L15.1 | `--replace` removes rows the input never contained | P7 | amend | ADR 0015 d4 |
+| L15.1 | `--replace` removes rows the input never contained | P7 | amend, applied | ADR 0015 d4; ADR 0015 d4 revised |
 | L15.2 | `release` on a table cannot fast-forward a moving main | P1 | rule | ADR 0015 d4 |
 | L15.3 | the warehouse estimate assumes on-demand billing | P5 | rule | ADR 0015 d6, d8 |
 | L15.4 | an aborted write leaves staged files | P3 | rule | ADR 0015 d4, d5 |
-| L15.5 | a hold tag is removable by any table writer | P11 | amend | ADR 0015 d5, ADR 0006 a2 |
+| L15.5 | a hold tag is removable by any table writer | P11 | amend, applied | ADR 0015 d5, ADR 0006 a2; ADR 0015 d5 revised |
 | L15.6 | the text serialization is lossy for types | P2 | accepted | ADR 0015 d2 |
 | L15.7 | warehouse residency is per dataset, not per device | P12 | rule | ADR 0015 d1 |
 
@@ -223,6 +223,7 @@ The first table lists every finding that touches an ADR, whatever its dispositio
 | 0011 | a1 drivers from packages; a2 source repositories and artifact stores; a3 `nsmap` and `residency`; a4 disconnected is a state | L2.1; L3.3, L8.1; L6.1, L8.2; L10.1 |
 | 0012 | decisions 1 and 2 revised inline | L13.3; L11.2, L11.5, L12.1 |
 | 0014 | decisions 3 and 5 revised inline | L14.4; L14.2 |
+| 0015 | decisions 4 and 5 revised inline | L15.1; L15.5 |
 
 ## Writing a new story
 
