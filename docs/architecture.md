@@ -15,7 +15,7 @@ graph TB
     subgraph Session["⚙️ Session pod, one per user (ADR 0005)"]
         direction TB
         Parser["Parser<br/>POSIX grammar to AST<br/>reuses mvdan/sh"]
-        Planner["Planner and pipeline compiler<br/>stages · partitions · backend choice<br/>completion contract · cost band<br/>explain (ADR 0001, 0003, 0004)"]
+        Planner["Planner and pipeline compiler<br/>stages · partitions · backend choice<br/>completion contract · cost band<br/>explain (ADR 0001, 0003, 0004, 0013)"]
         Annot["Annotation database<br/>stateless · aggregate · pattern · limit<br/>fan-in · fan-out · typed · non-parallel<br/>(ADR 0002)"]
         Mounts["Mount table and device tree<br/>/dev/k8s · /dev/queue by-id and views · /sys<br/>/clusters · /pvc · /s3 · /queues · /artifacts<br/>(ADR 0011, 0012)"]
         State["Env table · cwd (cluster, namespace, path)<br/>secret references (ADR 0007)<br/>signal router (ADR 0008)"]
@@ -115,6 +115,8 @@ The first version of this chart, drawn before the design documents, had four lay
 Two boxes are new. The **content-addressed artifact store** is the transport of every non-local pipe, so it sits in infrastructure next to the clusters rather than being hidden inside a workflow engine. **Cloud identity and pricing** is where device open performs its token exchange and where the cost band reads its rates.
 
 The **logs and queues** box was added with [ADR 0012](adr/0012-logs-and-queues-are-devices.md): Kafka and its relatives are devices under `/dev/queue`, mounted by the session, whether or not a broker runs inside a cluster. There is deliberately no streaming backend box; a continuous pipeline is a service unit and Flink is a package.
+
+The **planner** box's `explain` is specified in [ADR 0013](adr/0013-native-verbs-have-one-shape.md), which also closes the set of native verbs and gives each the same seven fields. [ADR 0014](adr/0014-assisted-completion-the-model-proposes.md) adds nothing to the chart on purpose: completion is computed in the session from the annotation database and the device tree, and a language model, where one is attached, is one more device class under `/dev/model` in the mount table, not a box of its own.
 
 ## Reading the edges
 

@@ -187,6 +187,8 @@ Reading the register across stories, the findings cluster into twelve patterns. 
 | 0010 platform defaults | L2.2, L3.2, L4.3, L6.2, L7.2, L7.6, L8.2, L8.7, L9.3, L10.9, L12.3, L13.3 |
 | 0011 device tree | L2.1, L2.5, L3.3, L4.1, L5.3, L6.1, L7.7, L8.1, L8.2, L10.1, L10.5, L10.8 |
 | 0012 logs and queues are devices | L10.3, L11.1, L11.2, L11.3, L11.5, L11.6, L12.1, L12.2, L12.4, L12.5, L12.6, L13.1, L13.2, L13.3, L13.4, L13.5, L13.6 |
+| 0013 native verbs have one shape (draft) | closes as verb entries: L3.5, L4.4, L5.5, L8.7, L10.9, L11.4, L12.2, L13.5; references without deciding: L3.1, L7.3, L9.5 |
+| 0014 assisted completion (draft) | none yet; a story against US-08 and US-10 settings is proposed in its consequences |
 
 ## Writing a new story
 

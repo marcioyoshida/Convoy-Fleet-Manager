@@ -89,7 +89,7 @@ graph TB
     subgraph Session["⚙️ Session pod, one per user (ADR 0005)"]
         direction TB
         Parser["Parser<br/>POSIX grammar to AST<br/>reuses mvdan/sh"]
-        Planner["Planner and pipeline compiler<br/>stages · partitions · backend choice<br/>completion contract · cost band<br/>explain (ADR 0001, 0003, 0004)"]
+        Planner["Planner and pipeline compiler<br/>stages · partitions · backend choice<br/>completion contract · cost band<br/>explain (ADR 0001, 0003, 0004, 0013)"]
         Annot["Annotation database<br/>stateless · aggregate · pattern · limit<br/>fan-in · fan-out · typed · non-parallel<br/>(ADR 0002)"]
         Mounts["Mount table and device tree<br/>/dev/k8s · /dev/queue by-id and views · /sys<br/>/clusters · /pvc · /s3 · /queues · /artifacts<br/>(ADR 0011, 0012)"]
         State["Env table · cwd (cluster, namespace, path)<br/>secret references (ADR 0007)<br/>signal router (ADR 0008)"]
@@ -245,6 +245,8 @@ research/
 | POSIX command map | Complete for the 155 utilities |
 | Device tree and mount table | Decided in ADR 0011 |
 | Logs and queues as devices (Kafka and relatives) | Drafted in ADR 0012 from a contributed review; a topic has three faces, no streaming backend |
+| Native verbs (`explain`, `run`, `wait`, `replay`, unit, device and platform verbs) | Drafted in ADR 0013 as a closed set with one seven-field shape; `explain` is the gate every creating verb passes through; eight register findings close into verb entries |
+| Assisted completion | Drafted in ADR 0014: type-directed completion from the grammar and device tree first; a model may only rank and translate, and the model is a device under `/dev/model` |
 | Walkthroughs | Nine workloads exercised in `docs/walkthroughs.md`; ten gaps found, all closed by ADR amendments, flags or fields |
 | User-story probes | Thirteen persona-driven probes in `docs/user-stories/`; 85 findings, 12 structural misroutes, 23 proposed ADR amendments awaiting decision |
 | Mount namespace and fileserver | Reviewed, superseding design pending |

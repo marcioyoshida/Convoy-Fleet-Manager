@@ -15,6 +15,8 @@ Every plan carries a contract: best case, floor (`--min-success`), retries per p
 
 Maps to Job `successPolicy`, `backoffLimitPerIndex`, `activeDeadlineSeconds` (Kubernetes 1.31+). Fail-fast is done by the session; Kubernetes does not do it. Every emitted Job ignores `DisruptionTarget` in its `podFailurePolicy` so preemption never burns the floor.
 
+Amendment note 2026-11-09: the complete table of contract flags, shared by `run`, `batch`, `explain` and `cron`, and the three subjects of `wait`, are drafted in ADR 0013 decisions 4 and 5. The degraded channel (L9.5) and contract inheritance to child processes (L7.3) are referenced there as proposed amendments to this record, not decided.
+
 ## Amendment 1 · 2026-11-08 · gang contract (walkthrough 5)
 
 **Context.** The contract above assumes partitions are independent: a floor below 100 % is meaningful and a failed index can be retried alone. Distributed training (torchrun, MPI), and any workload whose members share a collective, are all-or-nothing: one dead rank stalls every other rank, and recovery is a restart of the whole group from the last checkpoint.
