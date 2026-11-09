@@ -59,7 +59,7 @@ The first five were set by the owner; the other five were added because the walk
 | A15 Audit, receipts, retention | ● | ○ | ● | ● | ○ | ○ | ● | ● | ● | ● | ● | ○ | ○ | ● | 9 |
 | A16 Durability | ○ | ○ | ● | ○ | ● | ● | ○ | ● | ● | ● | ○ | ● | ○ | ○ | 7 |
 
-**What no story reaches.** The session attach protocol itself (reconnect mid-command, two terminals on one session), `expose --public` and anything else in the undesigned networking abstraction, `pkg install` with a failing `requires`, `nice`/`renice` under contention, debugging a failing partition (`strace`, ephemeral containers), and locks. US-10 closed the edge and disconnected-operation row; US-14 covers interactive assistance and the model as a device. Two candidate stories would close most of the rest: a platform engineer installing a package that a cluster cannot satisfy, and an engineer debugging one failed partition of a thousand.
+**What no story reaches.** The session attach protocol itself (reconnect mid-command, two terminals on one session), `expose --public` and anything else in the undesigned networking abstraction, `pkg install` with a failing `requires`, `nice`/`renice` under contention, debugging a failing partition (`strace`, ephemeral containers), and locks. US-10 closed the edge and disconnected-operation row; US-14 covers interactive assistance and the model as a device. Tables and catalogs (ADR 0015) have no story yet; the one its consequences propose (a backfill from a topic into an Iceberg table with a hold, a branch write and a warehouse mirror) would be US-15. Two candidate stories would close most of the rest: a platform engineer installing a package that a cluster cannot satisfy, and an engineer debugging one failed partition of a thousand.
 
 ## Findings register
 

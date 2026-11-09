@@ -90,6 +90,7 @@ commands:
   dd:     {class: non-parallel, side_effects: false, devices: refused}
 
   # --- typed verbs: the only commands that map to engine operators -------------
+  # On a table device the schema is the type; on a warehouse device these push down as SQL (ADR 0015 d2, d6).
   select: {class: typed, engine: dataframe, op: select}
   filter: {class: typed, engine: dataframe, op: filter}
   group:  {class: typed, engine: dataframe, op: groupBy}

@@ -84,7 +84,7 @@ Facts that constrain the design:
 - Identity (ROADMAP M7) gains a concrete anchor: the mount's identity is what every process launched under that path runs as, and `sudo --as` is a remount.
 - `all` can never silently do the wrong thing, at the price of being read-only.
 - Cost: one more component (the inventory and its event stream) in M8, and `/sys` files must be refreshed on a cadence that does not hammer the API servers. Price rate files depend on the platform wiring OpenCost or the cloud price list in (ADR 0010).
-- ADR 0012 adds `/dev/queue` as a class under decision 9, ADR 0014 drafts `/dev/model` for language models attached to the session, and amendment 2 below adds `/dev/scm` and the per-topology artifact store; all follow every rule above.
+- ADR 0012 adds `/dev/queue` as a class under decision 9, ADR 0014 drafts `/dev/model` for language models attached to the session, amendment 2 below adds `/dev/scm` and the per-topology artifact store, and ADR 0015 drafts `/dev/table` for lakehouse catalogs and warehouses; all follow every rule above.
 - `/dev/k8s/current` from the proposal is replaced by `self`; `/cluster/…` from the proposal is spelled `/clusters/…` to match every earlier document.
 
 ## Amendment 1 · 2026-11-09 · a device type needs a driver from a package (user story US-02, L2.1)
