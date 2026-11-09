@@ -1,6 +1,6 @@
 # User stories as design probes
 
-The nine workloads in [walkthroughs.md](../walkthroughs.md) showed that the design carries them. This directory asks a harder question of the same nine, plus four written against [ADR 0012](../adr/0012-logs-and-queues-are-devices.md) to reach the edge and the Kafka primitive, and one against [ADR 0013](../adr/0013-native-verbs-have-one-shape.md) and [ADR 0014](../adr/0014-assisted-completion-the-model-proposes.md) for the assisted shell, and one against [ADR 0015](../adr/0015-tables-and-catalogs-are-devices.md) for tables and catalogs, and one fleet operation (a faulty node) that found the node layer missing: for each persona who would run them, does every aspect of the abstraction hold, and where does a verb route to the wrong place? Each story follows [TEMPLATE.md](TEMPLATE.md), which fixes sixteen aspects to cover and twelve loophole probes to run, so that a reader can tell "checked and fine" from "never checked". Findings are collected below with a proposed disposition. **The twenty-seven `amend` findings raised through US-15 were applied on 2026-11-09**: as dated amendments to ADR 0001 to 0011 and as inline revisions of the drafts ADR 0012 and 0014, each citing its finding. The two raised by US-16 (L16.1, L16.7) are proposed and not yet applied. The `rule`, `open` and `accepted` findings stand as written in each story and are not yet written into the command map, compiler, roadmap or defaults.
+The nine workloads in [walkthroughs.md](../walkthroughs.md) showed that the design carries them. This directory asks a harder question of the same nine, plus four written against [ADR 0012](../adr/0012-logs-and-queues-are-devices.md) to reach the edge and the Kafka primitive, and one against [ADR 0013](../adr/0013-native-verbs-have-one-shape.md) and [ADR 0014](../adr/0014-assisted-completion-the-model-proposes.md) for the assisted shell, and one against [ADR 0015](../adr/0015-tables-and-catalogs-are-devices.md) for tables and catalogs, and one fleet operation (a faulty node) that found the node layer missing: for each persona who would run them, does every aspect of the abstraction hold, and where does a verb route to the wrong place? Each story follows [TEMPLATE.md](TEMPLATE.md), which fixes sixteen aspects to cover and twelve loophole probes to run, so that a reader can tell "checked and fine" from "never checked". Findings are collected below with a proposed disposition. **All twenty-nine `amend` findings were applied on 2026-11-09**: as dated amendments to ADR 0001 to 0011 and as inline revisions of the drafts ADR 0012 and 0014, each citing its finding. The `rule`, `open` and `accepted` findings stand as written in each story and are not yet written into the command map, compiler, roadmap or defaults.
 
 | Story | Title | Primary | Secondary | Findings |
 |---|---|---|---|---|
@@ -65,7 +65,7 @@ The first five were set by the owner; the other five were added because the walk
 
 ## Findings register
 
-One hundred and five findings. Disposition counts: **29 amend** (27 applied to the ADRs on 2026-11-09, 2 proposed by US-16), **60 rule** (a sentence in an existing document), **5 open** (design that does not exist yet), **10 accepted** (a surfaced limitation), 1 cross-reference. Full text is in each story's section 10.
+One hundred and five findings. Disposition counts: **29 amend** (all applied to the ADRs on 2026-11-09), **60 rule** (a sentence in an existing document), **5 open** (design that does not exist yet), **10 accepted** (a surfaced limitation), 1 cross-reference. Full text is in each story's section 10.
 
 | Id | Short name | Probe | Disposition | Touches |
 |---|---|---|---|---|
@@ -167,13 +167,13 @@ One hundred and five findings. Disposition counts: **29 amend** (27 applied to t
 | L15.5 | a hold tag is removable by any table writer | P11 | amend, applied | ADR 0015 d5, ADR 0006 a2; ADR 0015 d5 revised |
 | L15.6 | the text serialization is lossy for types | P2 | accepted | ADR 0015 d2 |
 | L15.7 | warehouse residency is per dataset, not per device | P12 | rule | ADR 0015 d1 |
-| L16.1 | nodes exist nowhere in the design | none | amend | ADR 0011 d7 |
+| L16.1 | nodes exist nowhere in the design | none | amend, applied | ADR 0011 d7; ADR 0011 a5 |
 | L16.2 | receipts and `ps` do not say where a partition ran | P12 | rule | ADR 0009, ADR 0013 d5 |
 | L16.3 | a drain is a signal routed per backing object | P12 | rule | ADR 0008, ADR 0004 a1 |
 | L16.4 | a node has a pool manager or nobody | P1 | rule | ADR 0010 a1, ADR 0011 |
 | L16.5 | an absent health source must read unknown | P7 | rule | ADR 0010, ADR 0011 d7 |
 | L16.6 | a cordoned node bills and counts as capacity | P5 | rule | ADR 0003, ADR 0011 d7 |
-| L16.7 | KILL cannot end a process in kernel wait; fencing a live kernel corrupts | P2, P3 | amend | ADR 0008, ADR 0006 |
+| L16.7 | KILL cannot end a process in kernel wait; fencing a live kernel corrupts | P2, P3 | amend, applied | ADR 0008, ADR 0006; ADR 0008 a4 |
 
 ## Structural misroutes
 
@@ -234,6 +234,8 @@ The first table lists every finding that touches an ADR, whatever its dispositio
 | 0012 | decisions 1 and 2 revised inline | L13.3; L11.2, L11.5, L12.1 |
 | 0014 | decisions 3 and 5 revised inline | L14.4; L14.2 |
 | 0015 | decisions 4 and 5 revised inline | L15.1; L15.5 |
+| 0011 | a5 nodes are a tree under `/sys` | L16.1 |
+| 0008 | a4 kernel wait is unterminatable; fencing is a node verb | L16.7 |
 
 ## Writing a new story
 

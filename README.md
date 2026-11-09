@@ -251,7 +251,7 @@ research/
 | Tables and catalogs as devices (Iceberg, Delta, Hudi, warehouses) | Drafted in ADR 0015: a read pins a snapshot so the cache cannot lie, a write is one keyed commit that may replace, warehouses are devices whose reads are priced queries |
 | Assisted completion | Drafted in ADR 0014: type-directed completion from the grammar and device tree first; a model may only rank and translate, and the model is a device under `/dev/model` |
 | Walkthroughs | Nine workloads exercised in `docs/walkthroughs.md`; ten gaps found, all closed by ADR amendments, flags or fields |
-| User-story probes | Sixteen persona-driven probes in `docs/user-stories/`; 105 findings, 14 structural misroutes; 27 ADR amendments applied on 2026-11-09, 2 proposed by US-16 (the node layer), 60 rule findings still to be written into their documents |
+| User-story probes | Sixteen persona-driven probes in `docs/user-stories/`; 105 findings, 14 structural misroutes; 29 ADR amendments applied on 2026-11-09, 60 rule findings still to be written into their documents |
 | Mount namespace and fileserver | Reviewed, superseding design pending |
 | Session placement, identity and ownership, networking | Identified as the three architecture-changing gaps, not yet designed |
 | Code | None |
