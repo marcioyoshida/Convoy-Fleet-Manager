@@ -1,6 +1,6 @@
 # User stories as design probes
 
-The nine workloads in [walkthroughs.md](../walkthroughs.md) showed that the design carries them. This directory asks a harder question of the same nine, plus four written against [ADR 0012](../adr/0012-logs-and-queues-are-devices.md) to reach the edge and the Kafka primitive: for each persona who would run them, does every aspect of the abstraction hold, and where does a verb route to the wrong place? Each story follows [TEMPLATE.md](TEMPLATE.md), which fixes sixteen aspects to cover and twelve loophole probes to run, so that a reader can tell "checked and fine" from "never checked". Findings are collected below with a proposed disposition. **Nothing here has been applied to an ADR yet**; the register is the input to that decision.
+The nine workloads in [walkthroughs.md](../walkthroughs.md) showed that the design carries them. This directory asks a harder question of the same nine, plus four written against [ADR 0012](../adr/0012-logs-and-queues-are-devices.md) to reach the edge and the Kafka primitive, and one against [ADR 0013](../adr/0013-native-verbs-have-one-shape.md) and [ADR 0014](../adr/0014-assisted-completion-the-model-proposes.md) for the assisted shell: for each persona who would run them, does every aspect of the abstraction hold, and where does a verb route to the wrong place? Each story follows [TEMPLATE.md](TEMPLATE.md), which fixes sixteen aspects to cover and twelve loophole probes to run, so that a reader can tell "checked and fine" from "never checked". Findings are collected below with a proposed disposition. **Nothing here has been applied to an ADR yet**; the register is the input to that decision.
 
 | Story | Title | Primary | Secondary | Findings |
 |---|---|---|---|---|
@@ -17,6 +17,7 @@ The nine workloads in [walkthroughs.md](../walkthroughs.md) showed that the desi
 | [US-11](US-11-topic-reprocess.md) | Reprocess thirty days of orders from a topic after a bug fix, without touching production consumers | DE | SEC, FIN, SRE | 6 |
 | [US-12](US-12-continuous-consumer-unit.md) | Run a shell pipeline as a continuous consumer and know when the shell is the wrong tool | DE | SRE, PE, ML | 6 |
 | [US-13](US-13-tenant-topics-and-work-queues.md) | Hand a tenant its topics as directories and give agents a work queue they cannot poison | PE | SEC, FIN, AI | 6 |
+| [US-14](US-14-assisted-shell.md) | Let the shell finish my line in a regulated namespace and at a cut-off site, without it leaking, paying or acting for me | AI | SEC, FIN, PE, DE | 6 |
 
 ## Personas
 
@@ -39,30 +40,30 @@ The first five were set by the owner; the other five were added because the walk
 
 `●` the story stresses the aspect, `○` uses it, `–` does not touch it. Read the rows: an aspect with few `●` has few tests.
 
-| Aspect | 01 | 02 | 03 | 04 | 05 | 06 | 07 | 08 | 09 | 10 | 11 | 12 | 13 | Stress |
-|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
-| A1 Pipe, artifact, cache | ● | ○ | ○ | ● | ○ | – | ● | ● | ○ | ● | ● | ● | – | 7 |
-| A2 Command, annotation | ● | ● | ○ | ● | ● | ○ | ● | ○ | ● | ○ | ○ | ● | ○ | 7 |
-| A3 Session, mount table, attach | ○ | ○ | ● | ○ | ● | ● | ○ | ○ | ● | ● | ○ | ○ | ○ | 5 |
-| A4 Backend selection | ● | ● | ○ | ● | ● | – | ○ | ○ | – | ● | ● | ● | ○ | 7 |
-| A5 Completion contract | ● | ● | ● | ● | ● | – | ● | ● | ● | ● | ● | ○ | ● | 11 |
-| A6 Device tree, mounts, `/sys` | ○ | ● | ● | ○ | ● | ● | ○ | ● | ● | ● | ● | ○ | ● | 9 |
-| A7 Signals, groups | ○ | ● | ○ | ○ | ● | ● | ○ | – | ● | ○ | – | ● | – | 5 |
-| A8 Secrets | – | – | ○ | – | – | ● | ● | – | ● | ● | ○ | ○ | ● | 5 |
-| A9 Cost | ● | ● | – | ● | ● | ○ | ● | ○ | – | ● | ● | ○ | ● | 8 |
-| A10 Identity, approvals | ○ | ○ | ● | ○ | ○ | ● | ○ | ● | ● | ○ | ○ | ○ | ● | 5 |
-| A11 Defaults and `caps` | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | 13 |
-| A12 Storage | – | ● | – | ○ | ● | ● | – | ○ | – | ○ | ○ | – | ○ | 3 |
-| A13 Networking | – | ○ | ● | ● | ○ | ○ | ● | – | – | ● | ○ | ○ | – | 4 |
-| A14 Time, queueing | ● | ○ | ○ | ○ | ● | – | ○ | ● | ○ | ● | ○ | ○ | – | 4 |
-| A15 Audit, receipts, retention | ● | ○ | ● | ● | ○ | ○ | ● | ● | ● | ● | ● | ○ | ○ | 8 |
-| A16 Durability | ○ | ○ | ● | ○ | ● | ● | ○ | ● | ● | ● | ○ | ● | ○ | 7 |
+| Aspect | 01 | 02 | 03 | 04 | 05 | 06 | 07 | 08 | 09 | 10 | 11 | 12 | 13 | 14 | Stress |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| A1 Pipe, artifact, cache | ● | ○ | ○ | ● | ○ | – | ● | ● | ○ | ● | ● | ● | – | ○ | 7 |
+| A2 Command, annotation | ● | ● | ○ | ● | ● | ○ | ● | ○ | ● | ○ | ○ | ● | ○ | ● | 8 |
+| A3 Session, mount table, attach | ○ | ○ | ● | ○ | ● | ● | ○ | ○ | ● | ● | ○ | ○ | ○ | ● | 6 |
+| A4 Backend selection | ● | ● | ○ | ● | ● | – | ○ | ○ | – | ● | ● | ● | ○ | ○ | 7 |
+| A5 Completion contract | ● | ● | ● | ● | ● | – | ● | ● | ● | ● | ● | ○ | ● | ○ | 11 |
+| A6 Device tree, mounts, `/sys` | ○ | ● | ● | ○ | ● | ● | ○ | ● | ● | ● | ● | ○ | ● | ● | 10 |
+| A7 Signals, groups | ○ | ● | ○ | ○ | ● | ● | ○ | – | ● | ○ | – | ● | – | – | 5 |
+| A8 Secrets | – | – | ○ | – | – | ● | ● | – | ● | ● | ○ | ○ | ● | ● | 6 |
+| A9 Cost | ● | ● | – | ● | ● | ○ | ● | ○ | – | ● | ● | ○ | ● | ● | 9 |
+| A10 Identity, approvals | ○ | ○ | ● | ○ | ○ | ● | ○ | ● | ● | ○ | ○ | ○ | ● | ● | 6 |
+| A11 Defaults and `caps` | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | 14 |
+| A12 Storage | – | ● | – | ○ | ● | ● | – | ○ | – | ○ | ○ | – | ○ | – | 3 |
+| A13 Networking | – | ○ | ● | ● | ○ | ○ | ● | – | – | ● | ○ | ○ | – | – | 4 |
+| A14 Time, queueing | ● | ○ | ○ | ○ | ● | – | ○ | ● | ○ | ● | ○ | ○ | – | ○ | 4 |
+| A15 Audit, receipts, retention | ● | ○ | ● | ● | ○ | ○ | ● | ● | ● | ● | ● | ○ | ○ | ● | 9 |
+| A16 Durability | ○ | ○ | ● | ○ | ● | ● | ○ | ● | ● | ● | ○ | ● | ○ | ○ | 7 |
 
-**What no story reaches.** The session attach protocol itself (reconnect mid-command, two terminals on one session), `expose --public` and anything else in the undesigned networking abstraction, `pkg install` with a failing `requires`, `nice`/`renice` under contention, debugging a failing partition (`strace`, ephemeral containers), and locks. US-10 closed the edge and disconnected-operation row. Two candidate stories would close most of the rest: a platform engineer installing a package that a cluster cannot satisfy, and an engineer debugging one failed partition of a thousand.
+**What no story reaches.** The session attach protocol itself (reconnect mid-command, two terminals on one session), `expose --public` and anything else in the undesigned networking abstraction, `pkg install` with a failing `requires`, `nice`/`renice` under contention, debugging a failing partition (`strace`, ephemeral containers), and locks. US-10 closed the edge and disconnected-operation row; US-14 covers interactive assistance and the model as a device. Two candidate stories would close most of the rest: a platform engineer installing a package that a cluster cannot satisfy, and an engineer debugging one failed partition of a thousand.
 
 ## Findings register
 
-Eighty-five findings. Disposition counts: **23 amend** (an ADR amendment is proposed), **48 rule** (a sentence in an existing document), **5 open** (design that does not exist yet), **8 accepted** (a surfaced limitation), 1 cross-reference. Full text is in each story's section 10.
+Ninety-one findings. Disposition counts: **25 amend** (an ADR amendment is proposed), **51 rule** (a sentence in an existing document), **5 open** (design that does not exist yet), **9 accepted** (a surfaced limitation), 1 cross-reference. Full text is in each story's section 10.
 
 | Id | Short name | Probe | Disposition | Touches |
 |---|---|---|---|---|
@@ -151,10 +152,16 @@ Eighty-five findings. Disposition counts: **23 amend** (an ADR amendment is prop
 | L13.4 | a queue without a dead letter stalls on poison | P7 | rule | ADR 0012 d6 |
 | L13.5 | `xargs < queue` ends; `tail -f queue \| xargs` does not | P12 | rule | ADR 0012 d2, d6 |
 | L13.6 | `ls` on ten thousand topics | P12 | accepted | ADR 0012 d7 |
+| L14.1 | a fallback to grammar order must say so | P2 | rule | ADR 0014 d6, d7 |
+| L14.2 | the translation comment is unscrubbed free text | P4 | amend | ADR 0014 d5 |
+| L14.3 | a gloss per candidate is a plan per candidate | P5 | rule | ADR 0013 d3, ADR 0014 d10 |
+| L14.4 | residency says where, not how long the provider keeps it | P11 | amend | ADR 0014 d3 |
+| L14.5 | identity and residency at the keystroke are undefined | P12 | rule | ADR 0014 d4, d5 |
+| L14.6 | ranking is non-deterministic | none | accepted | ADR 0014 d2, d9 |
 
 ## Structural misroutes
 
-Reading the register across stories, the findings cluster into twelve patterns. These are the places where the abstraction routes a verb to the wrong layer, not bugs in one story. Each should be settled once, as a principle, before the stories that depend on it are built.
+Reading the register across stories, the findings cluster into thirteen patterns. These are the places where the abstraction routes a verb to the wrong layer, not bugs in one story. Each should be settled once, as a principle, before the stories that depend on it are built.
 
 | # | Misroute | Pattern | Findings | Settle in |
 |---|---|---|---|---|
@@ -170,6 +177,7 @@ Reading the register across stories, the findings cluster into twelve patterns. 
 | S10 | **Impossible pause, unbounded freeze** | Pause-with-checkpoint and group freeze are the default lifecycle verbs; some workloads have no checkpoint and collectives time out. | L2.6, L5.2, L4.3 | ADR 0004, ADR 0008 |
 | S11 | **Disconnected is a state, not a failure** | Device state, receipts, secrets and placement all assume the session can reach the cluster. At the edge the link is part of the system: a down device must queue, receipts must be spooled where the work ran, secrets must resolve locally, and compute must go to the data. | L10.1, L10.2, L10.6, L10.7, L10.5 | ADR 0003, ADR 0007, ADR 0009, ADR 0011 |
 | S12 | **A log is append-only; reruns, replacements and deletes do not mean what they mean on a file** | A rerun of a write appends beside the old records, a replacement is impossible, a delete is immediate and total, and an unbounded read never ends. Every verb that assumes file semantics must say what it does on a log. | L11.2, L11.3, L12.2, L13.1, L13.5 | ADR 0012 |
+| S13 | **Context that leaves the session is data at rest somewhere else** | Anything sent to a model, a provider or a remote service for the user's convenience (a comment to translate, a candidate list, a plan) is retained there under rules the session does not control; residency names a place, not a duration, and free text typed by a user is not covered by "secrets are references". | L14.2, L14.4, L14.5 | ADR 0014 decisions 3 and 5 |
 
 ## Proposed amendments by ADR
 
@@ -187,8 +195,8 @@ Reading the register across stories, the findings cluster into twelve patterns. 
 | 0010 platform defaults | L2.2, L3.2, L4.3, L6.2, L7.2, L7.6, L8.2, L8.7, L9.3, L10.9, L12.3, L13.3 |
 | 0011 device tree | L2.1, L2.5, L3.3, L4.1, L5.3, L6.1, L7.7, L8.1, L8.2, L10.1, L10.5, L10.8 |
 | 0012 logs and queues are devices | L10.3, L11.1, L11.2, L11.3, L11.5, L11.6, L12.1, L12.2, L12.4, L12.5, L12.6, L13.1, L13.2, L13.3, L13.4, L13.5, L13.6 |
-| 0013 native verbs have one shape (draft) | closes as verb entries: L3.5, L4.4, L5.5, L8.7, L10.9, L11.4, L12.2, L13.5; references without deciding: L3.1, L7.3, L9.5 |
-| 0014 assisted completion (draft) | none yet; a story against US-08 and US-10 settings is proposed in its consequences |
+| 0013 native verbs have one shape (draft) | closes as verb entries: L3.5, L4.4, L5.5, L8.7, L10.9, L11.4, L12.2, L13.5; references without deciding: L3.1, L7.3, L9.5; L14.3 |
+| 0014 assisted completion (draft) | L14.1, L14.2, L14.3, L14.4, L14.5, L14.6 |
 
 ## Writing a new story
 
