@@ -1,6 +1,6 @@
 # User stories as design probes
 
-The nine workloads in [walkthroughs.md](../walkthroughs.md) showed that the design carries them. This directory asks a harder question of the same nine: for each persona who would run them, does every aspect of the abstraction hold, and where does a verb route to the wrong place? Each story follows [TEMPLATE.md](TEMPLATE.md), which fixes sixteen aspects to cover and twelve loophole probes to run, so that a reader can tell "checked and fine" from "never checked". Findings are collected below with a proposed disposition. **Nothing here has been applied to an ADR yet**; the register is the input to that decision.
+The nine workloads in [walkthroughs.md](../walkthroughs.md) showed that the design carries them. This directory asks a harder question of the same nine, plus a tenth written against [ADR 0012](../adr/0012-logs-and-queues-are-devices.md) to reach the edge: for each persona who would run them, does every aspect of the abstraction hold, and where does a verb route to the wrong place? Each story follows [TEMPLATE.md](TEMPLATE.md), which fixes sixteen aspects to cover and twelve loophole probes to run, so that a reader can tell "checked and fine" from "never checked". Findings are collected below with a proposed disposition. **Nothing here has been applied to an ADR yet**; the register is the input to that decision.
 
 | Story | Title | Primary | Secondary | Findings |
 |---|---|---|---|---|
@@ -13,6 +13,7 @@ The nine workloads in [walkthroughs.md](../walkthroughs.md) showed that the desi
 | [US-07](US-07-agent-orchestration.md) | Run a triage agent over a ticket queue with a token budget and no secret in sight | AI | SEC, FIN, SRE | 7 |
 | [US-08](US-08-regulated-month-end.md) | Close the month in-region, on time, and prove it two years later | SEC | DE, FIN, SRE | 7 |
 | [US-09](US-09-secret-rotation.md) | Rotate a leaked database password across the fleet and prove the old one is dead | SEC, PE | SRE, DO, DBA | 8 |
+| [US-10](US-10-edge-telemetry.md) | Aggregate telemetry at forty remote sites over links that drop daily | DE | SRE, PE, FIN, SEC | 9 |
 
 ## Personas
 
@@ -35,30 +36,30 @@ The first five were set by the owner; the other five were added because the walk
 
 `●` the story stresses the aspect, `○` uses it, `–` does not touch it. Read the rows: an aspect with few `●` has few tests.
 
-| Aspect | 01 | 02 | 03 | 04 | 05 | 06 | 07 | 08 | 09 | Stress |
-|---|---|---|---|---|---|---|---|---|---|---|
-| A1 Pipe, artifact, cache | ● | ○ | ○ | ● | ○ | – | ● | ● | ○ | 4 |
-| A2 Command, annotation | ● | ● | ○ | ● | ● | ○ | ● | ○ | ● | 6 |
-| A3 Session, mount table, attach | ○ | ○ | ● | ○ | ● | ● | ○ | ○ | ● | 4 |
-| A4 Backend selection | ● | ● | ○ | ● | ● | – | ○ | ○ | – | 4 |
-| A5 Completion contract | ● | ● | ● | ● | ● | – | ● | ● | ● | 8 |
-| A6 Device tree, mounts, `/sys` | ○ | ● | ● | ○ | ● | ● | ○ | ● | ● | 6 |
-| A7 Signals, groups | ○ | ● | ○ | ○ | ● | ● | ○ | – | ● | 4 |
-| A8 Secrets | – | – | ○ | – | – | ● | ● | – | ● | 3 |
-| A9 Cost | ● | ● | – | ● | ● | ○ | ● | ○ | – | 5 |
-| A10 Identity, approvals | ○ | ○ | ● | ○ | ○ | ● | ○ | ● | ● | 4 |
-| A11 Defaults and `caps` | ● | ● | ● | ● | ● | ● | ● | ● | ● | 9 |
-| A12 Storage | – | ● | – | ○ | ● | ● | – | ○ | – | 3 |
-| A13 Networking | – | ○ | ● | ● | ○ | ○ | ● | – | – | 3 |
-| A14 Time, queueing | ● | ○ | ○ | ○ | ● | – | ○ | ● | ○ | 3 |
-| A15 Audit, receipts, retention | ● | ○ | ● | ● | ○ | ○ | ● | ● | ● | 6 |
-| A16 Durability | ○ | ○ | ● | ○ | ● | ● | ○ | ● | ● | 5 |
+| Aspect | 01 | 02 | 03 | 04 | 05 | 06 | 07 | 08 | 09 | 10 | Stress |
+|---|---|---|---|---|---|---|---|---|---|---|---|
+| A1 Pipe, artifact, cache | ● | ○ | ○ | ● | ○ | – | ● | ● | ○ | ● | 5 |
+| A2 Command, annotation | ● | ● | ○ | ● | ● | ○ | ● | ○ | ● | ○ | 6 |
+| A3 Session, mount table, attach | ○ | ○ | ● | ○ | ● | ● | ○ | ○ | ● | ● | 5 |
+| A4 Backend selection | ● | ● | ○ | ● | ● | – | ○ | ○ | – | ● | 5 |
+| A5 Completion contract | ● | ● | ● | ● | ● | – | ● | ● | ● | ● | 9 |
+| A6 Device tree, mounts, `/sys` | ○ | ● | ● | ○ | ● | ● | ○ | ● | ● | ● | 7 |
+| A7 Signals, groups | ○ | ● | ○ | ○ | ● | ● | ○ | – | ● | ○ | 4 |
+| A8 Secrets | – | – | ○ | – | – | ● | ● | – | ● | ● | 4 |
+| A9 Cost | ● | ● | – | ● | ● | ○ | ● | ○ | – | ● | 6 |
+| A10 Identity, approvals | ○ | ○ | ● | ○ | ○ | ● | ○ | ● | ● | ○ | 4 |
+| A11 Defaults and `caps` | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | 10 |
+| A12 Storage | – | ● | – | ○ | ● | ● | – | ○ | – | ○ | 3 |
+| A13 Networking | – | ○ | ● | ● | ○ | ○ | ● | – | – | ● | 4 |
+| A14 Time, queueing | ● | ○ | ○ | ○ | ● | – | ○ | ● | ○ | ● | 4 |
+| A15 Audit, receipts, retention | ● | ○ | ● | ● | ○ | ○ | ● | ● | ● | ● | 7 |
+| A16 Durability | ○ | ○ | ● | ○ | ● | ● | ○ | ● | ● | ● | 6 |
 
-**What no story reaches.** The session attach protocol itself (reconnect mid-command, two terminals on one session), `expose --public` and anything else in the undesigned networking abstraction, `pkg install` with a failing `requires`, `nice`/`renice` under contention, disconnected or edge operation, debugging a failing partition (`strace`, ephemeral containers), and locks. Three candidate stories would close most of it: an edge fleet that loses contact with the control plane (to be written against [ADR 0012](../adr/0012-logs-and-queues-are-devices.md), where the topic is the edge buffer), a platform engineer installing a package that a cluster cannot satisfy, and an engineer debugging one failed partition of a thousand.
+**What no story reaches.** The session attach protocol itself (reconnect mid-command, two terminals on one session), `expose --public` and anything else in the undesigned networking abstraction, `pkg install` with a failing `requires`, `nice`/`renice` under contention, debugging a failing partition (`strace`, ephemeral containers), and locks. US-10 closed the edge and disconnected-operation row. Two candidate stories would close most of the rest: a platform engineer installing a package that a cluster cannot satisfy, and an engineer debugging one failed partition of a thousand.
 
 ## Findings register
 
-Fifty-eight findings. Disposition counts: **15 amend** (an ADR amendment is proposed), **33 rule** (a sentence in an existing document), **4 open** (design that does not exist yet), **5 accepted** (a surfaced limitation), 1 cross-reference. Full text is in each story's section 10.
+Sixty-seven findings. Disposition counts: **19 amend** (an ADR amendment is proposed), **36 rule** (a sentence in an existing document), **4 open** (design that does not exist yet), **7 accepted** (a surfaced limitation), 1 cross-reference. Full text is in each story's section 10.
 
 | Id | Short name | Probe | Disposition | Touches |
 |---|---|---|---|---|
@@ -120,10 +121,19 @@ Fifty-eight findings. Disposition counts: **15 amend** (an ADR amendment is prop
 | L9.6 | HUP swallowed by a wrapper entrypoint | P7 | rule | ADR 0008 a2 |
 | L9.7 | the leaked value stays in logs and artifacts | P4 | **open** | ADR 0007, ADR 0009 |
 | L9.8 | forcing a deferred retirement is two-person | P3, P10 | rule | ADR 0007 |
+| L10.1 | a disconnected device is not a removed device | P8 | amend | ADR 0011 d8 |
+| L10.2 | receipts lost when an outage outlasts the pod TTL | P7 | amend | ADR 0009 |
+| L10.3 | reads before the earliest offset must fail, not shrink | P2 | rule | ADR 0012 |
+| L10.4 | deadline expires while queued for a down site | P12 | accepted | ADR 0004 via L5.5 |
+| L10.5 | links have a price per gigabyte and a state | P5 | rule | ADR 0011 d7 |
+| L10.6 | secret references need a site-local source | P4, P8 | amend | ADR 0007 |
+| L10.7 | stages must run where their input device is | P11, P5 | amend | ADR 0003 |
+| L10.8 | a replaced broker is a new by-id | P9 | accepted | ADR 0011 d2 |
+| L10.9 | `caps` is per device, not per fleet | P7 | rule | ADR 0003, ADR 0010 |
 
 ## Structural misroutes
 
-Reading the register across stories, the findings cluster into ten patterns. These are the places where the abstraction routes a verb to the wrong layer, not bugs in one story. Each should be settled once, as a principle, before the stories that depend on it are built.
+Reading the register across stories, the findings cluster into eleven patterns. These are the places where the abstraction routes a verb to the wrong layer, not bugs in one story. Each should be settled once, as a principle, before the stories that depend on it are built.
 
 | # | Misroute | Pattern | Findings | Settle in |
 |---|---|---|---|---|
@@ -137,21 +147,24 @@ Reading the register across stories, the findings cluster into ten patterns. The
 | S8 | **Multi-party actions in a single-actor shell** | Approvals, producer/consumer rotation and forced retirements need a second identity; the shell has one stdin. | L3.1, L9.1, L9.8, L6.7 | ADR 0005, identity design |
 | S9 | **The created-elsewhere blind spot** | Executors, namespaces, consumers and inputs the planner did not create are seen by label, index or not at all. | L9.4, L2.4, L6.6, L8.3 | ADR 0007, ADR 0011 |
 | S10 | **Impossible pause, unbounded freeze** | Pause-with-checkpoint and group freeze are the default lifecycle verbs; some workloads have no checkpoint and collectives time out. | L2.6, L5.2, L4.3 | ADR 0004, ADR 0008 |
+| S11 | **Disconnected is a state, not a failure** | Device state, receipts, secrets and placement all assume the session can reach the cluster. At the edge the link is part of the system: a down device must queue, receipts must be spooled where the work ran, secrets must resolve locally, and compute must go to the data. | L10.1, L10.2, L10.6, L10.7, L10.5 | ADR 0003, ADR 0007, ADR 0009, ADR 0011 |
 
 ## Proposed amendments by ADR
 
 | ADR | Findings that touch it |
 |---|---|
 | 0001 pipe is a staged artifact | L1.1, L4.5, L8.1 |
+| 0003 three backends, local first | L10.7, L10.9 |
 | 0002 annotation classes | L1.2 |
 | 0004 completion contract | L1.3, L2.6, L4.4, L5.1, L5.5, L7.3, L7.4, L8.4, L8.7, L9.5 |
 | 0005 session is server-side | L3.1, L6.7, L7.3, L9.5 |
 | 0006 detach is not destroy | L1.5, L5.6, L6.2, L8.3, L8.6 |
-| 0007 secrets are references | L3.3, L6.4, L7.1, L9.1, L9.2, L9.4, L9.7, L9.8 |
+| 0007 secrets are references | L3.3, L6.4, L7.1, L9.1, L9.2, L9.4, L9.7, L9.8, L10.6 |
 | 0008 signal routing | L2.3, L5.2, L9.2, L9.3, L9.6 |
-| 0009 stdout artifact, stderr log | L4.2, L7.1, L8.5, L9.7 |
-| 0010 platform defaults | L2.2, L3.2, L4.3, L6.2, L7.2, L7.6, L8.2, L8.7, L9.3 |
-| 0011 device tree | L2.1, L2.5, L3.3, L4.1, L5.3, L6.1, L7.7, L8.1, L8.2 |
+| 0009 stdout artifact, stderr log | L4.2, L7.1, L8.5, L9.7, L10.2 |
+| 0010 platform defaults | L2.2, L3.2, L4.3, L6.2, L7.2, L7.6, L8.2, L8.7, L9.3, L10.9 |
+| 0011 device tree | L2.1, L2.5, L3.3, L4.1, L5.3, L6.1, L7.7, L8.1, L8.2, L10.1, L10.5, L10.8 |
+| 0012 logs and queues are devices | L10.3 |
 
 ## Writing a new story
 

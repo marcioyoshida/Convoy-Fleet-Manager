@@ -246,7 +246,7 @@ research/
 | Device tree and mount table | Decided in ADR 0011 |
 | Logs and queues as devices (Kafka and relatives) | Drafted in ADR 0012 from a contributed review; a topic has three faces, no streaming backend |
 | Walkthroughs | Nine workloads exercised in `docs/walkthroughs.md`; ten gaps found, all closed by ADR amendments, flags or fields |
-| User-story probes | Nine persona-driven probes in `docs/user-stories/`; 58 findings, 10 structural misroutes, 15 proposed ADR amendments awaiting decision |
+| User-story probes | Ten persona-driven probes in `docs/user-stories/`; 67 findings, 11 structural misroutes, 19 proposed ADR amendments awaiting decision |
 | Mount namespace and fileserver | Reviewed, superseding design pending |
 | Session placement, identity and ownership, networking | Identified as the three architecture-changing gaps, not yet designed |
 | Code | None |
