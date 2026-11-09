@@ -17,7 +17,7 @@ graph TB
         Parser["Parser<br/>POSIX grammar to AST<br/>reuses mvdan/sh"]
         Planner["Planner and pipeline compiler<br/>stages · partitions · backend choice<br/>completion contract · cost band<br/>explain (ADR 0001, 0003, 0004)"]
         Annot["Annotation database<br/>stateless · aggregate · pattern · limit<br/>fan-in · fan-out · typed · non-parallel<br/>(ADR 0002)"]
-        Mounts["Mount table and device tree<br/>/dev/k8s by-id and views · /sys/k8s<br/>/clusters · /pvc · /s3 · /artifacts<br/>(ADR 0011)"]
+        Mounts["Mount table and device tree<br/>/dev/k8s · /dev/queue by-id and views · /sys<br/>/clusters · /pvc · /s3 · /queues · /artifacts<br/>(ADR 0011, 0012)"]
         State["Env table · cwd (cluster, namespace, path)<br/>secret references (ADR 0007)<br/>signal router (ADR 0008)"]
         Audit["Audit stream · receipts<br/>stdout is an artifact, stderr a log,<br/>exit code a receipt (ADR 0009)"]
     end
@@ -35,7 +35,7 @@ graph TB
         Workloads["Workloads<br/>Pod · Job · CronJob · Deployment<br/>podFailurePolicy · do-not-disrupt"]
         Storage["Storage<br/>PVC · StorageClass · VolumeSnapshot<br/>CSI · ReadWriteOncePod"]
         Identity["Identity and config<br/>ServiceAccount · workload identity<br/>Secrets Store CSI · ConfigMap · Lease<br/>owner labels · CEL admission"]
-        Platform["Platform components, reported by caps<br/>Kueue · Argo Workflows · node agent (cgroup freeze)<br/>DRA · Gateway · NetworkPolicy · OpenCost<br/>packages via GitOps (ADR 0010)"]
+        Platform["Platform components, reported by caps<br/>Kueue · Argo Workflows · node agent (cgroup freeze)<br/>DRA · Gateway · NetworkPolicy · OpenCost<br/>Strimzi · Flink operator · packages via GitOps (ADR 0010)"]
         Inventory["Fleet inventory, the udev of /dev/k8s<br/>Argo CD cluster secrets or Cluster API<br/>by-id · views · permissions · hotplug events"]
     end
 
@@ -44,6 +44,7 @@ graph TB
         Clusters["Clusters as devices<br/>EKS · AKS · GKE · on-prem<br/>edge · constellation"]
         Runtime["Container runtime<br/>CNI · CSI drivers<br/>CRI-O for checkpoint, restore"]
         CAS["Content-addressed artifact store<br/>S3 · GCS · Blob · MinIO<br/>id = sha256(cmd, toolbox, env, inputs, partition)"]
+        Queues["Logs and queues as devices<br/>Kafka · Redpanda · NATS · SQS, in or outside a cluster<br/>bounded read = file, follow = stream, write = side effect (ADR 0012)"]
         Cloud["Cloud identity and pricing<br/>STS · Entra ID · GCP SA<br/>price lists for the cost band"]
     end
 
@@ -78,6 +79,7 @@ graph TB
     Indexed --> CAS
     Argo --> CAS
     Mounts --> CAS
+    Mounts --> Queues
 
     Workloads --> Clusters
     Storage --> Clusters
@@ -95,7 +97,7 @@ graph TB
     class Parser,Planner,Annot,Mounts,State,Audit session
     class Local,ParLocal,Indexed,Argo backend
     class Workloads,Storage,Identity,Platform,Inventory k8s
-    class Clusters,Runtime,CAS,Cloud infra
+    class Clusters,Runtime,CAS,Queues,Cloud infra
 ```
 
 ## What changed from the original layered sketch
@@ -111,6 +113,8 @@ The first version of this chart, drawn before the design documents, had four lay
 | Configuration (Secret, ConfigMap) as a counterpart of `export` | **Identity and config**: secret references, workload identity, Secrets Store CSI, owner labels | A secret value never reaches the client; users may use secrets they cannot read ([ADR 0007](adr/0007-secrets-are-references.md)) |
 
 Two boxes are new. The **content-addressed artifact store** is the transport of every non-local pipe, so it sits in infrastructure next to the clusters rather than being hidden inside a workflow engine. **Cloud identity and pricing** is where device open performs its token exchange and where the cost band reads its rates.
+
+The **logs and queues** box was added with [ADR 0012](adr/0012-logs-and-queues-are-devices.md): Kafka and its relatives are devices under `/dev/queue`, mounted by the session, whether or not a broker runs inside a cluster. There is deliberately no streaming backend box; a continuous pipeline is a service unit and Flink is a package.
 
 ## Reading the edges
 

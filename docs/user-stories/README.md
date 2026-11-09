@@ -54,7 +54,7 @@ The first five were set by the owner; the other five were added because the walk
 | A15 Audit, receipts, retention | ● | ○ | ● | ● | ○ | ○ | ● | ● | ● | 6 |
 | A16 Durability | ○ | ○ | ● | ○ | ● | ● | ○ | ● | ● | 5 |
 
-**What no story reaches.** The session attach protocol itself (reconnect mid-command, two terminals on one session), `expose --public` and anything else in the undesigned networking abstraction, `pkg install` with a failing `requires`, `nice`/`renice` under contention, disconnected or edge operation, debugging a failing partition (`strace`, ephemeral containers), and locks. Three candidate stories would close most of it: an edge fleet that loses contact with the control plane, a platform engineer installing a package that a cluster cannot satisfy, and an engineer debugging one failed partition of a thousand.
+**What no story reaches.** The session attach protocol itself (reconnect mid-command, two terminals on one session), `expose --public` and anything else in the undesigned networking abstraction, `pkg install` with a failing `requires`, `nice`/`renice` under contention, disconnected or edge operation, debugging a failing partition (`strace`, ephemeral containers), and locks. Three candidate stories would close most of it: an edge fleet that loses contact with the control plane (to be written against [ADR 0012](../adr/0012-logs-and-queues-are-devices.md), where the topic is the edge buffer), a platform engineer installing a package that a cluster cannot satisfy, and an engineer debugging one failed partition of a thousand.
 
 ## Findings register
 

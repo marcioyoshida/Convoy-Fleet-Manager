@@ -130,7 +130,7 @@
 | `pr` | Mand | toolbox | toolbox | Native | None | page numbers are global: non-parallel |
 | `sed` | Mand | toolbox | toolbox | Native | High | pattern class: stateless without hold space, N/D/P or line-range addresses; otherwise non-parallel |
 | `sort` | Mand | toolbox | toolbox | Native | High | aggregate: per-partition sort then sort -m; top-K rewrite with head |
-| `tail` | Mand | toolbox; log/stream follow for -f | toolbox | Partial | High | tail -n: per-partition tail then merge. tail -f: opt-in stream on a log or queue, not an artifact |
+| `tail` | Mand | toolbox; log/stream follow for -f | toolbox | Partial | High | tail -n: per-partition tail then merge. tail -f: opt-in stream on a log or queue device, never an artifact; on a topic it resumes from the committed offset (ADR 0012) |
 | `tr` | Mand | toolbox | toolbox | Native | Medium | stateless |
 | `tsort` | Mand | toolbox; used internally for plan ordering | toolbox | Native | Low |  |
 | `unexpand` | Mand | toolbox | toolbox | Native | Low | stateless |
@@ -164,7 +164,7 @@
 | Command | POSIX | Kubernetes backing | Approach | Feasibility | Pull | Notes |
 |---|---|---|---|---|---|---|
 | `basename` | Mand | session / toolbox | toolbox | Native | Low | stateless |
-| `cat` | Mand | toolbox; fileserver for mounts | toolbox | Native | High | fan-in concat; reading /pvc or /s3 goes through the session fileserver |
+| `cat` | Mand | toolbox; fileserver for mounts | toolbox | Native | High | fan-in concat; reading /pvc or /s3 goes through the session fileserver; on a topic it is a bounded read of the log-end offsets at plan time, one partition per topic partition (ADR 0012) |
 | `cd` | Mand | session cwd = (cluster, namespace, path) | translate | Mapped | High | A kubeconfig context switch plus namespace; /clusters tree from the fleet inventory |
 | `chgrp` | Mand | owner labels + admission policy; fsGroup on volumes | translate | Partial | Medium | Objects: convoy.io/group label checked by a CEL admission policy. PVC files: fsGroup. S3: no groups |
 | `chmod` | Mand | POSIX bits on PVC via fileserver; none on S3 | mount | Partial | Low | Object storage has no mode bits; sharing an artifact is a bucket policy or presigned URL |
@@ -183,13 +183,13 @@
 | `ln` | Mand | PVC links via fileserver; catalog alias for artifacts | mount | Partial | Low | ln -s on /s3 or /artifacts creates a catalog alias, not a filesystem link |
 | `ls` | Mand | fileserver list; object listings for /clusters /pvc /s3 /models | mount | Mapped | High | ls -l shows owner, size and cost for volumes and artifacts |
 | `mkdir` | Mand | fileserver on PVC; S3 prefix no-op; namespace under /clusters | mount | Mapped | Medium | mkdir /clusters/x/teams/y creates a namespace from the platform quota template; volumes need mkvol |
-| `mkfifo` | Mand | named durable queue (NATS JetStream / SQS) as an object | translate | Mapped | Medium | Object storage is not a FIFO; a named pipe needs a broker. Consumers are Job work-queue mode |
+| `mkfifo` | Mand | a topic on the platform's `fifo_device` (Kafka, Redpanda, NATS JetStream, SQS) under `/dev/queue` | translate | Mapped | Medium | Object storage is not a FIFO; a named pipe needs a broker (ADR 0012 decision 6). Consumers are Job work-queue mode or a service unit |
 | `mv` | Mand | rename on PVC (atomic); copy+delete on S3 (not atomic); Job across stores | mount | Partial | Medium | The S3 case is warned; objects: rename is a label edit |
 | `pathchk` | Mand | session | session | Native | None |  |
 | `pwd` | Mand | (cluster, namespace, path) | translate | Mapped | High |  |
 | `readlink` | Mand | resolve catalog aliases and PVC symlinks | mount | Partial | Low |  |
 | `realpath` | Mand | resolve to artifact id or volume path | mount | Partial | Low | realpath of an artifact is its content hash |
-| `rm` | Mand | fileserver / object delete; refused on volumes and namespaces | mount | Mapped | High | rm /pvc/x is refused and points to rmvol; rm on a namespace points to the destructive verb with confirmation |
+| `rm` | Mand | fileserver / object delete; refused on volumes and namespaces | mount | Mapped | High | rm /pvc/x is refused and points to rmvol; rm on a namespace points to the destructive verb with confirmation; rm on a topic lists bytes and retention and needs --with-data |
 | `rmdir` | Mand | fileserver; S3 prefix no-op; empty namespace via destructive verb | mount | Partial | Low |  |
 | `touch` | Mand | fileserver on PVC; zero-byte put on S3 | mount | Partial | Low |  |
 | `unlink` | Opt (XSI) | fileserver | mount | Native | None |  |
@@ -223,7 +223,7 @@
 | `read` | Mand | session | session | Native | Low |  |
 | `sh` | Mand | the session interpreter; scripts go through the planner | session | Native | High | A script is a plan; set -o pipefail is on by default |
 | `sleep` | Mand | session; timer gate in a plan | session | Mapped | Low | Inside a && chain or pipeline, sleep compiles to a delay on the edge, never to a pod that sleeps |
-| `tee` | Mand | toolbox fan-out to artifacts and mounts | toolbox | Native | Medium | fan-out class |
+| `tee` | Mand | toolbox fan-out to artifacts and mounts | toolbox | Native | Medium | fan-out class; writing to a topic is a side effect through an idempotent producer keyed by the input artifact id, never an artifact (ADR 0012) |
 | `test` | Mand | session | session | Native | Low |  |
 | `true` | Mand | session | session | Native | Low |  |
 | `xargs` | Mand | fan-out stage: -P → parallelism, -n → partition size | translate | Mapped | High | xargs is where DAG width comes from; compiles to an Indexed Job or Argo fan-out |

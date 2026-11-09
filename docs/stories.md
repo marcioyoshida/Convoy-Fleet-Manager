@@ -79,6 +79,6 @@ The rest, in order of need:
 | Debugging | `strace`, `gdb`, `tcpdump`, `lsof` | ephemeral debug containers, Inspektor Gadget or Tetragon | an ephemeral container cannot be removed; budget one |
 | Configuration | `/etc/<app>/`, `sysctl`, edit and reload | ConfigMap as a directory, immutable ConfigMaps with a hash in the template, allowed sysctls | mounted ConfigMap updates take up to a minute and never reach env vars |
 | Locks | `flock`, `mkdir` locks | Lease objects, `lock name -- cmd` | the honest fix for RWX races |
-| Named pipes and queues | `mkfifo` | NATS JetStream or SQS as a named object; Job work-queue consumers | object storage is not a FIFO |
+| Named pipes and queues | `mkfifo` | a topic on a `/dev/queue` device (Kafka, Redpanda, NATS JetStream, SQS); Job work-queue consumers or a service unit; drafted in ADR 0012 | object storage is not a FIFO; compaction and retention change what an offset range holds |
 | Backup and environments | `pax`, `rsync`, `dump`, `env fork` | Velero by label, VolumeSnapshot, namespace or vCluster clones | backups copy Secrets across environments unless excluded |
 | Mount namespace and fileserver | `ls`, `cp`, `du`, `df`, `mount`, `umount` on `/pvc`, `/s3`, `/home`, `/scratch`, `/tmp`, `/artifacts` | session fileserver pod, copy Jobs, kubelet volume stats, S3 Inventory | S3 has no append, random writes or atomic rename; RWO is per node; RWX is not atomic |
