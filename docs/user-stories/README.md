@@ -1,6 +1,6 @@
 # User stories as design probes
 
-The nine workloads in [walkthroughs.md](../walkthroughs.md) showed that the design carries them. This directory asks a harder question of the same nine, plus four written against [ADR 0012](../adr/0012-logs-and-queues-are-devices.md) to reach the edge and the Kafka primitive, and one against [ADR 0013](../adr/0013-native-verbs-have-one-shape.md) and [ADR 0014](../adr/0014-assisted-completion-the-model-proposes.md) for the assisted shell, and one against [ADR 0015](../adr/0015-tables-and-catalogs-are-devices.md) for tables and catalogs, and one fleet operation (a faulty node) that found the node layer missing, and one against [ADR 0016](../adr/0016-identity-is-a-user-rights-belong-to-groups.md) for identity (an offboarding, a one-member approving group, a root assumption, a group that vanishes): for each persona who would run them, does every aspect of the abstraction hold, and where does a verb route to the wrong place? Each story follows [TEMPLATE.md](TEMPLATE.md), which fixes sixteen aspects to cover and twelve loophole probes to run, so that a reader can tell "checked and fine" from "never checked". Findings are collected below with a proposed disposition. **All twenty-nine `amend` findings were applied on 2026-11-09**: as dated amendments to ADR 0001 to 0011 and as inline revisions of the drafts ADR 0012 and 0014, each citing its finding. The sixty `rule` findings were written the same day into a dated Rules section of the ADR each touches, a rules table in the command map, a section of the compiler document and a per-milestone section of the roadmap. The `open` and `accepted` findings stand as written in each story.
+The nine workloads in [walkthroughs.md](../walkthroughs.md) showed that the design carries them. This directory asks a harder question of the same nine, plus four written against [ADR 0012](../adr/0012-logs-and-queues-are-devices.md) to reach the edge and the Kafka primitive, and one against [ADR 0013](../adr/0013-native-verbs-have-one-shape.md) and [ADR 0014](../adr/0014-assisted-completion-the-model-proposes.md) for the assisted shell, and one against [ADR 0015](../adr/0015-tables-and-catalogs-are-devices.md) for tables and catalogs, and one fleet operation (a faulty node) that found the node layer missing, and one against [ADR 0016](../adr/0016-identity-is-a-user-rights-belong-to-groups.md) for identity (an offboarding, a one-member approving group, a root assumption, a group that vanishes): for each persona who would run them, does every aspect of the abstraction hold, and where does a verb route to the wrong place? Each story follows [TEMPLATE.md](TEMPLATE.md), which fixes sixteen aspects to cover and twelve loophole probes to run, so that a reader can tell "checked and fine" from "never checked". Findings are collected below with a proposed disposition. **All twenty-nine `amend` findings were applied on 2026-11-09**: as dated amendments to ADR 0001 to 0011 and as inline revisions of the drafts ADR 0012 and 0014, each citing its finding. The sixty `rule` findings were written the same day into a dated Rules section of the ADR each touches, a rules table in the command map, a section of the compiler document and a per-milestone section of the roadmap. US-17's three revisions to ADR 0016 and five rules were applied the same way on 2026-11-10. The `open` and `accepted` findings stand as written in each story.
 
 | Story | Title | Primary | Secondary | Findings |
 |---|---|---|---|---|
@@ -66,7 +66,7 @@ The first five were set by the owner; the other five were added because the walk
 
 ## Findings register
 
-One hundred and thirteen findings. Disposition counts: **32 amend** (29 applied to the ADRs on 2026-11-09; L17.1, L17.2 and L17.5 proposed on 2026-11-10 against the draft ADR 0016, not yet applied), **65 rule** (60 written into their documents on 2026-11-09; L17.3, L17.4, L17.6, L17.7 and L17.8 proposed on 2026-11-10, not yet written), **5 open** (design that does not exist yet; L6.5 and the approver half of L3.1 are drafted in ADR 0016 on 2026-11-10), **10 accepted** (a surfaced limitation), 1 cross-reference. Full text is in each story's section 10.
+One hundred and thirteen findings. Disposition counts: **32 amend** (29 applied to the ADRs on 2026-11-09, 3 applied inline to the draft ADR 0016 on 2026-11-10), **65 rule** (60 written into their documents on 2026-11-09, 5 on 2026-11-10), **5 open** (design that does not exist yet; L6.5 and the approver half of L3.1 are drafted in ADR 0016 on 2026-11-10), **10 accepted** (a surfaced limitation), 1 cross-reference. Full text is in each story's section 10.
 
 | Id | Short name | Probe | Disposition | Touches |
 |---|---|---|---|---|
@@ -175,14 +175,14 @@ One hundred and thirteen findings. Disposition counts: **32 amend** (29 applied 
 | L16.5 | an absent health source must read unknown | P7 | rule, applied | ADR 0010, ADR 0011 d7 |
 | L16.6 | a cordoned node bills and counts as capacity | P5 | rule, applied | ADR 0003, ADR 0011 d7 |
 | L16.7 | KILL cannot end a process in kernel wait; fencing a live kernel corrupts | P2, P3 | amend, applied | ADR 0008, ADR 0006; ADR 0008 a4 |
-| L17.1 | a launched process cannot hold a person's token | P12 | amend | ADR 0016 d4, d5 |
-| L17.2 | removal at the provider lands at token refresh | P6, P7 | amend | ADR 0016 d6, d9; ADR 0010 |
-| L17.3 | a refused approval needs a fallback group | P10 | rule | ADR 0016 d7, ADR 0013 |
-| L17.4 | `sudo` with a shell redirect runs as the user | P2 | rule | ADR 0013 d10, command map |
-| L17.5 | a group can vanish at the provider | P1, P3 | amend | ADR 0016 d9, ADR 0011 |
-| L17.6 | `ps -A` shows actor names fleet-wide | P4 | rule | ADR 0013 d5, ADR 0009 |
-| L17.7 | a cron entry whose author left is not flagged | P12 | rule | ADR 0013, ADR 0011 d7 |
-| L17.8 | a prompt-set secret is known to its actor | P11 | rule | ADR 0007 a3, ADR 0013 |
+| L17.1 | a launched process cannot hold a person's token | P12 | amend, applied | ADR 0016 d4, d5 |
+| L17.2 | removal at the provider lands at token refresh | P6, P7 | amend, applied | ADR 0016 d6, d9; ADR 0010 |
+| L17.3 | a refused approval needs a fallback group | P10 | rule, applied | ADR 0016 d7, ADR 0013 |
+| L17.4 | `sudo` with a shell redirect runs as the user | P2 | rule, applied | ADR 0013 d10, command map |
+| L17.5 | a group can vanish at the provider | P1, P3 | amend, applied | ADR 0016 d9, ADR 0011 |
+| L17.6 | `ps -A` shows actor names fleet-wide | P4 | rule, applied | ADR 0013 d5, ADR 0009 |
+| L17.7 | a cron entry whose author left is not flagged | P12 | rule, applied | ADR 0013, ADR 0011 d7 |
+| L17.8 | a prompt-set secret is known to its actor | P11 | rule, applied | ADR 0007 a3, ADR 0013 |
 
 ## Structural misroutes
 
@@ -247,6 +247,7 @@ The first table lists every finding that touches an ADR, whatever its dispositio
 | 0015 | decisions 4 and 5 revised inline | L15.1; L15.5 |
 | 0011 | a5 nodes are a tree under `/sys` | L16.1 |
 | 0008 | a4 kernel wait is unterminatable; fencing is a node verb | L16.7 |
+| 0016 | decisions 4, 5, 6 and 9 revised inline | L17.1; L17.2; L17.5 |
 
 ## Writing a new story
 

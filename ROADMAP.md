@@ -58,6 +58,11 @@ From the user-story probes. Each milestone's exit criteria include the rules lis
 
 - **L6.6** `ls -l` under a cluster mount shows `?` as owner for unlabelled namespaces; `chown` adopts them; the inventory counts them as unmanaged.
 - **L7.6** `egress:` with hostnames requires `caps: fqdn-policy`; without it the planner refuses or routes through the platform's egress proxy package; `explain` names the mechanism.
+- **L17.3** an approval policy may name a fallback group; the refusal prints both; `--approver=<fallback>` is receipted with the primary group's size; root never approves.
+- **L17.4** a refused write to a root file names the user the redirect ran as and the `sudo tee` spelling.
+- **L17.6** the owner column of `ps`, `top` and `ls -l` is the group; the actor is visible to members and root only.
+- **L17.7** `cron list` marks entries whose actor was removed at the provider; they keep running as the group's service identity.
+- **L17.8** `secret set` records its source (`prompt`, `stdin`, `producer`); `secret list --actor` marks what a user knows.
 - **L9.4** `secret retire` is two-phase: disable (version kept, reads denied and logged) for a cooling period, then delete; `fuser --unknown` lists Secret objects referenced by any pod path (env, envFrom, volumes, CSI) that the index did not create; denied reads reopen the retirement.
 
 **M8**

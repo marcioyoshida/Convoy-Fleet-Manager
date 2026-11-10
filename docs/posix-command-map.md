@@ -274,4 +274,6 @@ Rules the sixteen stories in `docs/user-stories/` decided for specific commands.
 | `crontab`, `at` | wall-clock deadlines are read in the session's `TZ`; receipts store UTC and the zone; `crontab` sets `timeZone` | L8.4 |
 | `chmod`, `getfacl` | `chmod` maps `r` to Read and Describe, `w` to Write, `x` to Create under the prefix; everything else is `setfacl`/`getfacl`; `ls -l` marks a `+` when ACLs exceed the mode, as POSIX ACLs do | L13.2 |
 | `xargs` | reading a queue by redirection is a bounded drain to the depth observed at plan time and compiles to a work-queue Job; a follow into `xargs` is continuous and requires `run --unit`, scaled by queue depth when `caps: keda` exists | L13.5 |
-
+| `sudo` | a shell redirect in a `sudo` line is applied by the caller's shell as the caller; a refused write to a root file names that and the `echo … \| sudo tee <file>` spelling; `sudo` assumes a group's service identity or `svc:root` through `wheel` with a second member's approval (ADR 0016) | L17.4 |
+| `ps`, `top`, `ls -l` | the owner column is the group; the actor column is shown to members of that group and to root, `?` otherwise | L17.6 |
+| `cron` | `cron list` marks entries whose actor was removed at the provider with the date; they keep running as the group's service identity | L17.7 |
