@@ -70,7 +70,7 @@ The first five were set by the owner; the other five were added because the walk
 
 ## Findings register
 
-One hundred and forty-nine findings. Disposition counts: **40 amend** (29 applied to the ADRs on 2026-11-09, 11 applied inline to the drafts ADR 0016 to 0020 on 2026-11-10), **89 rule** (60 written into their documents on 2026-11-09, 29 on 2026-11-10), **5 open** (design that did not exist yet; L6.5 is drafted in ADR 0016, L3.1 in ADR 0017 and L4.6 in ADR 0019, all 2026-11-10), **14 accepted** (a surfaced limitation), 1 cross-reference. Full text is in each story's section 10.
+One hundred and forty-nine findings. Disposition counts: **40 amend** (29 applied to the ADRs on 2026-11-09, 11 applied inline to the drafts ADR 0016 to 0020 on 2026-11-10), **89 rule** (60 written into their documents on 2026-11-09, 29 on 2026-11-10), **5 open** (design that did not exist yet; L6.5 is drafted in ADR 0016, L3.1 in ADR 0017, L4.6 in ADR 0019 and L12.5 in ADR 0012 decision 10, all 2026-11-10), **14 accepted** (a surfaced limitation), 1 cross-reference. Full text is in each story's section 10.
 
 | Id | Short name | Probe | Disposition | Touches |
 |---|---|---|---|---|
@@ -151,7 +151,7 @@ One hundred and forty-nine findings. Disposition counts: **40 amend** (29 applie
 | L12.2 | aggregate and fan-in never terminate on a follow | P2 | rule, applied | ADR 0002, ADR 0012 d4 |
 | L12.3 | rolling restarts rebalance the group | P12 | rule, applied | ADR 0010, M11 |
 | L12.4 | lag comes from the device, not the metrics package | P7 | rule, applied | ADR 0012 d7 |
-| L12.5 | schema-encoded topics are opaque to text tools | P11 | **open** | ADR 0012, M5 |
+| L12.5 | schema-encoded topics are opaque to text tools | P11 | **open** (drafted: ADR 0012 d10) | ADR 0012, M5 |
 | L12.6 | a unit joining a foreign group steals partitions | P9 | rule, applied | ADR 0012 d1, d7 |
 | L13.1 | `rm` on a topic has no detach; backup and approval | P3 | rule, applied | ADR 0012 d7, ADR 0006 |
 | L13.2 | POSIX modes cannot express Kafka ACLs | P2 | rule, applied | ADR 0012 d7, command map |

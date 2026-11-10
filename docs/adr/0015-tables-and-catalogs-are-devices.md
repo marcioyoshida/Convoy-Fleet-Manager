@@ -55,7 +55,7 @@ Facts that constrain the design:
 
 8. **Cost has a third shape.** Lakehouse reads cost object-store requests per data file plus compute, and `explain` prices them from the file count the manifests give, with no listing. Warehouse reads cost what decision 6 says. Egress between the table's store and the stage's cluster is priced from topology (ADR 0011). The hold cost of a tag is zero storage beyond what the snapshot already retains; the hold cost of a copy is the file groups' size per month.
 
-9. **The schema is the type.** A table's schema is read by the `typed` class directly, which settles the first half of ADR 0012's open item: a topic with a schema registry is read through the same driver interface as a table and can feed typed verbs or be written to a table with `tee`. The second half, which registries and which encodings, is a driver matter under `caps`.
+9. **The schema is the type.** A table's schema is read by the `typed` class directly, which settles the first half of ADR 0012's open item: a topic with a schema registry is read through the same driver interface as a table and can feed typed verbs or be written to a table with `tee`. The second half, which registries and which encodings, is a driver matter under `caps`, and ADR 0012 decision 10 (2026-11-10) states how a topic read through its schema is decoded, pinned, serialized for text tools and written.
 
 ## Declined
 
