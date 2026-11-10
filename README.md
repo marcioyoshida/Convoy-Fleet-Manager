@@ -109,7 +109,7 @@ graph TB
         Workloads["Workloads<br/>Pod · Job · CronJob · Deployment<br/>convoy.io labels, CEL admission (ADR 0018)<br/>podFailurePolicy · do-not-disrupt"]
         Storage["Storage<br/>PVC · StorageClass · VolumeSnapshot<br/>CSI · ReadWriteOncePod"]
         Identity["Identity and config<br/>user · groups · service identity per group (ADR 0016)<br/>ServiceAccount · workload identity · Secrets Store CSI<br/>ConfigMap · Lease · owner labels · CEL admission"]
-        Platform["Platform components, reported by caps<br/>Kueue · Argo Workflows · node agent (cgroup freeze)<br/>DRA · Gateway · NetworkPolicy · OpenCost<br/>Strimzi · Flink operator · packages via GitOps (ADR 0010)"]
+        Platform["Platform components, reported by caps<br/>Kueue · Argo Workflows · node agent (cgroup freeze)<br/>DRA · Gateway · NetworkPolicy (ADR 0019) · OpenCost<br/>Strimzi · Flink operator · packages via GitOps (ADR 0010)"]
         Inventory["Fleet inventory, the udev of /dev/k8s<br/>Argo CD cluster secrets or Cluster API<br/>by-id · views · permissions · hotplug events"]
     end
 
@@ -251,12 +251,13 @@ research/
 | Tables and catalogs as devices (Iceberg, Delta, Hudi, warehouses) | Drafted in ADR 0015: a read pins a snapshot so the cache cannot lie, a write is one keyed commit that may replace, warehouses are devices whose reads are priced queries |
 | Assisted completion | Drafted in ADR 0014: type-directed completion from the grammar and device tree first; a model may only rank and translate, and the model is a device under `/dev/model` |
 | Walkthroughs | Nine workloads exercised in `docs/walkthroughs.md`; ten gaps found, all closed by ADR amendments, flags or fields |
-| User-story probes | Nineteen persona-driven probes in `docs/user-stories/`; 127 findings, 15 structural misroutes; 36 ADR amendments applied and 73 rules written into the ADRs, command map, compiler and roadmap (2026-11-09 and 2026-11-10); 5 open design items (identity and approvals now drafted in ADR 0016 and 0017) and 12 accepted limitations remain |
+| User-story probes | Nineteen persona-driven probes in `docs/user-stories/`; 127 findings, 15 structural misroutes; 36 ADR amendments applied and 73 rules written into the ADRs, command map, compiler and roadmap (2026-11-09 and 2026-11-10); 5 open design items (identity, approvals and networking now drafted in ADR 0016, 0017 and 0019) and 12 accepted limitations remain |
 | Mount namespace and fileserver | Reviewed, superseding design pending |
 | Identity and ownership | Drafted in ADR 0016: a session is a user with groups from the login token, rights and ownership belong to groups, each group has a service identity for unattended work, root is a group assumed with a second member's approval |
 | Approvals | Drafted in ADR 0017: an approval is an object on the process created only by a policy gate, it approves a pinned plan hash, it is answered by `approve` or `deny` from another person's session, and the receipt carries it |
 | Labels and admission | Drafted in ADR 0018: one `convoy.io/` label set on every object the shell writes, CEL admission as the decision, foreign objects read-only until `chown`, controller keys mapped through `caps` |
-| Session placement, networking | The two remaining architecture-changing gaps, not yet designed |
+| Networking | Drafted in ADR 0019: only a unit has an address, reach is cluster, internal or public with span as a second axis, the owner grants with `--allow` and the caller declares with `--connect`, the platform owns gateways and the default-deny, the session reaches units by port-forward under the user's token |
+| Session placement | The remaining architecture-changing gap, not yet designed |
 | Code | None |
 
 ## Prior art

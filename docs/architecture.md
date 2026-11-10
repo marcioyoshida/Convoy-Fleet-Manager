@@ -35,7 +35,7 @@ graph TB
         Workloads["Workloads<br/>Pod · Job · CronJob · Deployment<br/>convoy.io labels, CEL admission (ADR 0018)<br/>podFailurePolicy · do-not-disrupt"]
         Storage["Storage<br/>PVC · StorageClass · VolumeSnapshot<br/>CSI · ReadWriteOncePod"]
         Identity["Identity and config<br/>user · groups · service identity per group (ADR 0016)<br/>ServiceAccount · workload identity · Secrets Store CSI<br/>ConfigMap · Lease · owner labels · CEL admission"]
-        Platform["Platform components, reported by caps<br/>Kueue · Argo Workflows · node agent (cgroup freeze)<br/>DRA · Gateway · NetworkPolicy · OpenCost<br/>Strimzi · Flink operator · packages via GitOps (ADR 0010)"]
+        Platform["Platform components, reported by caps<br/>Kueue · Argo Workflows · node agent (cgroup freeze)<br/>DRA · Gateway · NetworkPolicy (ADR 0019) · OpenCost<br/>Strimzi · Flink operator · packages via GitOps (ADR 0010)"]
         Inventory["Fleet inventory, the udev of /dev/k8s<br/>Argo CD cluster secrets or Cluster API<br/>by-id · views · permissions · hotplug events"]
     end
 
@@ -129,4 +129,4 @@ The **planner** box's `explain` is specified in [ADR 0013](adr/0013-native-verbs
 
 ## What is still missing from the chart
 
-Networking as sockets (`expose`, Gateway routes, NetworkPolicy as the default-deny) is shown only as platform components because the verbs are not designed yet. Session placement, meaning which cluster hosts the session pod and what happens when it is lost, is also undecided. Both are listed in [stories.md](stories.md) and on the [roadmap](../ROADMAP.md) as M11 and M2.
+Networking is drafted in [ADR 0019](adr/0019-a-unit-has-an-address-reach-is-a-grant.md): only a unit has an address, the shell writes Services, routes on the platform's Gateways and labelled NetworkPolicy, and the platform owns the gateways and the default-deny, so it stays in the platform box; it is M11 on the [roadmap](../ROADMAP.md). Session placement, meaning which cluster hosts the session pod and what happens when it is lost, is undecided; it is listed in [stories.md](stories.md) and on the roadmap as M2.

@@ -64,11 +64,11 @@ The first five were set by the owner; the other five were added because the walk
 | A15 Audit, receipts, retention | ● | ○ | ● | ● | ○ | ○ | ● | ● | ● | ● | ● | ○ | ○ | ● | ● | ● | ● | ● | ● | 14 |
 | A16 Durability | ○ | ○ | ● | ○ | ● | ● | ○ | ● | ● | ● | ○ | ● | ○ | ○ | ○ | ● | ● | ○ | ○ | 9 |
 
-**What no story reaches.** The session attach protocol itself (reconnect mid-command, two terminals on one session), `expose --public` and anything else in the undesigned networking abstraction, `pkg install` with a failing `requires`, `nice`/`renice` under contention, debugging a failing partition beyond locating it (`strace`, ephemeral containers; US-16 covers the locating), and locks. US-10 closed the edge and disconnected-operation row; US-14 covers interactive assistance and the model as a device. US-15 covers tables and catalogs: a backfill from a topic into an Iceberg table with a hold, a branch write published by `release`, and a priced warehouse read. Two candidate stories would close most of the rest: a platform engineer installing a package that a cluster cannot satisfy, and an engineer debugging one failed partition of a thousand.
+**What no story reaches.** The session attach protocol itself (reconnect mid-command, two terminals on one session), `expose --public` and the rest of the networking abstraction (drafted in ADR 0019, not yet probed), `pkg install` with a failing `requires`, `nice`/`renice` under contention, debugging a failing partition beyond locating it (`strace`, ephemeral containers; US-16 covers the locating), and locks. US-10 closed the edge and disconnected-operation row; US-14 covers interactive assistance and the model as a device. US-15 covers tables and catalogs: a backfill from a topic into an Iceberg table with a hold, a branch write published by `release`, and a priced warehouse read. Two candidate stories would close most of the rest: a platform engineer installing a package that a cluster cannot satisfy, and an engineer debugging one failed partition of a thousand.
 
 ## Findings register
 
-One hundred and twenty-seven findings. Disposition counts: **36 amend** (29 applied to the ADRs on 2026-11-09, 7 applied inline to the drafts ADR 0016, 0017 and 0018 on 2026-11-10), **73 rule** (60 written into their documents on 2026-11-09, 13 on 2026-11-10), **5 open** (design that did not exist yet; L6.5 is drafted in ADR 0016 and L3.1 in ADR 0017, both 2026-11-10), **12 accepted** (a surfaced limitation), 1 cross-reference. Full text is in each story's section 10.
+One hundred and twenty-seven findings. Disposition counts: **36 amend** (29 applied to the ADRs on 2026-11-09, 7 applied inline to the drafts ADR 0016, 0017 and 0018 on 2026-11-10), **73 rule** (60 written into their documents on 2026-11-09, 13 on 2026-11-10), **5 open** (design that did not exist yet; L6.5 is drafted in ADR 0016, L3.1 in ADR 0017 and L4.6 in ADR 0019, all 2026-11-10), **12 accepted** (a surfaced limitation), 1 cross-reference. Full text is in each story's section 10.
 
 | Id | Short name | Probe | Disposition | Touches |
 |---|---|---|---|---|
@@ -94,7 +94,7 @@ One hundred and twenty-seven findings. Disposition counts: **36 amend** (29 appl
 | L4.3 | idle GPU units have no policy | P5 | rule, applied | ADR 0010, M11 |
 | L4.4 | fail-fast cancels independent siblings | P2 | rule, applied | ADR 0004 |
 | L4.5 | content id of `/s3` objects undefined | P6 | rule, applied | ADR 0001, M5 |
-| L4.6 | `expose` depends on undesigned networking | P9 | **open** | stories.md |
+| L4.6 | `expose` depends on undesigned networking | P9 | **open** (drafted: ADR 0019) | stories.md, ADR 0019 |
 | L5.1 | zonal checkpoint disk unreachable after cross-zone restart | P3 | rule, applied | ADR 0004 a1 |
 | L5.2 | group freeze has no bound; collectives time out | P2 | amend, applied | ADR 0008 a1; ADR 0008 a3 |
 | L5.3 | preemption loss is billed but not in the band | P5 | rule, applied | ADR 0011 d7 |
@@ -247,6 +247,7 @@ The first table lists every finding that touches an ADR, whatever its dispositio
 | 0016 identity is a user, rights belong to groups (draft) | L17.1, L17.2, L17.3, L17.5, L17.6, L17.7; references: L3.1, L6.5 |
 | 0017 approvals are objects on the process (draft) | closes L3.1; gives L6.2, L9.8, L13.1 and L17.3 their object; L18.1, L18.2, L18.3, L18.4, L18.5, L18.6, L18.7 |
 | 0018 labels are the signal, admission is the decision (draft) | gives L6.6, L7.2, L12.6 and ADR 0016 decision 8 their mechanism; L19.1, L19.2, L19.3, L19.4, L19.5, L19.6, L19.7 |
+| 0019 a unit has an address, reach is a grant (draft) | drafts L4.6; relies on L7.6, L10.5, L10.9 and L19.4 |
 
 | ADR | Amendment | Applies |
 |---|---|---|
