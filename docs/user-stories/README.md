@@ -66,7 +66,7 @@ The first five were set by the owner; the other five were added because the walk
 
 ## Findings register
 
-One hundred and thirteen findings. Disposition counts: **32 amend** (29 applied to the ADRs on 2026-11-09, 3 applied inline to the draft ADR 0016 on 2026-11-10), **65 rule** (60 written into their documents on 2026-11-09, 5 on 2026-11-10), **5 open** (design that does not exist yet; L6.5 and the approver half of L3.1 are drafted in ADR 0016 on 2026-11-10), **10 accepted** (a surfaced limitation), 1 cross-reference. Full text is in each story's section 10.
+One hundred and thirteen findings. Disposition counts: **32 amend** (29 applied to the ADRs on 2026-11-09, 3 applied inline to the draft ADR 0016 on 2026-11-10), **65 rule** (60 written into their documents on 2026-11-09, 5 on 2026-11-10), **5 open** (design that did not exist yet; L6.5 is drafted in ADR 0016 and L3.1 in ADR 0017, both 2026-11-10), **10 accepted** (a surfaced limitation), 1 cross-reference. Full text is in each story's section 10.
 
 | Id | Short name | Probe | Disposition | Touches |
 |---|---|---|---|---|
@@ -82,7 +82,7 @@ One hundred and thirteen findings. Disposition counts: **32 amend** (29 applied 
 | L2.4 | executors are created by the operator, seen by label only | P9 | accepted | annotations |
 | L2.5 | copy into a replicated filesystem needs capacity × replication | P3 | rule, applied | ADR 0011 d7 |
 | L2.6 | pause-with-checkpoint is impossible without a checkpoint | P2 | rule, applied | ADR 0004 |
-| L3.1 | approval through the author's own stdin | P10 | **open** (approver is a group member: ADR 0016 d7) | ADR 0005, ADR 0016 |
+| L3.1 | approval through the author's own stdin | P10 | **open** (drafted: ADR 0017; approver ADR 0016 d7) | ADR 0005, ADR 0016, ADR 0017 |
 | L3.2 | canary weight patched on a GitOps-managed route | P1 | amend, applied | ADR 0010; ADR 0010 a1 |
 | L3.3 | the GitOps repository is not a device | P4, P11 | amend, applied | ADR 0011; ADR 0011 a2 |
 | L3.4 | no transaction across clusters | P3, P8 | accepted | M11 |
@@ -229,6 +229,7 @@ The first table lists every finding that touches an ADR, whatever its dispositio
 | 0015 tables and catalogs are devices (draft) | L15.1, L15.2, L15.3, L15.4, L15.5, L15.6, L15.7 |
 | 0008 signal routing (node fault) and 0011 device tree (node tree) | L16.1, L16.3, L16.4, L16.5, L16.6, L16.7 |
 | 0016 identity is a user, rights belong to groups (draft) | L17.1, L17.2, L17.3, L17.5, L17.6, L17.7; references: L3.1, L6.5 |
+| 0017 approvals are objects on the process (draft) | closes L3.1; gives L6.2, L9.8, L13.1 and L17.3 their object |
 
 | ADR | Amendment | Applies |
 |---|---|---|

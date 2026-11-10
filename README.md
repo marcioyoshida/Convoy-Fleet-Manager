@@ -92,7 +92,7 @@ graph TB
         Planner["Planner and pipeline compiler<br/>stages · partitions · backend choice<br/>completion contract · cost band<br/>explain (ADR 0001, 0003, 0004, 0013)"]
         Annot["Annotation database<br/>stateless · aggregate · pattern · limit<br/>fan-in · fan-out · typed · non-parallel<br/>(ADR 0002)"]
         Mounts["Mount table and device tree<br/>/dev/k8s · /dev/queue · /dev/table by-id and views · /sys<br/>/clusters · /pvc · /s3 · /queues · /tables · /artifacts<br/>(ADR 0011, 0012, 0015)"]
-        State["Env table · cwd (cluster, namespace, path)<br/>secret references (ADR 0007)<br/>signal router (ADR 0008)"]
+        State["Env table · cwd (cluster, namespace, path)<br/>secret references (ADR 0007)<br/>signal router (ADR 0008)<br/>approvals on the process (ADR 0017)"]
         Audit["Audit stream · receipts<br/>stdout is an artifact, stderr a log,<br/>exit code a receipt (ADR 0009)"]
     end
 
@@ -251,9 +251,10 @@ research/
 | Tables and catalogs as devices (Iceberg, Delta, Hudi, warehouses) | Drafted in ADR 0015: a read pins a snapshot so the cache cannot lie, a write is one keyed commit that may replace, warehouses are devices whose reads are priced queries |
 | Assisted completion | Drafted in ADR 0014: type-directed completion from the grammar and device tree first; a model may only rank and translate, and the model is a device under `/dev/model` |
 | Walkthroughs | Nine workloads exercised in `docs/walkthroughs.md`; ten gaps found, all closed by ADR amendments, flags or fields |
-| User-story probes | Seventeen persona-driven probes in `docs/user-stories/`; 113 findings, 15 structural misroutes; 32 ADR amendments applied and 65 rules written into the ADRs, command map, compiler and roadmap (2026-11-09 and 2026-11-10); 5 open design items and 10 accepted limitations remain |
+| User-story probes | Seventeen persona-driven probes in `docs/user-stories/`; 113 findings, 15 structural misroutes; 32 ADR amendments applied and 65 rules written into the ADRs, command map, compiler and roadmap (2026-11-09 and 2026-11-10); 5 open design items (identity and approvals now drafted in ADR 0016 and 0017) and 10 accepted limitations remain |
 | Mount namespace and fileserver | Reviewed, superseding design pending |
 | Identity and ownership | Drafted in ADR 0016: a session is a user with groups from the login token, rights and ownership belong to groups, each group has a service identity for unattended work, root is a group assumed with a second member's approval |
+| Approvals | Drafted in ADR 0017: an approval is an object on the process created only by a policy gate, it approves a pinned plan hash, it is answered by `approve` or `deny` from another person's session, and the receipt carries it |
 | Session placement, networking | The two remaining architecture-changing gaps, not yet designed |
 | Code | None |
 

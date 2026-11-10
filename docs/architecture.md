@@ -18,7 +18,7 @@ graph TB
         Planner["Planner and pipeline compiler<br/>stages · partitions · backend choice<br/>completion contract · cost band<br/>explain (ADR 0001, 0003, 0004, 0013)"]
         Annot["Annotation database<br/>stateless · aggregate · pattern · limit<br/>fan-in · fan-out · typed · non-parallel<br/>(ADR 0002)"]
         Mounts["Mount table and device tree<br/>/dev/k8s · /dev/queue · /dev/table by-id and views · /sys<br/>/clusters · /pvc · /s3 · /queues · /tables · /artifacts<br/>(ADR 0011, 0012, 0015)"]
-        State["Env table · cwd (cluster, namespace, path)<br/>secret references (ADR 0007)<br/>signal router (ADR 0008)"]
+        State["Env table · cwd (cluster, namespace, path)<br/>secret references (ADR 0007)<br/>signal router (ADR 0008)<br/>approvals on the process (ADR 0017)"]
         Audit["Audit stream · receipts<br/>stdout is an artifact, stderr a log,<br/>exit code a receipt (ADR 0009)"]
     end
 
