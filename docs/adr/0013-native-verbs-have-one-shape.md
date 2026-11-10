@@ -83,7 +83,7 @@ The remark that prompted this record: the non-Linux commands could be more compr
      nohup <local command>
      ```
    - **reads** everything `explain` reads, plus the data the stages read.
-   - **writes** the objects the plan names (Indexed Job, JobSet, Argo Workflow, Deployment and Service for a unit, a package CRD for `--package`), labelled with pid, owner and session; one receipt per process; ledger lines as cost settles; for a GitOps-managed target, intent in the repository instead of the object (L3.2, L9.3).
+   - **writes** the objects the plan names (Indexed Job, JobSet, Argo Workflow, Deployment and Service for a unit, a package CRD for `--package`), labelled with the `convoy.io/` set of ADR 0018 (group, actor, kind, pid, session, plan, stage, residency), printed per object; one receipt per process; ledger lines as cost settles; for a GitOps-managed target, intent in the repository instead of the object (L3.2, L9.3).
    - **flags** the contract flags are one table, shared by `run`, `batch`, `explain` and `cron`:
 
      | Flag | Sets | Record |

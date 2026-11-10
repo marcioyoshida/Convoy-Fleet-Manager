@@ -32,7 +32,7 @@ graph TB
 
     subgraph K8s["☸️ Kubernetes API servers, one per cluster, no federation"]
         direction TB
-        Workloads["Workloads<br/>Pod · Job · CronJob · Deployment<br/>podFailurePolicy · do-not-disrupt"]
+        Workloads["Workloads<br/>Pod · Job · CronJob · Deployment<br/>convoy.io labels, CEL admission (ADR 0018)<br/>podFailurePolicy · do-not-disrupt"]
         Storage["Storage<br/>PVC · StorageClass · VolumeSnapshot<br/>CSI · ReadWriteOncePod"]
         Identity["Identity and config<br/>user · groups · service identity per group (ADR 0016)<br/>ServiceAccount · workload identity · Secrets Store CSI<br/>ConfigMap · Lease · owner labels · CEL admission"]
         Platform["Platform components, reported by caps<br/>Kueue · Argo Workflows · node agent (cgroup freeze)<br/>DRA · Gateway · NetworkPolicy · OpenCost<br/>Strimzi · Flink operator · packages via GitOps (ADR 0010)"]

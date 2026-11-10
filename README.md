@@ -106,7 +106,7 @@ graph TB
 
     subgraph K8s["☸️ Kubernetes API servers, one per cluster, no federation"]
         direction TB
-        Workloads["Workloads<br/>Pod · Job · CronJob · Deployment<br/>podFailurePolicy · do-not-disrupt"]
+        Workloads["Workloads<br/>Pod · Job · CronJob · Deployment<br/>convoy.io labels, CEL admission (ADR 0018)<br/>podFailurePolicy · do-not-disrupt"]
         Storage["Storage<br/>PVC · StorageClass · VolumeSnapshot<br/>CSI · ReadWriteOncePod"]
         Identity["Identity and config<br/>user · groups · service identity per group (ADR 0016)<br/>ServiceAccount · workload identity · Secrets Store CSI<br/>ConfigMap · Lease · owner labels · CEL admission"]
         Platform["Platform components, reported by caps<br/>Kueue · Argo Workflows · node agent (cgroup freeze)<br/>DRA · Gateway · NetworkPolicy · OpenCost<br/>Strimzi · Flink operator · packages via GitOps (ADR 0010)"]
@@ -255,6 +255,7 @@ research/
 | Mount namespace and fileserver | Reviewed, superseding design pending |
 | Identity and ownership | Drafted in ADR 0016: a session is a user with groups from the login token, rights and ownership belong to groups, each group has a service identity for unattended work, root is a group assumed with a second member's approval |
 | Approvals | Drafted in ADR 0017: an approval is an object on the process created only by a policy gate, it approves a pinned plan hash, it is answered by `approve` or `deny` from another person's session, and the receipt carries it |
+| Labels and admission | Drafted in ADR 0018: one `convoy.io/` label set on every object the shell writes, CEL admission as the decision, foreign objects read-only until `chown`, controller keys mapped through `caps` |
 | Session placement, networking | The two remaining architecture-changing gaps, not yet designed |
 | Code | None |
 
