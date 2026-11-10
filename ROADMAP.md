@@ -33,6 +33,10 @@ From the user-story probes. Each milestone's exit criteria include the rules lis
 
 **M2**
 
+- **L18.3** an approval object is `void` only for an enumerated reason (policy edited, hold lost, device removed, group cannot answer); re-created and re-paged; re-priced at resume.
+- **L18.4** identical pending requests (same shape, same group) share one approval object with a waiter count; one answer resumes all; inputs held once.
+- **L18.5** answers on an approval object are visible to the requesting actor regardless of L17.6.
+- **L18.6** every approval policy has a bounded timeout (24 h default); expiry releases holds, pages and exits 3; `df` lists held bytes per pending object.
 - **L7.2** metered entries are labelled `declared`; a later `settled` source (provider billing export) reconciles; FinOps sees both; a package whose declared spend is under settled by a platform threshold is flagged in `pkg list`.
 
 **M3**

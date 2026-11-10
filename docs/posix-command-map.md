@@ -277,3 +277,4 @@ Rules the sixteen stories in `docs/user-stories/` decided for specific commands.
 | `sudo` | a shell redirect in a `sudo` line is applied by the caller's shell as the caller; a refused write to a root file names that and the `echo … \| sudo tee <file>` spelling; `sudo` assumes a group's service identity or `svc:root` through `wheel` with a second member's approval (ADR 0016) | L17.4 |
 | `ps`, `top`, `ls -l` | the owner column is the group; the actor column is shown to members of that group and to root, `?` otherwise | L17.6 |
 | `cron` | `cron list` marks entries whose actor was removed at the provider with the date; they keep running as the group's service identity | L17.7 |
+| `df`, `ls` | `df` lists bytes held per pending approval object; `ls /sys/approvals/<group>/` is the group's inbox and shows the waiter count when identical requests share one object (ADR 0017) | L18.4, L18.6 |

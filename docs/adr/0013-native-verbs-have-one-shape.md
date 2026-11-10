@@ -192,5 +192,5 @@ Each line is a `rule` finding from `docs/user-stories/README.md` written here as
 
 - **L14.3** (US-14) completion glosses at most the platform's `gloss_top_k` candidates after grammar ranking, never populates a priced listing (a cold path shows `size unknown` instead), and the plan it shows is the one `explain` would print from cache.
 - **L17.4** (US-17) a refused write to a root file under `/sys` names the user the shell applied the redirect as and the `echo … \| sudo tee <file>` spelling, since `sudo echo … > <file>` redirects as the caller on Linux and here.
-- **L17.6** (US-17) the owner column of `ps`, `top` and `ls -l` is the group; the actor column is shown to members of that group and to root and reads `?` otherwise; receipts are readable by the owning group.
+- **L17.6** (US-17) the owner column of `ps`, `top` and `ls -l` is the group; the actor column is shown to members of that group and to root and reads `?` otherwise; receipts are readable by the owning group. The answers on an approval object are the one exception, visible to the requesting actor (ADR 0017 rule L18.5).
 - **L17.7** (US-17) `cron list` marks entries whose actor was removed at the provider with the removal date; `/sys/k8s/<id>/orphans` counts them per group; they keep running as the group's service identity.
