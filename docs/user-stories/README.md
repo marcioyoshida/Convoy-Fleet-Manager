@@ -1,6 +1,6 @@
 # User stories as design probes
 
-The nine workloads in [walkthroughs.md](../walkthroughs.md) showed that the design carries them. This directory asks a harder question of the same nine, plus four written against [ADR 0012](../adr/0012-logs-and-queues-are-devices.md) to reach the edge and the Kafka primitive, and one against [ADR 0013](../adr/0013-native-verbs-have-one-shape.md) and [ADR 0014](../adr/0014-assisted-completion-the-model-proposes.md) for the assisted shell, and one against [ADR 0015](../adr/0015-tables-and-catalogs-are-devices.md) for tables and catalogs, and one fleet operation (a faulty node) that found the node layer missing, and one against [ADR 0016](../adr/0016-identity-is-a-user-rights-belong-to-groups.md) for identity (an offboarding, a one-member approving group, a root assumption, a group that vanishes), and one against [ADR 0017](../adr/0017-approvals-are-objects-on-the-process.md) for approvals (a release answered after the author's session ended, a policy edit under a pending gate, a denial, an agent at a gate, a cron entry gated nightly), and one against [ADR 0018](../adr/0018-labels-are-the-signal-admission-is-the-decision.md) for labels (cost by group across two clouds, a backup of one process, adoption of a foreign Deployment, a cluster without admission, a package without a mapping), and one against [ADR 0019](../adr/0019-a-unit-has-an-address-reach-is-a-grant.md) for networking (a cross-team grant, a gated public address, a span refused, a notebook behind the login, a replica debugged from the laptop, a cluster that enforces nothing, a canary under open streams): for each persona who would run them, does every aspect of the abstraction hold, and where does a verb route to the wrong place? Each story follows [TEMPLATE.md](TEMPLATE.md), which fixes sixteen aspects to cover and twelve loophole probes to run, so that a reader can tell "checked and fine" from "never checked". Findings are collected below with a proposed disposition. **All twenty-nine `amend` findings were applied on 2026-11-09**: as dated amendments to ADR 0001 to 0011 and as inline revisions of the drafts ADR 0012 and 0014, each citing its finding. The sixty `rule` findings were written the same day into a dated Rules section of the ADR each touches, a rules table in the command map, a section of the compiler document and a per-milestone section of the roadmap. US-17's three revisions to ADR 0016 and five rules, US-18's two revisions to ADR 0017 and four rules, and US-19's two revisions to ADR 0018 and four rules, were applied the same way on 2026-11-10. The `open` and `accepted` findings stand as written in each story.
+The nine workloads in [walkthroughs.md](../walkthroughs.md) showed that the design carries them. This directory asks a harder question of the same nine, plus four written against [ADR 0012](../adr/0012-logs-and-queues-are-devices.md) to reach the edge and the Kafka primitive, and one against [ADR 0013](../adr/0013-native-verbs-have-one-shape.md) and [ADR 0014](../adr/0014-assisted-completion-the-model-proposes.md) for the assisted shell, and one against [ADR 0015](../adr/0015-tables-and-catalogs-are-devices.md) for tables and catalogs, and one fleet operation (a faulty node) that found the node layer missing, and one against [ADR 0016](../adr/0016-identity-is-a-user-rights-belong-to-groups.md) for identity (an offboarding, a one-member approving group, a root assumption, a group that vanishes), and one against [ADR 0017](../adr/0017-approvals-are-objects-on-the-process.md) for approvals (a release answered after the author's session ended, a policy edit under a pending gate, a denial, an agent at a gate, a cron entry gated nightly), and one against [ADR 0018](../adr/0018-labels-are-the-signal-admission-is-the-decision.md) for labels (cost by group across two clouds, a backup of one process, adoption of a foreign Deployment, a cluster without admission, a package without a mapping), and one against [ADR 0019](../adr/0019-a-unit-has-an-address-reach-is-a-grant.md) for networking (a cross-team grant, a gated public address, a span refused, a notebook behind the login, a replica debugged from the laptop, a cluster that enforces nothing, a canary under open streams): for each persona who would run them, does every aspect of the abstraction hold, and where does a verb route to the wrong place? Each story follows [TEMPLATE.md](TEMPLATE.md), which fixes sixteen aspects to cover and twelve loophole probes to run, so that a reader can tell "checked and fine" from "never checked". Findings are collected below with a proposed disposition. **All twenty-nine `amend` findings were applied on 2026-11-09**: as dated amendments to ADR 0001 to 0011 and as inline revisions of the drafts ADR 0012 and 0014, each citing its finding. The sixty `rule` findings were written the same day into a dated Rules section of the ADR each touches, a rules table in the command map, a section of the compiler document and a per-milestone section of the roadmap. US-17's three revisions to ADR 0016 and five rules, US-18's two revisions to ADR 0017 and four rules, US-19's two revisions to ADR 0018 and four rules, and US-20's two revisions to ADR 0019 and eight rules, were applied the same way on 2026-11-10. The `open` and `accepted` findings stand as written in each story.
 
 | Story | Title | Primary | Secondary | Findings |
 |---|---|---|---|---|
@@ -69,7 +69,7 @@ The first five were set by the owner; the other five were added because the walk
 
 ## Findings register
 
-One hundred and thirty-eight findings. Disposition counts: **38 amend** (29 applied to the ADRs on 2026-11-09, 7 applied inline to the drafts ADR 0016, 0017 and 0018 on 2026-11-10; L20.2 and L20.8 proposed against the draft ADR 0019, not yet applied), **81 rule** (60 written into their documents on 2026-11-09, 13 on 2026-11-10; eight from US-20 proposed, not yet written), **5 open** (design that did not exist yet; L6.5 is drafted in ADR 0016, L3.1 in ADR 0017 and L4.6 in ADR 0019, all 2026-11-10), **13 accepted** (a surfaced limitation), 1 cross-reference. Full text is in each story's section 10.
+One hundred and thirty-eight findings. Disposition counts: **38 amend** (29 applied to the ADRs on 2026-11-09, 9 applied inline to the drafts ADR 0016 to 0019 on 2026-11-10), **81 rule** (60 written into their documents on 2026-11-09, 21 on 2026-11-10), **5 open** (design that did not exist yet; L6.5 is drafted in ADR 0016, L3.1 in ADR 0017 and L4.6 in ADR 0019, all 2026-11-10), **13 accepted** (a surfaced limitation), 1 cross-reference. Full text is in each story's section 10.
 
 | Id | Short name | Probe | Disposition | Touches |
 |---|---|---|---|---|
@@ -200,16 +200,16 @@ One hundred and thirty-eight findings. Disposition counts: **38 amend** (29 appl
 | L19.5 | the actor is an annotation, never a label | P4 | amend, applied | ADR 0018 d1, d2; L17.6 |
 | L19.6 | a recreated group is a new group with a new slug | none | accepted | ADR 0018 d7, ADR 0016 d9 |
 | L19.7 | managed-by is left to any existing manager | P1 | amend, applied | ADR 0018 d1, ADR 0010 a1 |
-| L20.1 | `expose` on a managed unit writes intent | P1 | rule | ADR 0019 d2, d3; ADR 0010 a1 |
-| L20.2 | session reach: owned units by port-forward, granted units by internal route | P2 | amend | ADR 0019 d3, d7; ADR 0016 d8 |
-| L20.3 | a withdrawn hostname stays with its group for a hold period | P3 | rule | ADR 0019 d8, ADR 0018 d7 |
-| L20.4 | internal certificates come from a private issuer only | P4 | rule | ADR 0019 d2, d8 |
-| L20.5 | cross-zone and cross-region calls are priced; Services prefer the same zone | P5 | rule | ADR 0019 d10, ADR 0011 L10.5 |
-| L20.6 | revoking a grant lists running callers and tells them | P7 | rule | ADR 0019 d3, ADR 0017 |
-| L20.7 | hostname and path pre-flight against every route on the Gateway | P9 | rule | ADR 0019 d5, d9; ADR 0018 d5 |
-| L20.8 | TLS termination and access logs are residency facts | P11 | amend | ADR 0019 d2, d5; ADR 0011 a3 |
-| L20.9 | promotion to a Job re-plans reach as `--connect` | P12 | rule | ADR 0019 d3, d7; ADR 0005 |
-| L20.10 | weights move new connections only; report open streams and drain | none | rule | ADR 0019 d9, ADR 0013 |
+| L20.1 | `expose` on a managed unit writes intent | P1 | rule, applied | ADR 0019 d2, d3; ADR 0010 a1 |
+| L20.2 | session reach: owned units by port-forward, granted units by internal route | P2 | amend, applied | ADR 0019 d3, d7; ADR 0016 d8 |
+| L20.3 | a withdrawn hostname stays with its group for a hold period | P3 | rule, applied | ADR 0019 d8, ADR 0018 d7 |
+| L20.4 | internal certificates come from a private issuer only | P4 | rule, applied | ADR 0019 d2, d8 |
+| L20.5 | cross-zone and cross-region calls are priced; Services prefer the same zone | P5 | rule, applied | ADR 0019 d10, ADR 0011 L10.5 |
+| L20.6 | revoking a grant lists running callers and tells them | P7 | rule, applied | ADR 0019 d3, ADR 0017 |
+| L20.7 | hostname and path pre-flight against every route on the Gateway | P9 | rule, applied | ADR 0019 d5, d9; ADR 0018 d5 |
+| L20.8 | TLS termination and access logs are residency facts | P11 | amend, applied | ADR 0019 d2, d5; ADR 0011 a3 |
+| L20.9 | promotion to a Job re-plans reach as `--connect` | P12 | rule, applied | ADR 0019 d3, d7; ADR 0005 |
+| L20.10 | weights move new connections only; report open streams and drain | none | rule, applied | ADR 0019 d9, ADR 0013 |
 | L20.11 | an internal notebook is the group's, not the person's | none | accepted | ADR 0019 d2, d3; ADR 0016 d3 |
 
 ## Structural misroutes
@@ -281,6 +281,7 @@ The first table lists every finding that touches an ADR, whatever its dispositio
 | 0016 | decisions 4, 5, 6 and 9 revised inline | L17.1; L17.2; L17.5 |
 | 0017 | decisions 4 and 6 revised inline | L18.2; L18.1 |
 | 0018 | decisions 1, 2, 3, 5 and 7 revised inline | L19.5 (all five); L19.7 (decision 1) |
+| 0019 | decisions 2 and 7 revised inline | L20.8; L20.2 |
 
 ## Writing a new story
 

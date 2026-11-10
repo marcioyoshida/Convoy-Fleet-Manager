@@ -73,15 +73,23 @@ From the user-story probes. Each milestone's exit criteria include the rules lis
 
 **M8**
 
+- **L20.3** a withdrawn hostname stays reserved to its group for a hold period (30 days default); `netstat --held` lists held names.
 - **L19.4** on an `admission: shell-only` cluster `explain` prints the mode, cost and holds are `unverified`, `backup` and `cost` selectors need `--include-unverified`, `chown` is root-only; the inventory lists the cluster as an accepted risk.
 - **L10.9** `caps` is evaluated per target device at plan time; a backend the site lacks is a plan-time refusal naming the capability and the site.
 
 **M9**
 
+- **L20.4** `--internal` certificates only from an issuer `caps` lists as private; otherwise refused unless `internal-ct: allowed`.
 - **L8.6** holds copy the image by digest into a platform-held registry device (`/dev/registry/by-id/held`), or refuse when none exists.
 
 **M11**
 
+- **L20.1** `expose` and grants on a GitOps-managed unit are written as intent; the receipt carries the commit.
+- **L20.5** `explain --connect` prints the path class and price per gigabyte; Services prefer the same zone.
+- **L20.6** revoking a grant lists running callers, needs `--yes`, and notifies their group.
+- **L20.7** `expose` pre-flights hostname and path against every route on the Gateway; foreign routes show owner `?`.
+- **L20.9** `nohup` promotion re-plans reach as granted `--connect`, or refuses.
+- **L20.10** `release` reports open long-lived connections on the old version and applies a drain window.
 - **L19.3** adoption writes labels only; `scale` and `release` on an adopted object refuse naming `unit add <name> --from-live`, which writes the unit record and marks it `adopted`.
 - **L3.5** `caps: metrics` is required for any metric condition; absence is a plan-time refusal, never a fallback.
 - **L4.3** platform default `idle_timeout` per unit class with a GPU; idle is scale-to-zero with volumes retained (ADR 0006); `ps` shows IDLE and the receipt the idle cost.

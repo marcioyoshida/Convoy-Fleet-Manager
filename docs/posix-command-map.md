@@ -282,3 +282,8 @@ Rules the sixteen stories in `docs/user-stories/` decided for specific commands.
 | `ls -l`, `ps` | ownership walks ownerReferences to the nearest labelled ancestor and prints `child of <ancestor>` instead of `?` (ADR 0018) | L19.2 |
 | `chown`, `scale`, `release` | adoption by `chown` writes labels only; a verb that needs a unit record refuses naming what is missing and `unit add <name> --from-live` | L19.3 |
 | `explain`, `backup`, `cost`, `chown` | on an `admission: shell-only` cluster `explain` prints the mode, cost and holds are `unverified`, `backup` and `cost` selectors need `--include-unverified`, and `chown` is root-only | L19.4 |
+| `expose` | on a GitOps-managed unit the Service, routes, NetworkPolicy and grants are written as intent; hostname and path are pre-flighted against every route on the Gateway; a withdrawn hostname is held for its group; `--internal` certificates come from a private issuer; revoking a grant with running callers needs `--yes` and notifies them (ADR 0019) | L20.1, L20.3, L20.4, L20.6, L20.7 |
+| `explain`, `run`, `batch` | `--connect` prints the path class (same zone, cross-zone, cross-region) and its price per gigabyte; Services prefer the same zone | L20.5 |
+| `nohup` | promotion to a Job re-plans reach: units reached through the session's hosts view must be granted `--connect`, else refused | L20.9 |
+| `release` | weights move new connections only; open long-lived connections on the old version are reported and drained within `--drain` | L20.10 |
+| `netstat` | foreign routes to a unit show owner `?`; `--held` lists held hostnames | L20.3, L20.7 |

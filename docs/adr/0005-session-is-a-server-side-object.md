@@ -20,3 +20,4 @@ Detach and reattach work. The audit stream is trustworthy. Session state (mount 
 Each line is a `rule` finding from `docs/user-stories/README.md` written here as decided; the story holds the reasoning.
 
 - **L6.7** (US-06) prompts in non-interactive sessions are exit 3 with the required flag (`--yes`), consistent with `rm -i`.
+- **L20.9** (US-20) `nohup` promotion re-plans reach: a unit the command reached through the session's hosts view must be a granted `--connect` on the Job, else promotion refuses naming it (ADR 0019 rule L20.9).
