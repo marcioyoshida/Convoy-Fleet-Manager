@@ -65,7 +65,7 @@ The first five were set by the owner; the other five were added because the walk
 | A15 Audit, receipts, retention | ● | ○ | ● | ● | ○ | ○ | ● | ● | ● | ● | ● | ○ | ○ | ● | ● | ● | ● | ● | ● | ● | 15 |
 | A16 Durability | ○ | ○ | ● | ○ | ● | ● | ○ | ● | ● | ● | ○ | ● | ○ | ○ | ○ | ● | ● | ○ | ○ | ○ | 9 |
 
-**What no story reaches.** The session attach protocol itself (reconnect mid-command, two terminals on one session), `pkg install` with a failing `requires`, `nice`/`renice` under contention, debugging a failing partition beyond locating it (`strace`, ephemeral containers; US-16 covers the locating), and locks. US-10 closed the edge and disconnected-operation row; US-14 covers interactive assistance and the model as a device. US-15 covers tables and catalogs: a backfill from a topic into an Iceberg table with a hold, a branch write published by `release`, and a priced warehouse read. Two candidate stories would close most of the rest: a platform engineer installing a package that a cluster cannot satisfy, and an engineer debugging one failed partition of a thousand.
+**What no story reaches.** The session attach protocol itself (reconnect mid-command, two terminals on one session; drafted in ADR 0020, not yet probed), `pkg install` with a failing `requires`, `nice`/`renice` under contention, debugging a failing partition beyond locating it (`strace`, ephemeral containers; US-16 covers the locating), and locks. US-10 closed the edge and disconnected-operation row; US-14 covers interactive assistance and the model as a device. US-15 covers tables and catalogs: a backfill from a topic into an Iceberg table with a hold, a branch write published by `release`, and a priced warehouse read. Two candidate stories would close most of the rest: a platform engineer installing a package that a cluster cannot satisfy, and an engineer debugging one failed partition of a thousand.
 
 ## Findings register
 
@@ -260,6 +260,7 @@ The first table lists every finding that touches an ADR, whatever its dispositio
 | 0017 approvals are objects on the process (draft) | closes L3.1; gives L6.2, L9.8, L13.1 and L17.3 their object; L18.1, L18.2, L18.3, L18.4, L18.5, L18.6, L18.7 |
 | 0018 labels are the signal, admission is the decision (draft) | gives L6.6, L7.2, L12.6 and ADR 0016 decision 8 their mechanism; L19.1, L19.2, L19.3, L19.4, L19.5, L19.6, L19.7 |
 | 0019 a unit has an address, reach is a grant (draft) | drafts L4.6; relies on L7.6, L10.5, L10.9 and L19.4; L20.1, L20.2, L20.3, L20.4, L20.5, L20.6, L20.7, L20.8, L20.9, L20.10, L20.11 |
+| 0020 a session is a journal, not a pod (draft) | the design behind ADR 0005; relies on L6.7, L18.2 and L20.9 |
 
 | ADR | Amendment | Applies |
 |---|---|---|

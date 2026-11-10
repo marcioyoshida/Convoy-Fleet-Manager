@@ -15,6 +15,8 @@ Remote stages write stdout to their artifact and stderr to the container log; `2
 
 `$?` reads the receipt, never the API. Terminal output of a pipeline is stderr live plus the final artifact, honouring early close.
 
+Note · 2026-11-10: the draft [ADR 0020](0020-a-session-is-a-journal-not-a-pod.md) decision 1 moves the watcher and receipt writer from the session to the Convoy controller, so a lost session loses no receipt; amendment 1 below is unchanged.
+
 ## Amendment 1 · 2026-11-09 · receipts survive a lost link (user story US-10, L10.2)
 
 **Context.** The decision has the session watch the object and persist the exit code before TTL deletion. When the session cannot reach the cluster for longer than the TTL, the object is gone before anyone recorded how it ended, and the receipt has no exit code.

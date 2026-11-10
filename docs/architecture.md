@@ -12,7 +12,7 @@ graph TB
         Mental["Familiar mental model<br/>processes · files · env<br/>crontabs · pipes · devices"]
     end
 
-    subgraph Session["⚙️ Session pod, one per user (ADR 0005)"]
+    subgraph Session["⚙️ Session pod, one per user per residency (ADR 0005, 0020)"]
         direction TB
         Parser["Parser<br/>POSIX grammar to AST<br/>reuses mvdan/sh"]
         Planner["Planner and pipeline compiler<br/>stages · partitions · backend choice<br/>completion contract · cost band<br/>explain (ADR 0001, 0003, 0004, 0013)"]
@@ -129,4 +129,4 @@ The **planner** box's `explain` is specified in [ADR 0013](adr/0013-native-verbs
 
 ## What is still missing from the chart
 
-Networking is drafted in [ADR 0019](adr/0019-a-unit-has-an-address-reach-is-a-grant.md): only a unit has an address, the shell writes Services, routes on the platform's Gateways and labelled NetworkPolicy, and the platform owns the gateways and the default-deny, so it stays in the platform box; it is M11 on the [roadmap](../ROADMAP.md). Session placement, meaning which cluster hosts the session pod and what happens when it is lost, is undecided; it is listed in [stories.md](stories.md) and on the roadmap as M2.
+Networking is drafted in [ADR 0019](adr/0019-a-unit-has-an-address-reach-is-a-grant.md): only a unit has an address, the shell writes Services, routes on the platform's Gateways and labelled NetworkPolicy, and the platform owns the gateways and the default-deny, so it stays in the platform box; it is M11 on the [roadmap](../ROADMAP.md). Session placement is drafted in [ADR 0020](adr/0020-a-session-is-a-journal-not-a-pod.md): sessions run on hosts the platform designates per residency, a lost pod is restored from the session's journal, and the controller, not the session, writes receipts; it is M2 on the roadmap, with session hosts in M8.

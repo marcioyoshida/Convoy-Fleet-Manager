@@ -96,7 +96,7 @@
 | `tabs` | Mand | session terminal | session | Native | None |  |
 | `talk` | Opt (UP) | none | drop | Dropped | None | Collaborative sessions cover the use case |
 | `tput` | Mand | session terminal | session | Native | Low |  |
-| `tty` | Mand | session terminal | session | Native | Low |  |
+| `tty` | Mand | session terminal | session | Native | Low | Prints `/dev/pts/<n>`, one shell per attached terminal (ADR 0020) |
 | `type` | Opt (XSI) | session: builtin, toolbox command with class, translate verb or package | session | Mapped | Medium | type grep prints "toolbox, stateless, limit pushdown"; this is how users learn what parallelizes |
 | `ulimit` | Opt (XSI) | requests and limits for subsequent processes; reported from LimitRange and quota | translate | Mapped | High | ulimit -m 2G sets the memory limit of the next launches; ulimit -a shows quota headroom and VPA suggestions |
 | `umask` | Mand | default mode on PVC files; default ownership labels on objects | mount | Partial | Low |  |
@@ -247,7 +247,7 @@
 
 | Command | POSIX | Kubernetes backing | Approach | Feasibility | Pull | Notes |
 |---|---|---|---|---|---|---|
-| `who` | Opt (XSI) | active session pods: user, cwd, since | translate | Mapped | Medium |  |
+| `who` | Opt (XSI) | active session pods: user, cwd, since | translate | Mapped | Medium | Lists the user's sessions and terminals with host and state; root sees all (ADR 0020) |
 
 ## Reading the table
 

@@ -16,7 +16,7 @@ The idea is not new. Plan 9 gave every process its own namespace, Slurm gave bat
 
 ## What Convoy is
 
-- **A session.** A server-side object, one per user, that parses commands, plans them, runs small ones itself, and records every command and every receipt. The laptop runs a thin terminal. Disconnecting changes nothing.
+- **A session.** A server-side object, one per user, that parses commands, plans them, runs small ones itself, and records every command; a controller beside it writes every receipt, so losing the session pod loses only the small commands in flight (ADR 0020). The laptop runs a thin terminal. Disconnecting changes nothing.
 - **A planner.** Pipelines, loops and `xargs` compile to a DAG. Each stage runs in one of three backends, in order: locally in the session, in one pod split across cores, or distributed across Indexed Jobs or Argo Workflows. The input size, which is known, decides. The output size, which is not, is never guessed.
 - **A toolbox.** One image carrying the real POSIX utilities, a real init, and artifact helpers. Every command carries an annotation that says whether it can run over partitions and how its outputs merge. Unknown commands run on one node, and `explain` says why.
 - **A contract.** A process does not exit, it converges or it does not. Every plan carries a best case, a floor, a deadline and a budget. Exit codes are derived from the contract, and a preempted pod never counts as a failure.
@@ -86,7 +86,7 @@ graph TB
         Mental["Familiar mental model<br/>processes · files · env<br/>crontabs · pipes · devices"]
     end
 
-    subgraph Session["⚙️ Session pod, one per user (ADR 0005)"]
+    subgraph Session["⚙️ Session pod, one per user per residency (ADR 0005, 0020)"]
         direction TB
         Parser["Parser<br/>POSIX grammar to AST<br/>reuses mvdan/sh"]
         Planner["Planner and pipeline compiler<br/>stages · partitions · backend choice<br/>completion contract · cost band<br/>explain (ADR 0001, 0003, 0004, 0013)"]
@@ -257,7 +257,7 @@ research/
 | Approvals | Drafted in ADR 0017: an approval is an object on the process created only by a policy gate, it approves a pinned plan hash, it is answered by `approve` or `deny` from another person's session, and the receipt carries it |
 | Labels and admission | Drafted in ADR 0018: one `convoy.io/` label set on every object the shell writes, CEL admission as the decision, foreign objects read-only until `chown`, controller keys mapped through `caps` |
 | Networking | Drafted in ADR 0019: only a unit has an address, reach is cluster, internal or public with span as a second axis, the owner grants with `--allow` and the caller declares with `--connect`, the platform owns gateways and the default-deny, the session reaches units by port-forward under the user's token |
-| Session placement | The remaining architecture-changing gap, not yet designed |
+| Session | Drafted in ADR 0020: the session is a journal in its residency's artifact store and a login with a shell per terminal; the controller writes every receipt, so losing the pod loses only local commands in flight; the client refreshes the token; hosts are designated per residency; no context object (`mount` adds, `cd` switches); `PS1` escapes for mount, namespace, identity mark and device marks from cached state |
 | Code | None |
 
 ## Prior art
