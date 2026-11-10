@@ -34,7 +34,7 @@ graph TB
         direction TB
         Workloads["Workloads<br/>Pod · Job · CronJob · Deployment<br/>podFailurePolicy · do-not-disrupt"]
         Storage["Storage<br/>PVC · StorageClass · VolumeSnapshot<br/>CSI · ReadWriteOncePod"]
-        Identity["Identity and config<br/>ServiceAccount · workload identity<br/>Secrets Store CSI · ConfigMap · Lease<br/>owner labels · CEL admission"]
+        Identity["Identity and config<br/>user · groups · service identity per group (ADR 0016)<br/>ServiceAccount · workload identity · Secrets Store CSI<br/>ConfigMap · Lease · owner labels · CEL admission"]
         Platform["Platform components, reported by caps<br/>Kueue · Argo Workflows · node agent (cgroup freeze)<br/>DRA · Gateway · NetworkPolicy · OpenCost<br/>Strimzi · Flink operator · packages via GitOps (ADR 0010)"]
         Inventory["Fleet inventory, the udev of /dev/k8s<br/>Argo CD cluster secrets or Cluster API<br/>by-id · views · permissions · hotplug events"]
     end
@@ -112,7 +112,7 @@ The first version of this chart, drawn before the design documents, had four lay
 | Primitive mapper | **Planner** driven by the **annotation database** | A command is not mapped to one object. Its annotation class decides whether it runs locally, in one toolbox pod, or as an Indexed Job, and what the completion contract is ([ADR 0002](adr/0002-commands-carry-annotation-classes.md), [ADR 0003](adr/0003-three-backends-local-first.md)) |
 | Pipeline compiler feeding orchestration engines (Argo, Tekton, SparkApplication, Kubeflow) | A separate **execution backends** layer: local, parallel-local, Indexed Job, Argo Workflow | Text tools are never translated to Spark or SQL. Real binaries run over partitions. Spark, Kubeflow and the rest are packages the platform installs, not translation targets ([ADR 0001](adr/0001-pipe-is-a-staged-artifact.md), [ADR 0010](adr/0010-platform-defaults-and-two-package-tiers.md)) |
 | Multi-cluster resolver feeding Federation (Karmada, KubeFed) | **Mount table and device tree** talking to one API server per cluster, with the fleet inventory as the udev of `/dev/k8s` | No federation. A cluster is a device, mounted by the session with identity and scope options. `all` is a read-only union ([ADR 0011](adr/0011-device-tree-and-mount-table.md)) |
-| Configuration (Secret, ConfigMap) as a counterpart of `export` | **Identity and config**: secret references, workload identity, Secrets Store CSI, owner labels | A secret value never reaches the client; users may use secrets they cannot read ([ADR 0007](adr/0007-secrets-are-references.md)) |
+| Configuration (Secret, ConfigMap) as a counterpart of `export` | **Identity and config**: users and groups from the login token, a service identity per group ([ADR 0016](adr/0016-identity-is-a-user-rights-belong-to-groups.md)), secret references, workload identity, Secrets Store CSI, owner labels | A secret value never reaches the client; users may use secrets they cannot read ([ADR 0007](adr/0007-secrets-are-references.md)) |
 
 Two boxes are new. The **content-addressed artifact store** is the transport of every non-local pipe, so it sits in infrastructure next to the clusters rather than being hidden inside a workflow engine. **Cloud identity and pricing** is where device open performs its token exchange and where the cost band reads its rates.
 

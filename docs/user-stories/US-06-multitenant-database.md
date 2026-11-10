@@ -68,7 +68,7 @@ $ sudo --as platform ps -A --cluster=prod-east-1 | grep ' db '
 | A7 | Signals | ● | STOP on a quorum member refused (G2); HUP = reload | `kill -STOP db` is refused |
 | A8 | Secrets | ● | the database password is a reference the operator creates | `ls -l /secrets` in the tenant shows it; `backup` excludes it (L6.4) |
 | A9 | Cost | ○ | `df` with cost per volume | three lines with zone and monthly cost |
-| A10 | Identity | ● | tenant isolation by owner labels and CEL; `sudo --as platform` | depends on the open identity design (L6.5) |
+| A10 | Identity | ● | tenant isolation by owner labels and CEL; `sudo --as platform` | depends on the open identity design (L6.5; drafted in ADR 0016, the owner label is a group) |
 | A11 | Defaults | ● | seven defaults printed by `run` | all seven in `explain` |
 | A12 | Storage | ● | per-replica disks, snapshots, retained volumes, `rmvol` refused | AC-6.3 |
 | A13 | Networking | ○ | default-deny per tenant | a pod in acme cannot reach globex |
@@ -128,6 +128,6 @@ $ sudo --as platform ps -A --cluster=prod-east-1 | grep ' db '
 | L6.2 | P2, P3 | Namespace deletion cascades to every object and, by reclaim policy, to volumes; POSIX `rmdir` refuses non-empty directories. | **rule** (applied: ADR 0006 rules; command map): `rmdir` refuses a non-empty namespace; `rm -r` lists everything that would be lost and requires `--with-data` and, for namespaces with volumes, a second approval (US-03 L3.1); reclaim policy Retain is the platform default | posix-command-map.md (`rmdir`, `rm`), ADR 0006, ADR 0010 |
 | L6.3 | P7 | `fuser` reporting a retention policy as the holder of a volume stretches the POSIX meaning. | **accepted**: holders have a TYPE column (`process`, `unit`, `policy`, `snapshot`); the refusal names the type | posix-command-map.md (`fuser`) |
 | L6.4 | P4 | `backup` of a tenant copies its Secret objects into the backup target unless excluded. | **rule** (applied: ADR 0007 rules; roadmap M5): `backup` excludes Secret objects by default; `--include-secrets` is audited; the receipt lists exclusions | ADR 0007, ROADMAP M5 |
-| L6.5 | P9 | Cross-tenant visibility (`sudo --as platform`) and tenant isolation by owner labels depend on the identity design, which does not exist. | **open**: identity and ownership is one of the three architecture-changing gaps; this story is its acceptance test for tenancy | stories.md, ROADMAP M7 |
+| L6.5 | P9 | Cross-tenant visibility (`sudo --as platform`) and tenant isolation by owner labels depend on the identity design, which does not exist. | **open** (drafted 2026-11-10 in ADR 0016: the owner label is a group, admission compares groups, this story is the acceptance test) | ADR 0016, stories.md, ROADMAP M7 |
 | L6.6 | P9 | A namespace created outside Convoy has no owner labels and no template; it appears in `ls` without an owner or not at all. | **rule** (applied: command map; roadmap M7): `ls -l` under a cluster mount shows `?` as owner for unlabelled namespaces; `chown` adopts them; the inventory counts them as unmanaged | posix-command-map.md (`ls`, `chown`), ROADMAP M7 |
 | L6.7 | P10 | `scale db 2` asks `[y/N]`; in a batch there is nobody to answer. | **rule** (applied: ADR 0005 rules; command map): prompts in non-interactive sessions are exit 3 with the required flag (`--yes`), consistent with `rm -i` | posix-command-map.md, ADR 0005 |

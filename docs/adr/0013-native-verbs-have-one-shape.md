@@ -151,6 +151,7 @@ The remark that prompted this record: the non-Linux commands could be more compr
    - `fuser <path> [--version=vN] [--cluster=<mount>\|all]`: holders of a volume or secret with a TYPE column (`process`, `unit`, `policy`, `snapshot`), partial and degraded on an unreachable member (ADR 0007 amendment 1, L6.3).
    - `rmvol <path> [--with-data] [--no-snapshot]`: the destructive verb `rm` points to; checks `fuser`, snapshots first, confirms; refuses to break a hold (ADR 0006).
    - `seek <group> <topic> --to=<offset\|timestamp>`: resets a consumer group's position, with confirmation; never done by `kill` (ADR 0012).
+   - `backup <path> --to=<path>`: copies the retained range of a topic, or a snapshot of a table or volume, to an object-store path as a staged copy with a receipt; the verb `rm --with-data` names as the alternative on a device that holds data (US-13, AC-13.6). Two stages and an egress line, priced by `explain`; never implied by `rm`.
 
 9. **Platform verbs have subcommands, and each subcommand has the seven fields.**
 
@@ -159,7 +160,7 @@ The remark that prompted this record: the non-Linux commands could be more compr
    | `pkg` | `install <name>[@<version>]`, `remove <name>`, `list`, `rollback <name>` | a namespaced release reconciled by Argo CD or Flux; `remove` prints what is retained and the destroy verb for it (ADR 0010) | `requires` cannot be satisfied by the target device's `caps`; the manifest is unsigned |
    | `tool` | `add <name>[@<version>]`, `remove <name>`, `list` | a toolbox image layer, pinned in the session; an annotation entry is mandatory or the tool is `non-parallel` (ADR 0002) | no annotation entry and `--strict` |
    | `secret` | `set <name>`, `rotate <name>`, `retire <name> <vN> [--when=<condition>] [--force]`, `list` | versions at the vault and the reference index; never prints a value (ADR 0007) | `retire` while a reachable reference exists; `--force` without a second identity (L9.8) |
-   | `approve` | `approve <pid>` | an approval record on the process, by an identity other than the author; the process resumes | the approver is the author; `open`: the approvals object (L3.1) |
+   | `approve` | `approve <pid>` | an approval record on the process, by a member of the approving group other than the author (ADR 0016 decision 7); the process resumes | the approver is the author or not in the approving group; `explain` refuses at plan time when the group has no second member; `open`: the approvals object (L3.1) |
    | `pause`, `resume` | `pause <pid>`, `resume <pid>` | a CRIU checkpoint artifact and the pod released; a new pod from the checkpoint (ADR 0008) | no CRI-O on the node; a group without `freeze_max_seconds` (L5.2) |
 
 10. **Refusals are uniform.** A refusal is exit 3, one line naming the rule, the capability or the policy it comes from, and at least one alternative. A verb never silently does less than asked: no fallback from a metric condition to rollout status, from a follow to a bounded read, from a group freeze to a per-member signal, from a mount option to no option. Where the design prefers a weaker action it says so in `explain` before and in the receipt after.

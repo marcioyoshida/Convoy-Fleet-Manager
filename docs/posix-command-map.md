@@ -252,7 +252,7 @@
 ## Reading the table
 
 - A **toolbox** row with a class in its notes is already handled by `pipeline-compiler.md` §3; the class decides whether the command runs over partitions.
-- A **translate** row is a verb the session implements against the API. Each one needs a dry-run form and an `explain` entry. The verbs POSIX does not define, and the POSIX verbs Convoy gives a new meaning (`batch`, `wait`, `time`, `timeout`, `mount`, `df`, `fuser`), are specified with one shape in [ADR 0013](adr/0013-native-verbs-have-one-shape.md).
+- A **translate** row is a verb the session implements against the API. Each one needs a dry-run form and an `explain` entry. The verbs POSIX does not define, and the POSIX verbs Convoy gives a new meaning (`batch`, `wait`, `time`, `timeout`, `mount`, `df`, `fuser`), are specified with one shape in [ADR 0013](adr/0013-native-verbs-have-one-shape.md). The identity rows (`id`, `whoami`, `newgrp`, `sudo`, `chown`, `chmod`) follow [ADR 0016](adr/0016-identity-is-a-user-rights-belong-to-groups.md): the user is the actor, rights and ownership belong to groups, and `sudo` assumes a group's service identity.
 - A **mount** row depends on the session fileserver and the mount namespace design (`/pvc`, `/s3`, `/clusters`), which supersedes the disk-operations note.
 - **Partial** rows are where leaks live. Each note names the difference the user will see; none of them is hidden behind emulation.
 - The ten **Dropped** rows are SCCS, printing and terminal chat. Their use cases are covered by Git, artifacts and collaborative sessions.

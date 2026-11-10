@@ -108,7 +108,7 @@ graph TB
         direction TB
         Workloads["Workloads<br/>Pod · Job · CronJob · Deployment<br/>podFailurePolicy · do-not-disrupt"]
         Storage["Storage<br/>PVC · StorageClass · VolumeSnapshot<br/>CSI · ReadWriteOncePod"]
-        Identity["Identity and config<br/>ServiceAccount · workload identity<br/>Secrets Store CSI · ConfigMap · Lease<br/>owner labels · CEL admission"]
+        Identity["Identity and config<br/>user · groups · service identity per group (ADR 0016)<br/>ServiceAccount · workload identity · Secrets Store CSI<br/>ConfigMap · Lease · owner labels · CEL admission"]
         Platform["Platform components, reported by caps<br/>Kueue · Argo Workflows · node agent (cgroup freeze)<br/>DRA · Gateway · NetworkPolicy · OpenCost<br/>Strimzi · Flink operator · packages via GitOps (ADR 0010)"]
         Inventory["Fleet inventory, the udev of /dev/k8s<br/>Argo CD cluster secrets or Cluster API<br/>by-id · views · permissions · hotplug events"]
     end
@@ -253,7 +253,8 @@ research/
 | Walkthroughs | Nine workloads exercised in `docs/walkthroughs.md`; ten gaps found, all closed by ADR amendments, flags or fields |
 | User-story probes | Sixteen persona-driven probes in `docs/user-stories/`; 105 findings, 14 structural misroutes; 29 ADR amendments applied and 60 rules written into the ADRs, command map, compiler and roadmap on 2026-11-09; 5 open design items and 10 accepted limitations remain |
 | Mount namespace and fileserver | Reviewed, superseding design pending |
-| Session placement, identity and ownership, networking | Identified as the three architecture-changing gaps, not yet designed |
+| Identity and ownership | Drafted in ADR 0016: a session is a user with groups from the login token, rights and ownership belong to groups, each group has a service identity for unattended work, root is a group assumed with a second member's approval |
+| Session placement, networking | The two remaining architecture-changing gaps, not yet designed |
 | Code | None |
 
 ## Prior art

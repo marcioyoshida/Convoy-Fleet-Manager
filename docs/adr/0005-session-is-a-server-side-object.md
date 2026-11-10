@@ -13,7 +13,7 @@ One session pod per user runs the parser, planner, local backend, mount table, e
 
 ## Consequences
 
-Detach and reattach work. The audit stream is trustworthy. Session state (mount table, env, cwd) is server-side and inherited by launched processes at creation time, Plan 9 style. Identity, ownership and networking all store their state here, so this decision precedes them.
+Detach and reattach work. The audit stream is trustworthy. Session state (mount table, env, cwd) is server-side and inherited by launched processes at creation time, Plan 9 style. Identity, ownership and networking all store their state here, so this decision precedes them. Identity is drafted in ADR 0016: the pod's ServiceAccount is only the runtime handle, the session's identity is the user and groups of the login token.
 
 ## Rules · 2026-11-09 · from the user-story probes
 

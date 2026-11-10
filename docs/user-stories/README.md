@@ -65,7 +65,7 @@ The first five were set by the owner; the other five were added because the walk
 
 ## Findings register
 
-One hundred and five findings. Disposition counts: **29 amend** (all applied to the ADRs on 2026-11-09), **60 rule** (written into their documents on 2026-11-09), **5 open** (design that does not exist yet), **10 accepted** (a surfaced limitation), 1 cross-reference. Full text is in each story's section 10.
+One hundred and five findings. Disposition counts: **29 amend** (all applied to the ADRs on 2026-11-09), **60 rule** (written into their documents on 2026-11-09), **5 open** (design that does not exist yet; L6.5 and the approver half of L3.1 are drafted in ADR 0016 on 2026-11-10), **10 accepted** (a surfaced limitation), 1 cross-reference. Full text is in each story's section 10.
 
 | Id | Short name | Probe | Disposition | Touches |
 |---|---|---|---|---|
@@ -81,7 +81,7 @@ One hundred and five findings. Disposition counts: **29 amend** (all applied to 
 | L2.4 | executors are created by the operator, seen by label only | P9 | accepted | annotations |
 | L2.5 | copy into a replicated filesystem needs capacity × replication | P3 | rule, applied | ADR 0011 d7 |
 | L2.6 | pause-with-checkpoint is impossible without a checkpoint | P2 | rule, applied | ADR 0004 |
-| L3.1 | approval through the author's own stdin | P10 | **open** | ADR 0005, identity |
+| L3.1 | approval through the author's own stdin | P10 | **open** (approver is a group member: ADR 0016 d7) | ADR 0005, ADR 0016 |
 | L3.2 | canary weight patched on a GitOps-managed route | P1 | amend, applied | ADR 0010; ADR 0010 a1 |
 | L3.3 | the GitOps repository is not a device | P4, P11 | amend, applied | ADR 0011; ADR 0011 a2 |
 | L3.4 | no transaction across clusters | P3, P8 | accepted | M11 |
@@ -102,7 +102,7 @@ One hundred and five findings. Disposition counts: **29 amend** (all applied to 
 | L6.2 | namespace deletion cascades to volumes | P2, P3 | rule, applied | command map, ADR 0006 |
 | L6.3 | a policy as a `fuser` holder | P7 | accepted | command map |
 | L6.4 | backups copy Secrets | P4 | rule, applied | ADR 0007, M5 |
-| L6.5 | tenancy depends on the identity design | P9 | **open** | stories.md |
+| L6.5 | tenancy depends on the identity design | P9 | **open** (drafted: ADR 0016) | ADR 0016, stories.md |
 | L6.6 | namespaces created outside Convoy have no owner | P9 | rule, applied | command map |
 | L6.7 | prompts in non-interactive sessions | P10 | rule, applied | ADR 0005 |
 | L7.1 | the artifact store is a secret sink | P4, P11 | amend, applied | ADR 0007, ADR 0009; ADR 0007 a2 |

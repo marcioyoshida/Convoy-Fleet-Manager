@@ -64,7 +64,7 @@ Three change the architecture:
 | Abstraction | Why it changes the architecture |
 |---|---|
 | **Session placement and durability** | ADR 0005 decides the session is server-side; the design of the session pod, attach protocol, state persistence and promotion (`nohup`) is not written. Every other abstraction stores state here. |
-| **Identity, ownership, tenancy** | RBAC is per kind and name, not per owner. "Only the owner may kill" needs owner labels plus a CEL admission policy. The tenancy tree (user, team, project; vCluster for hard isolation) underlies `cd`. |
+| **Identity, ownership, tenancy** | RBAC is per kind and name, not per owner. "Only the owner may kill" needs owner labels plus a CEL admission policy. The tenancy tree (user, team, project; vCluster for hard isolation) underlies `cd`. Drafted in [ADR 0016](adr/0016-identity-is-a-user-rights-belong-to-groups.md): the user is the actor, rights and ownership belong to groups, each group has a service identity. |
 | **Networking as sockets** | `expose pid 8080` → Service; `--public` → Gateway API route plus certificate; `netstat` → Services and endpoint slices; `/etc/hosts` → CoreDNS; `iptables` → NetworkPolicy, default-deny per namespace; `curl localhost:8080` → port-forward. Without this `run api-server` has no front door. |
 
 The rest, in order of need:

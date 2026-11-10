@@ -1,0 +1,79 @@
+# ADR 0016: Identity is a user; rights belong to groups
+
+**Status:** Draft · 2026-11-10
+**Supersedes / relates to:** ADR 0005 (one session pod per user; identity stores its state there); ADR 0006 (detach is not destroy; holds); ADR 0007 (secrets are references, reference-only RBAC); ADR 0008 (amendment 4, fencing is a node verb); ADR 0011 (decision 4, opening a device is the credential exchange; consequence "the mount's identity is what every process launched under that path runs as, and `sudo --as` is a remount"); ADR 0012, 0014, 0015 (mount examples with `identity=` and `role=`); ADR 0013 (`approve`, `sudo`, `id`, `whoami`, `chown`, `newgrp` in the POSIX list); docs/stories.md (identity, ownership, tenancy); ROADMAP M7; user-story findings L3.1 and L6.5
+
+## Context
+
+Identity is named in every ADR since 0011 and defined in none. Mount options take `identity=secret:…` or `role=…`; the model device filters candidates by identity before ranking (ADR 0014); node fencing needs an authority (ADR 0008 amendment 4); `approve` needs "an identity other than the author" (ADR 0013); tenancy in US-06 depends on an owner label nobody has defined (L6.5); the two-person approval in US-03 has no second person (L3.1). ROADMAP M7 lists `whoami`, `id`, `sudo --as` and owner labels as deliverables without saying what they print or compare.
+
+Facts that constrain the design:
+
+- A pod has exactly one ServiceAccount, fixed at creation. A ServiceAccount token carries the account's name and namespace and no groups. Workload identity federation (IRSA, GKE Workload Identity, Entra workload identity) exchanges that token for a cloud credential bound to one role.
+- A login to an OpenID Connect provider produces a token with a subject and a groups claim. Kubernetes API servers, cloud identity services (STS `AssumeRoleWithWebIdentity`, GCP workload identity pools, Entra federated credentials) and catalogs (Unity, Lake Formation) all trust an external issuer and all can bind rights to a group claim. Every organisation that would run Convoy already has such a provider.
+- Kubernetes RBAC binds roles to users, groups or service accounts by name; it has no notion of ownership. "Only the owner may kill" is an owner label plus a CEL admission policy that compares the label with the requester (docs/stories.md).
+- Kafka ACLs, catalog grants and IAM policies name principals that outlive any session. A credential tied to a person stops working when the person leaves; a credential tied to a team does not.
+- The session is a server-side pod (ADR 0005) that outlives the terminal (ADR 0006) but not the person's employment, a laptop reimage or a token revocation. Cron entries, holds with a seven-year retention (US-15) and a released unit (US-03) outlive all of those.
+- POSIX has had the answer since 1979: a process has a real user, a primary group and supplementary groups; files carry an owner and a group; a set-group-id directory makes new files inherit the directory's group; `wheel` gates `su`. Every persona in the user stories already knows this model.
+
+The owner's framing, which this record adopts: each session is a pod, so every mount belongs to that session; the exceptions are root and service identities; and rights should attach to the group a user belongs to, so that no object is ever held hostage by one absent person and no approval can deadlock on one named approver.
+
+## Decision
+
+1. **A session runs as a user with a primary group and supplementary groups, all from the login token.** The subject claim is the user; the groups claim is the group set; the primary group is the first group the platform's login policy names for the user, changeable with `newgrp <group>` for the rest of the session. The session pod's own ServiceAccount is the runtime handle to the home cluster and nothing else: it is never the identity a device is opened under, because it carries no groups and would make every home cluster a trust root. `whoami` prints the user. `id` prints user, primary group, supplementary groups, the token's expiry, and every identity currently assumed on a mount (decision 4).
+
+2. **Rights bind to groups.** Device permission bits (ADR 0011 decision 4), cluster role bindings, cloud trust policies, catalog grants and topic ACLs name groups. The inventory, which generates them, refuses to grant to a user; `chmod` and `setfacl` with a user subject are refused with the rule and the group spelling. A user whose token carries no group has a session, a home directory and no rights. The one user-owned place is `/home/<user>` in the artifact store: scratch with the platform's bounded retention, which cannot carry a hold; anything to keep is moved to a group path.
+
+3. **Objects belong to a group and record their actor.** Every durable object (artifact, receipt, hold, unit, cron entry, secret, mount profile, approval) is created with the session's primary group as owner and the user as actor, mode `u=rw,g=rw,o=` by default. Ownership is what `kill`, `cancel`, `release`, `replay`, `rm`, `secret rotate`, `umount` and `approve` check, and it is the group's: any member may do to a colleague's object what the colleague could. `ls -l` shows group and actor; receipts and audit lines carry both. `chown` moves an object between two groups the actor belongs to, or any two groups under root; `chown` to a user is refused with "objects belong to groups".
+
+4. **Every open is a credential exchange from the login token.** Mounting a device exchanges the session's login token (subject and groups) for the device's native credential: an STS role with web identity, a GCP workload identity pool, an Entra federated credential, a Kubernetes API server with the provider in its structured authentication configuration, a catalog or broker that accepts the provider's tokens. The device trusts the identity provider, not the home cluster. Mount options select among the identities the group may assume:
+
+   | Option | Meaning | Marked in `ls -l /dev` and audit as |
+   |---|---|---|
+   | none | the login identity itself | `user` |
+   | `role=<arn or name>`, `sa=<name>` | a role or service account whose trust policy names one of the session's groups | `assumed` |
+   | `identity=svc:<group>` | the group's service identity (decision 5) | `service` |
+   | `identity=secret:<name>` | a static credential read as a secret reference (ADR 0007), gated by the group's read on the secret | `shared` |
+   | `identity=nobody` | no credential; public buckets, public models, public catalogs | `anonymous` |
+
+   Expiry triggers a silent reopen (ADR 0011). Mount options remain intent: `ns=`, `ro`, `residency=` and `topics=` narrow what the session asks for, and the device's own authorisation on the assumed identity is what enforces. ADR 0011 called options "the policy surface"; read that as the surface where policy is requested and shown, never where it is enforced.
+
+5. **Each group has one service identity, and unattended work runs as it.** `svc:<group>` cannot log in, has no supplementary groups and holds the group's rights at the devices the platform binds it to. Any member may assume it; `cron`, `at`, `batch` and `nohup` run under it by default, so unattended work belongs to the team at submission. The receipt records the submitting user and the service identity, as `replay` already records two identities (L8.5). An agent session (US-14, the AI persona) is a session logged in as a service identity with the same mounts, audit stream and receipts as a person.
+
+6. **Root is a group with no standing members.** `root` owns the inventory, the node tree, cross-group `chown` and any mount under an identity the caller's groups cannot assume. Members of `wheel` may assume `svc:root` for one command (`sudo <command>`) or one session (`sudo -i`); every assumption is an approval record answered by a second `wheel` member (decision 7), is receipted, and runs with an audit stream that cannot be detached. `explain` refuses the assumption at plan time when `wheel` cannot supply a second member. Node fencing and `rm` on a node (ADR 0008 amendment 4, ADR 0011 amendment 5) are root verbs.
+
+7. **Approvals are given by a group, never by a named person.** A policy that requires approval names a group; the approval is satisfied by any member of that group other than the author, from that member's own session. `explain` refuses at plan time with `group <g> cannot approve: needs a second member` when the group is the author alone. The approvals object itself (the queue, `deny`, expiry) stays open under L3.1; its subject is settled here.
+
+8. **The group is the tenant and the cost centre.** Owner labels on Kubernetes objects carry group and actor; CEL admission compares the group label with the requester's groups; `cd` into a namespace succeeds when one of the session's groups is bound there. `/sys/<class>/<id>/` cost files and receipts roll up by group, so chargeback follows ownership. A group may own many namespaces; a namespace belongs to one group; the mapping is the platform's, visible in `ls -l /clusters/<mount>/`.
+
+9. **Lifecycle never needs a rescue.** A user removed at the provider loses their sessions at the next token refresh and nothing else: every object they made belongs to their groups. A group that owns objects cannot be removed; `rm` on it lists them by class and count and names `chown -R <other-group>` as the alternative. Group membership changes take effect at the next token refresh, bounded by the token lifetime that `id` prints.
+
+10. **The platform publishes a mount profile per group.** `/etc/fstab.d/<group>` lists the devices and options every member gets at login, applied after the user's own profile; `mount` shows the origin of each entry; `umount` on a profile mount is per session and never edits the profile. The user's own mounts are added on top and are the only ones `mount` without `-o` writes.
+
+11. **The session's location is a residency fact.** The session pod runs in the topology the primary group's residency names; a mount with `residency=` is checked against the device and against the session, since context that leaves the session is data at rest where the session runs (misroute S13). A user whose groups span residencies gets one session per residency and `id` names which one this is.
+
+## Declined
+
+| Proposal | Why not | What replaces it |
+|---|---|---|
+| rights bound to users, groups optional | the hostage case: the absent owner of a hold, a cron entry, a secret, a running job | groups own everything; the user is the actor |
+| the session pod's ServiceAccount as the identity devices see | carries no groups; every home cluster becomes an issuer every device must trust | the login token, exchanged at open (decision 4) |
+| one ServiceAccount per user, bound at the group level by the inventory | thousands of bindings to keep in step with the provider; the same end state as a groups claim, maintained by hand | groups from the token |
+| Kubernetes impersonation headers to carry the user over a group credential | audit on the device sees an impersonation, not a login; two trust paths | the user's token carries user and groups together |
+| a standing root login for platform operators | no second person, no receipt, no expiry | `wheel` assumes `svc:root` with approval (decision 6) |
+| named approvers in policy | one person on leave blocks every release | a group approves; `explain` checks the group can |
+| per-user service identities derived at first `cron` | cron entries that die with employment; the hostage case again | one service identity per group |
+| nested groups | the provider's concern; Convoy sees the flattened claim | the token's groups |
+| `chown` between users | objects do not belong to users | `chown` between groups |
+| the session changing its own identity (`su`) | a pod cannot change its ServiceAccount and a session should not change its actor | `sudo` assumes a service identity per command or per session, with the actor unchanged in the audit |
+
+## Consequences
+
+- L6.5 (tenancy) has its design: the owner label is a group, admission compares groups, US-06 becomes the acceptance test. L3.1 keeps only the object part open; the "other identity" is now a group member.
+- Mount examples in ADR 0012 (`identity=secret:orders-reader`), ADR 0014 (`identity=secret:completion-reader`) and ADR 0015 (`identity=role:lake-reader`) remain valid and now read as a shared credential, a shared credential and an assumed role; a mount with no identity option is the common case and the examples should be re-read with that in mind.
+- The cloud's own audit log names the person on every call made from an interactive session, because the credential was exchanged from their token. Shared kubeconfigs and team passwords have no place in the design.
+- Least privilege is per group: a user's rights are the union of their groups. The mitigation is small groups and keeping sensitive groups out of the login set so they are reached through `sudo` with a receipt. A compromised member reaches everything the group owns; the audit stream still names the actor. Both are stated here so they are chosen, not discovered.
+- Cost: the inventory gains the job of generating group-named bindings and trust policies for every device class, a `svc:<group>` per group at every device, the `wheel` approval flow, `/etc/fstab.d`, the `assumed`/`service`/`shared`/`anonymous` marks in `ls -l /dev`, and a residency check on the session itself. ROADMAP M7 is this ADR plus ADR 0007.
+- The chart's identity box changes from "ServiceAccount · workload identity" to "user · groups · service identity per group"; the ServiceAccount remains, one layer down, as the home-cluster handle.
+- Open, to be settled against this ADR: the approvals object (L3.1); the token lifetime that bounds membership changes and whether a session may be told to refresh early; how catalog and broker grants (Unity, Lake Formation, Kafka ACLs) are kept in step with the groups claim, which is a driver matter under `caps`; whether `svc:<group>` may hold supplementary groups for cross-team pipelines or must `chown` the result instead.
+- A user story (US-17, SEC persona) should probe this record with an offboarding, a release whose approving group is one person, a `cron` entry that outlives its author, and a `sudo` fence of a node.
