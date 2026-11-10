@@ -33,6 +33,11 @@ From the user-story probes. Each milestone's exit criteria include the rules lis
 
 **M2**
 
+- **L21.3** the generated kubeconfig uses an exec credential to the session; no token in the file.
+- **L21.6** bounded in-memory scrollback per terminal; a resume says what was dropped or lost in a restore.
+- **L21.7** prompt marks carry the age of cached state; stale marks render `?`.
+- **L21.8** dormancy stops local commands and resumes them at the next attach; ended `session-dormant` after `session_idle`.
+- **L21.10** a local command past `local_max` warns once and is receipted `over local_max`.
 - **L18.3** an approval object is `void` only for an enumerated reason (policy edited, hold lost, device removed, group cannot answer); re-created and re-paged; re-priced at resume.
 - **L18.4** identical pending requests (same shape, same group) share one approval object with a waiter count; one answer resumes all; inputs held once.
 - **L18.5** answers on an approval object are visible to the requesting actor regardless of L17.6.
@@ -62,6 +67,8 @@ From the user-story probes. Each milestone's exit criteria include the rules lis
 
 **M7**
 
+- **L21.5** `newgrp` to a group of another residency is refused, naming `attach --residency`.
+- **L21.9** no exec, attach, port-forward or ephemeral container on session pods; break-glass by approved `sudo`, shown by `who`.
 - **L6.6** `ls -l` under a cluster mount shows `?` as owner for unlabelled namespaces; `chown` adopts them; the inventory counts them as unmanaged.
 - **L7.6** `egress:` with hostnames requires `caps: fqdn-policy`; without it the planner refuses or routes through the platform's egress proxy package; `explain` names the mechanism.
 - **L17.3** an approval policy may name a fallback group; the refusal prints both; `--approver=<fallback>` is receipted with the primary group's size; root never approves.
@@ -73,6 +80,7 @@ From the user-story probes. Each milestone's exit criteria include the rules lis
 
 **M8**
 
+- **L21.1** session pods: PDB, do-not-disrupt while local work runs, no spot; every eviction is a drain with notice and restore.
 - **L20.3** a withdrawn hostname stays reserved to its group for a hold period (30 days default); `netstat --held` lists held names.
 - **L19.4** on an `admission: shell-only` cluster `explain` prints the mode, cost and holds are `unverified`, `backup` and `cost` selectors need `--include-unverified`, `chown` is root-only; the inventory lists the cluster as an accepted risk.
 - **L10.9** `caps` is evaluated per target device at plan time; a backend the site lacks is a plan-time refusal naming the capability and the site.

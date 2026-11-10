@@ -287,3 +287,8 @@ Rules the sixteen stories in `docs/user-stories/` decided for specific commands.
 | `nohup` | promotion to a Job re-plans reach: units reached through the session's hosts view must be granted `--connect`, else refused | L20.9 |
 | `release` | weights move new connections only; open long-lived connections on the old version are reported and drained within `--drain` | L20.10 |
 | `netstat` | foreign routes to a unit show owner `?`; `--held` lists held hostnames | L20.3, L20.7 |
+| `newgrp` | to a group of another residency is refused in the session, naming `attach --residency` (ADR 0020) | L21.5 |
+| `who`, `tty` | `who` lists stopped commands of a dormant session, watches by other members and any root inspection of the session pod (ADR 0020) | L21.4, L21.8, L21.9 |
+| `kubectl` (toolbox) | the generated kubeconfig asks the session for a token per call; no token in the file | L21.3 |
+| `mount`, `PS1` | `mount` shows the age of each device's cached state; prompt marks older than `prompt_stale` render `?` | L21.7 |
+| `nohup` | the shell warns once when a local command passes `local_max`; the receipt records it | L21.10 |
