@@ -165,7 +165,7 @@ Two targets, chosen by shape:
 - **Indexed Job** for a single map stage with a merge (the common case). `JOB_COMPLETION_INDEX` is the partition key. Requires Kubernetes 1.31+ for `successPolicy` and `backoffLimitPerIndex`.
 - **Argo Workflow** when the DAG has more than one merge point, conditional edges (`&&`, `||`), or fan-out from `for`/`tee`.
 
-Both carry labels `convoy.io/pid`, `convoy.io/session`, `convoy.io/plan` so `ps`, `cost` and the audit log can find them without a session-side state store. The full label set, with `convoy.io/group`, `actor`, `kind`, `stage` and `residency`, and the admission policies that make the group label mean something, are [ADR 0018](adr/0018-labels-are-the-signal-admission-is-the-decision.md).
+Both carry labels `convoy.io/pid`, `convoy.io/session`, `convoy.io/plan` so `ps`, `cost` and the audit log can find them without a session-side state store. The full label set, with `convoy.io/group`, `kind`, `stage` and `residency` (the actor is an annotation), and the admission policies that make the group label mean something, are [ADR 0018](adr/0018-labels-are-the-signal-admission-is-the-decision.md).
 
 ## 7. Failure semantics: the completion contract
 

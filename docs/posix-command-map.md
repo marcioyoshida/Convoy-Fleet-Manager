@@ -278,3 +278,7 @@ Rules the sixteen stories in `docs/user-stories/` decided for specific commands.
 | `ps`, `top`, `ls -l` | the owner column is the group; the actor column is shown to members of that group and to root, `?` otherwise | L17.6 |
 | `cron` | `cron list` marks entries whose actor was removed at the provider with the date; they keep running as the group's service identity | L17.7 |
 | `df`, `ls` | `df` lists bytes held per pending approval object; `ls /sys/approvals/<group>/` is the group's inbox and shows the waiter count when identical requests share one object (ADR 0017) | L18.4, L18.6 |
+| `cost` | `cost --by group` prints declared and settled per group with the allocating component, an idle share by the platform's rule, a `?` row with object counts per cluster, `declared only` where no cost package maps the group label, and `unverified` on shell-only clusters; `explain` prints the idle rule (ADR 0018) | L19.1 |
+| `ls -l`, `ps` | ownership walks ownerReferences to the nearest labelled ancestor and prints `child of <ancestor>` instead of `?` (ADR 0018) | L19.2 |
+| `chown`, `scale`, `release` | adoption by `chown` writes labels only; a verb that needs a unit record refuses naming what is missing and `unit add <name> --from-live` | L19.3 |
+| `explain`, `backup`, `cost`, `chown` | on an `admission: shell-only` cluster `explain` prints the mode, cost and holds are `unverified`, `backup` and `cost` selectors need `--include-unverified`, and `chown` is root-only | L19.4 |

@@ -37,6 +37,8 @@ From the user-story probes. Each milestone's exit criteria include the rules lis
 - **L18.4** identical pending requests (same shape, same group) share one approval object with a waiter count; one answer resumes all; inputs held once.
 - **L18.5** answers on an approval object are visible to the requesting actor regardless of L17.6.
 - **L18.6** every approval policy has a bounded timeout (24 h default); expiry releases holds, pages and exits 3; `df` lists held bytes per pending object.
+- **L19.1** `cost --by group` prints declared and settled per group with the allocating component, an idle share, a `?` row, `declared only` where no cost package maps the label, and `unverified` on shell-only clusters.
+- **L19.2** ownership walks ownerReferences to the nearest labelled ancestor (`child of <ancestor>`); the controller labels children templates cannot reach; packages declare propagation in `caps`.
 - **L7.2** metered entries are labelled `declared`; a later `settled` source (provider billing export) reconciles; FinOps sees both; a package whose declared spend is under settled by a platform threshold is flagged in `pkg list`.
 
 **M3**
@@ -71,6 +73,7 @@ From the user-story probes. Each milestone's exit criteria include the rules lis
 
 **M8**
 
+- **L19.4** on an `admission: shell-only` cluster `explain` prints the mode, cost and holds are `unverified`, `backup` and `cost` selectors need `--include-unverified`, `chown` is root-only; the inventory lists the cluster as an accepted risk.
 - **L10.9** `caps` is evaluated per target device at plan time; a backend the site lacks is a plan-time refusal naming the capability and the site.
 
 **M9**
@@ -79,6 +82,7 @@ From the user-story probes. Each milestone's exit criteria include the rules lis
 
 **M11**
 
+- **L19.3** adoption writes labels only; `scale` and `release` on an adopted object refuse naming `unit add <name> --from-live`, which writes the unit record and marks it `adopted`.
 - **L3.5** `caps: metrics` is required for any metric condition; absence is a plan-time refusal, never a fallback.
 - **L4.3** platform default `idle_timeout` per unit class with a GPU; idle is scale-to-zero with volumes retained (ADR 0006); `ps` shows IDLE and the receipt the idle cost.
 - **L12.3** consumer units default to `maxSurge: 0`, the cooperative-sticky assignor and a drain on TERM that commits before leaving; printed by `explain`.

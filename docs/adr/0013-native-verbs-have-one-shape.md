@@ -83,7 +83,7 @@ The remark that prompted this record: the non-Linux commands could be more compr
      nohup <local command>
      ```
    - **reads** everything `explain` reads, plus the data the stages read.
-   - **writes** the objects the plan names (Indexed Job, JobSet, Argo Workflow, Deployment and Service for a unit, a package CRD for `--package`), labelled with the `convoy.io/` set of ADR 0018 (group, actor, kind, pid, session, plan, stage, residency), printed per object; one receipt per process; ledger lines as cost settles; for a GitOps-managed target, intent in the repository instead of the object (L3.2, L9.3).
+   - **writes** the objects the plan names (Indexed Job, JobSet, Argo Workflow, Deployment and Service for a unit, a package CRD for `--package`), labelled with the `convoy.io/` set of ADR 0018 (group, kind, pid, session, plan, stage, residency; the actor is an annotation, L19.5), printed per object; one receipt per process; ledger lines as cost settles; for a GitOps-managed target, intent in the repository instead of the object (L3.2, L9.3).
    - **flags** the contract flags are one table, shared by `run`, `batch`, `explain` and `cron`:
 
      | Flag | Sets | Record |
@@ -194,3 +194,4 @@ Each line is a `rule` finding from `docs/user-stories/README.md` written here as
 - **L17.4** (US-17) a refused write to a root file under `/sys` names the user the shell applied the redirect as and the `echo … \| sudo tee <file>` spelling, since `sudo echo … > <file>` redirects as the caller on Linux and here.
 - **L17.6** (US-17) the owner column of `ps`, `top` and `ls -l` is the group; the actor column is shown to members of that group and to root and reads `?` otherwise; receipts are readable by the owning group. The answers on an approval object are the one exception, visible to the requesting actor (ADR 0017 rule L18.5).
 - **L17.7** (US-17) `cron list` marks entries whose actor was removed at the provider with the removal date; `/sys/k8s/<id>/orphans` counts them per group; they keep running as the group's service identity.
+- **L19.3** (US-19) a foreign object adopted by `chown` carries labels only; `scale` and `release` on it refuse naming the missing unit fields (release path, digest source, probes) and the `unit add <name> --from-live` spelling, which writes the unit record from the object as it is and marks it `adopted` in the receipt (ADR 0018 rule L19.3).
