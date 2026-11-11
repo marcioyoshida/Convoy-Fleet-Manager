@@ -17,6 +17,8 @@ Detach and reattach work. The audit stream is trustworthy. Session state (mount 
 
 Note · 2026-11-10: units are the exception to inheritance. A unit outlives the session and every release re-creates its pods, so [ADR 0013](0013-native-verbs-have-one-shape.md) decision 4 (revised with L24.3) makes a unit's environment its declaration only; a session variable reaches a unit only when named with `--env NAME`. Every other launched process inherits as above.
 
+Note · 2026-11-11: the laptop stays a terminal. The draft [ADR 0022](0022-the-laptop-lends-a-tree-the-cluster-builds-it.md) lets it lend a working tree to the session as read-only snapshots over the attach channel, filtered and scrubbed on the laptop, so the inner loop needs neither a laptop backend nor unfinished code on a shared branch (L24.1).
+
 ## Rules · 2026-11-09 · from the user-story probes
 
 Each line is a `rule` finding from `docs/user-stories/README.md` written here as decided; the story holds the reasoning.

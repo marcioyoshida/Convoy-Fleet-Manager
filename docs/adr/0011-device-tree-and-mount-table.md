@@ -103,6 +103,8 @@ Facts that constrain the design:
 
 **Consequences.** The GitOps repository is now something `fuser` can report holders of and `ls -l` can show the identity of. Receipts name the store of every artifact. A fleet with one region has one store and sees no difference.
 
+Note · 2026-11-11: the draft [ADR 0022](0022-the-laptop-lends-a-tree-the-cluster-builds-it.md) adds a source-repository device kind `worktree`, `/dev/scm/by-id/wt-<host>-<name>`: a working tree lent from a laptop as read-only snapshots, `disconnected` while the laptop is away.
+
 ## Amendment 3 · 2026-11-09 · `nsmap` and `residency` are mount options (user stories US-06 and US-08, L6.1 and L8.2)
 
 **Context.** Namespaces are flat and paths are hierarchical; `tenants/acme` and `teams/acme` both want to be `acme`, and the hierarchy under a cluster mount was a convention nobody declared. Residency as a per-command flag is bypassable by forgetting it; the walkthrough's own `cp` moved data across regions unchecked.

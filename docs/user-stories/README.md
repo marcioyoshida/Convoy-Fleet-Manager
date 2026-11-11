@@ -74,7 +74,7 @@ The first five were set by the owner; the other five were added because the walk
 
 ## Findings register
 
-One hundred and eighty-one findings. Disposition counts: **46 amend** (29 applied to the ADRs on 2026-11-09; 17 on 2026-11-10: 11 inline to the drafts ADR 0016 to 0020, then L22.1 to ADR 0007 amendment 5, L23.1 to L23.3 inline to ADR 0021, and L24.3 and L24.4 inline to ADR 0013), **111 rule** (60 written into their documents on 2026-11-09, 51 on 2026-11-10), **6 open** (design that did not exist yet; five drafted on 2026-11-10: L6.5 in ADR 0016, L3.1 in ADR 0017, L4.6 in ADR 0019, L12.5 in ADR 0012 decision 10, L9.7 in ADR 0007 amendment 5; L24.1, the inner loop from a laptop, not yet), **17 accepted** (a surfaced limitation), 1 cross-reference. Full text is in each story's section 10.
+One hundred and eighty-one findings. Disposition counts: **46 amend** (29 applied to the ADRs on 2026-11-09; 17 on 2026-11-10: 11 inline to the drafts ADR 0016 to 0020, then L22.1 to ADR 0007 amendment 5, L23.1 to L23.3 inline to ADR 0021, and L24.3 and L24.4 inline to ADR 0013), **111 rule** (60 written into their documents on 2026-11-09, 51 on 2026-11-10), **6 open** (design that did not exist yet, all drafted: on 2026-11-10 L6.5 in ADR 0016, L3.1 in ADR 0017, L4.6 in ADR 0019, L12.5 in ADR 0012 decision 10, L9.7 in ADR 0007 amendment 5; on 2026-11-11 L24.1 in ADR 0022), **17 accepted** (a surfaced limitation), 1 cross-reference. Full text is in each story's section 10.
 
 | Id | Short name | Probe | Disposition | Touches |
 |---|---|---|---|---|
@@ -248,7 +248,7 @@ One hundred and eighty-one findings. Disposition counts: **46 amend** (29 applie
 | L23.10 | the policy runs at a cut-off site; verdicts queue for the link | P8 | rule, applied | ADR 0021 d5, d6; ADR 0011 a4; ADR 0009 a1 |
 | L23.11 | infrastructure retries are counted apart from `--retries` | P12 | rule, applied | ADR 0004 a1; ADR 0021 d7 |
 | L23.12 | a component with no probe class degrades with no verdict | none | accepted | ADR 0021 consequences |
-| L24.1 | the laptop's working tree and local images have no path into the session | P11 | open | ADR 0005; ADR 0011 a2; ADR 0020 d5 |
+| L24.1 | the laptop's working tree and local images have no path into the session | P11 | **open** (drafted: ADR 0022) | ADR 0005; ADR 0011 a2; ADR 0020 d5 |
 | L24.2 | the plan checks the digest's platforms against the target nodes | P7 | rule, applied | ADR 0013 d3, d4; ADR 0011 d7 |
 | L24.3 | a unit's env is its declaration; session env only when named | P12 | amend, applied | ADR 0013 d4, d7; ADR 0005; ADR 0001 |
 | L24.4 | `explain --at` and the release diff against where the digest last passed | P6, P8 | amend, applied | ADR 0013 d3, d7; ADR 0010; ADR 0017 |
@@ -310,6 +310,7 @@ The first table lists every finding that touches an ADR, whatever its dispositio
 | 0019 a unit has an address, reach is a grant (draft) | drafts L4.6; relies on L7.6, L10.5, L10.9 and L19.4; L20.1, L20.2, L20.3, L20.4, L20.5, L20.6, L20.7, L20.8, L20.9, L20.10, L20.11; L24.6, L24.10, L24.11 |
 | 0020 a session is a journal, not a pod (draft) | the design behind ADR 0005; relies on L6.7, L18.2 and L20.9; L21.1, L21.2, L21.3, L21.4, L21.5, L21.6, L21.7, L21.8, L21.9, L21.10, L21.11 |
 | 0021 a node is tested before it is trusted (draft) | automates the cordon of L16.1 and relies on L16.6 and L16.7; L23.1, L23.2, L23.3, L23.4, L23.5, L23.6, L23.7, L23.8, L23.9, L23.10, L23.11, L23.12 |
+| 0022 the laptop lends a tree, the cluster builds it (draft) | drafts L24.1; relies on L24.2, L24.3, L24.4, L24.5, L24.8, L24.9, L24.10 and L24.11 |
 
 | ADR | Amendment | Applies |
 |---|---|---|
