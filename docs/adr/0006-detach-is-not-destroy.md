@@ -25,6 +25,8 @@ Amendment note 2026-11-08: `scale` down on a unit with per-replica volumes deleg
 
 **Consequences.** Holds pin images, so the registry must be part of the artifact store's GC scope or the hold is incomplete. `du` on `/artifacts` shows held bytes separately with their monthly cost. See docs/walkthroughs.md, gap G9.
 
+Note · 2026-11-10: a held artifact that contains a leaked secret is quarantined (readers narrowed, never a cache hit), never deleted or rewritten; ADR 0007 amendment 5 refuses `--purge` on it and names the hold.
+
 ## Amendment 2 · 2026-11-09 · a hold extends to inputs (user story US-08, L8.3)
 
 **Context.** Amendment 1 holds a process's receipt, outputs, the input artifacts they reference and the toolbox digest. Inputs that live in external stores (an object store prefix, a topic's offset range, a table) are not artifacts; they can change or vanish, and a hold on outputs alone does not make `replay --verify` possible in year three.

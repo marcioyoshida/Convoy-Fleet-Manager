@@ -70,7 +70,7 @@ The first five were set by the owner; the other five were added because the walk
 
 ## Findings register
 
-One hundred and forty-nine findings. Disposition counts: **40 amend** (29 applied to the ADRs on 2026-11-09, 11 applied inline to the drafts ADR 0016 to 0020 on 2026-11-10), **89 rule** (60 written into their documents on 2026-11-09, 29 on 2026-11-10), **5 open** (design that did not exist yet; L6.5 is drafted in ADR 0016, L3.1 in ADR 0017, L4.6 in ADR 0019 and L12.5 in ADR 0012 decision 10, all 2026-11-10), **14 accepted** (a surfaced limitation), 1 cross-reference. Full text is in each story's section 10.
+One hundred and forty-nine findings. Disposition counts: **40 amend** (29 applied to the ADRs on 2026-11-09, 11 applied inline to the drafts ADR 0016 to 0020 on 2026-11-10), **89 rule** (60 written into their documents on 2026-11-09, 29 on 2026-11-10), **5 open** (design that did not exist yet, all drafted on 2026-11-10: L6.5 in ADR 0016, L3.1 in ADR 0017, L4.6 in ADR 0019, L12.5 in ADR 0012 decision 10, L9.7 in ADR 0007 amendment 5), **14 accepted** (a surfaced limitation), 1 cross-reference. Full text is in each story's section 10.
 
 | Id | Short name | Probe | Disposition | Touches |
 |---|---|---|---|---|
@@ -130,7 +130,7 @@ One hundred and forty-nine findings. Disposition counts: **40 amend** (29 applie
 | L9.4 | the reference index cannot see every consumer | P9 | rule, applied | ADR 0007 a1 |
 | L9.5 | degraded has no POSIX channel | P8 | amend, applied | ADR 0004, ADR 0005; ADR 0004 a2 |
 | L9.6 | HUP swallowed by a wrapper entrypoint | P7 | rule, applied | ADR 0008 a2 |
-| L9.7 | the leaked value stays in logs and artifacts | P4 | **open** | ADR 0007, ADR 0009 |
+| L9.7 | the leaked value stays in logs and artifacts | P4 | **open** (drafted: ADR 0007 a5) | ADR 0007, ADR 0009 |
 | L9.8 | forcing a deferred retirement is two-person | P3, P10 | rule, applied | ADR 0007 |
 | L10.1 | a disconnected device is not a removed device | P8 | amend, applied | ADR 0011 d8; ADR 0011 a4 |
 | L10.2 | receipts lost when an outage outlasts the pod TTL | P7 | amend, applied | ADR 0009; ADR 0009 a1 |
