@@ -258,6 +258,7 @@ research/
 | Labels and admission | Drafted in ADR 0018: one `convoy.io/` label set on every object the shell writes, CEL admission as the decision, foreign objects read-only until `chown`, controller keys mapped through `caps` |
 | Networking | Drafted in ADR 0019: only a unit has an address, reach is cluster, internal or public with span as a second axis, the owner grants with `--allow` and the caller declares with `--connect`, the platform owns gateways and the default-deny, the session reaches units by port-forward under the user's token |
 | Session | Drafted in ADR 0020: the session is a journal in its residency's artifact store and a login with a shell per terminal; the controller writes every receipt, so losing the pod loses only local commands in flight; the client refreshes the token; hosts are designated per residency; no context object (`mount` adds, `cd` switches); `PS1` escapes for mount, namespace, identity mark and device marks from cached state |
+| Node health | Drafted in ADR 0021: a fixed catalogue of probes tests GPUs, shared-filesystem clients (EFS, NFS), memory and disks on each node; a fault is attributed to a component, the node or the device by comparing peers; a versioned policy acts on clear cases and a health agent session in the controller judges the ambiguous ones with typed verdicts; a component is excluded before the node, cordons stay within a disruption budget, drain and replacement are approval requests, fencing is never automatic; new nodes are burned in before they take work |
 | Code | None |
 
 ## Prior art

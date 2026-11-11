@@ -3,6 +3,8 @@
 **Status:** Draft · 2026-11-09 · revised 2026-11-09 with user-story findings L14.2 and L14.4 (marked inline)
 **Supersedes / relates to:** ADR 0002 (annotation classes give the grammar its types); ADR 0004 (contract flags); ADR 0005 (the session owns the context completion reads); ADR 0007 (secrets never reach the client or a model); ADR 0011 (device classes, mount options, `/sys`, `disconnected`); ADR 0013 (the verb set, `explain --json`, uniform refusals); docs/user-stories/README.md probes P4 (identity leak), P5 (invisible cost), P8 (partial fleet), P11 (data at rest)
 
+Note · 2026-11-10: the draft [ADR 0021](0021-a-node-is-tested-before-it-is-trusted.md) decision 6 is the one place a model's judgment leads to an action with no cursor: the node health agent, a session under a platform service identity, returns typed verdicts that cite probe receipts, from a fixed action set, within a disruption budget. Decision 9 below is unchanged for every session a person or a team owns.
+
 ## Context
 
 The owner's remark: with language models attached to the shell, the next word can always be pulled from an options list with a tab, which gives the language semantic support.

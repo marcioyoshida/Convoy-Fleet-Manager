@@ -47,6 +47,8 @@ STOP without the node agent is refused with the reason. Preempted training jobs 
 
 **Consequences.** A stuck partition costs its retry and the time to power the node off, never a corrupted volume. `kill -KILL` keeps its grace-1 s meaning for every process the kernel can end. The eviction path respects budgets, so a drain can take as long as a budget allows and the receipt says which unit held it. See docs/user-stories/US-16-node-fault.md.
 
+Note · 2026-11-10: the draft [ADR 0021](0021-a-node-is-tested-before-it-is-trusted.md) automates the steps before this amendment's: it excludes components and cordons on its own, but a drain is automatic only for the classes a pool lists in `auto_drain`, and fencing is never automatic.
+
 ## Rules · 2026-11-09 · from the user-story probes
 
 Each line is a `rule` finding from `docs/user-stories/README.md` written here as decided; the story holds the reasoning.

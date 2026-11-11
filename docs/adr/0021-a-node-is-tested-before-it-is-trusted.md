@@ -1,0 +1,92 @@
+# ADR 0021: A node is tested before it is trusted; an agent judges, a policy acts
+
+**Status:** Draft · 2026-11-10
+**Supersedes / relates to:** ADR 0011 amendment 5 (the node tree, `health`, `online`, `fenced`, `rm` as replacement) and amendment 4 (`disconnected` is a state); ADR 0008 amendment 4 (a process in kernel wait is unterminatable; fencing is a node verb); ADR 0003 rule L16.6 (cordoned capacity leaves the plan-time check); ADR 0010 (platform defaults, packages, `caps`) and amendment 1 (`rm` is intent to the pool manager); ADR 0014 decisions 2, 3, 5 and 9 (the model proposes, the model is a device, the outbound scrub, no model without a cursor); ADR 0016 decision 5 (an agent is a session under a service identity); ADR 0017 (approvals; agents never approve); ADR 0018 (labels signal, admission decides); ADR 0020 decision 1 (long-lived actors live in the controller); US-16 (the node fault an SRE handled by hand)
+
+## Context
+
+US-16 gave nodes a tree, a `health` file with a `suspect` verdict, and writable `online` and `fenced` files. Every action in it is a person's: an SRE reads `health`, cordons with `echo 0 > online`, drains with `kill -TERM --node` and replaces with `rm`. The thresholds in the platform defaults "mark a node suspect" and nothing reads the mark. A GPU that falls off the bus at 03:00 hangs a 64-rank run until someone is awake, which is the opposite of what the ML persona asked for: ten minutes and one retry.
+
+Facts that constrain the design:
+
+- The faults that recur are component faults on a node that still reports `Ready=True`: a GPU that stops responding (XID 79 off the bus, XID 48 and 95 uncorrectable ECC, a hung `nvidia-smi`), a shared-filesystem client that stops completing I/O (an EFS or NFS mount whose `efs-proxy` or stunnel tunnel died, a hard mount whose callers sit in D state), and a memory bank whose correctable errors climb until an uncorrectable one kills a process. Kubelet conditions report none of them.
+- Passive signals are not proof. A hung-task count says something waited, not what is broken. A probe that actually touches the component (a kernel on the GPU, a read and write on the mount) is proof, and a probe that does not return within its timeout is a result, not an error.
+- A shared-filesystem fault may belong to the node or to the filesystem. If one node's client is wedged, the node is at fault; if the filesystem is throttled or a zone is impaired, every node mounting it hangs at once, and cordoning them empties the pool for nothing. Only a comparison across nodes tells the two apart.
+- A probe of a hung mount hangs too. A process blocked in kernel I/O cannot be terminated (ADR 0008 amendment 4), so a careless probe becomes one more unterminatable process.
+- Cordoning is cheap and reversible: it stops new placement and kills nothing. Draining costs every process on the node (a gang loses its work since the last checkpoint), replacement costs an instance, and fencing a live kernel permits two writers. The automatic part of any design must stop where cost and irreversibility begin.
+- Many platforms already repair nodes: Karpenter node repair, EKS and GKE auto-repair, Medik8s NodeHealthCheck. Two remediators acting on the same node fight.
+- ADR 0014 lets a model only rank, translate and gloss at a cursor, and never consults one when there is no cursor. An agent session (ADR 0016 decision 5) is the design's only actor that may act without a person present, and it acts under a service identity's rights.
+
+## Decision
+
+1. **Health is tested, not assumed.** The platform installs a probe package (ADR 0010) whose executables are a fixed catalogue, one or more per component class, each with a timeout, a price and a result schema. A probe runs as a process pinned to its node under the platform's health service identity, tolerating `cordoned` so a suspect node can still be tested, and each run has a receipt. Passive sources (the node agent's hung-task, EDAC, MCE and NVMe collectors, DCGM health watches, kubelet conditions) run continuously; active probes run on the platform's `probe_interval` per class and on demand when a passive source crosses its threshold. `cat /sys/k8s/<id>/nodes/<n>/probe` lists the recent runs with result and age; writing a class name to it (`echo gpu > …/probe`) runs that class now, under the platform identity. Probe results feed `health` as one line per component, each with its probe receipt, and are also published as node conditions (`convoy.io/GPUHealthy`, `convoy.io/FSHealthy`, `convoy.io/MemoryHealthy`) so other controllers can read them.
+
+2. **Each component class has its probe.**
+
+   | Class | Passive sources | Active probe | Fault reads as |
+   |---|---|---|---|
+   | `gpu` | DCGM health and XID events; ECC and row-remap counters | `dcgmi diag -r 1`, then a bounded kernel per GPU (allocate, multiply, copy back, compare) with a timeout; on a GPU in use only a timed device query, since the probe never takes a GPU from a running process | `gpu/<i>` no response, XID class, ECC uncorrectable |
+   | `fs` | hung tasks blocked in the filesystem's client; NFS `mountstats` retransmits and timeouts; liveness of the mount helper's tunnel (`efs-proxy` or stunnel) and the CSI node plugin | for each shared-filesystem device mounted on the node: `stat` of the mount root, then a small write, read and delete in the device's probe directory, run in a disposable container that is abandoned at the timeout | `fs/<device>` no response, slow, tunnel down |
+   | `memory` | EDAC correctable rate per DIMM, uncorrectable count, MCE log, pages the kernel offlined | none on a node in service; a memory test only during burn-in (decision 11) | `memory/<dimm>` rate above threshold, uncorrectable |
+   | `disk` | hung tasks per block device, I/O latency, NVMe SMART log | a timed direct read of a reserved block range | `disk/<dev>` no response, media errors |
+
+   A probe of a hung mount is itself left in D state by design: it runs in a container the probe abandons, the abandoned process is counted as one more hung task on that device, and the probe reports `no response` with the timeout. The probe never force-deletes anything.
+
+3. **A fault is attributed before anything acts.** Every failing result is assigned one scope: a component of the node (`gpu3`, `fs/efs-shared`), the node, or the device (the filesystem, or a zone). The attribution compares peers: when a component fails, the same probe runs on a sample of peer nodes in the same pool and topology that share the component's device. A shared-filesystem failure seen on more than the platform's `fault_spread` share of the nodes mounting that device is the device's: the device is marked `degraded` (ADR 0011 amendment 4 gains this state beside `disconnected`), the alert goes to the device's owner, and no node is cordoned for it. A failure on this node that passes on its peers is the node's. A fault on several components of one node at once (as in US-16: disk, GPU and memory) is the node's.
+
+4. **The component is excluded before the node.** Each scope has its own exclusion, least disruptive first:
+   - a GPU: marked unhealthy through the device plugin, or with a DRA device taint where `caps: dra-device-taints` exists, so allocatable drops by one and the node keeps serving; `gpu/<i>/reset` is tried once through the node agent, and a GPU that passes its probe after the reset returns;
+   - a shared-filesystem client: the node is labelled `convoy.io/fs-excluded.<device>` (ADR 0018), and the planner adds a node anti-affinity to every stage that mounts that device, so other work still lands on the node; processes already blocked on the mount are listed as stuck by `top` and are handled by the node's drain, not by the exclusion;
+   - the node: cordon (`online 0`), for a memory fault, an uncorrectable error, a GPU that fails after its reset, a component exclusion that did not clear within the platform's `exclusion_max`, or faults on several components.
+
+   Each component has a writable `online` file of its own (`gpu/<i>/online`, `fs/<device>/online`) with the same meaning as the node's. `ls` on the node tree shows the state, extended with `degraded: <component>`, and every excluded component leaves the allocatable figures and the plan-time capacity check exactly as a cordoned node does (rule L16.6).
+
+5. **A policy decides; an agent judges only what the policy cannot.** The platform default `node_health_policy` is a versioned table of rules from a result to a scope and an action: XID 79 excludes the GPU and resets it, a failed reset cordons, an uncorrectable memory error cordons, a correctable rate above threshold for the dwell time cordons, a tunnel down with a passing peer restarts the mount helper and then excludes the client. `explain` prints the policy and its version. Clear cases never reach a model. A case the rules mark `ambiguous` (results that conflict, a spread near `fault_spread`, several sources each below threshold, a source whose probe and passive signal disagree) goes to the health agent of decision 6. A source that is `stale` or `unknown` is never a trigger: a hung node agent must not cordon a healthy node, and a missing DCGM must not clear a sick one.
+
+6. **The health agent is an agent session with a short list of rights.** One agent session per cluster device runs in the controller (ADR 0020 decision 1), logged in as `svc:platform-health`, the service identity of a group the platform creates for it (ADR 0016 decision 5). It reads the node tree, the probe receipts and the device states, may run probes on any node of its device, and returns a typed verdict: the scope, the component, one action from the set decision 7 allows, a confidence, and reasons that each cite a probe receipt. A verdict that cites no probe result, names an action outside the set, or names a node outside its device is dropped and counted, as ADR 0014 decision 2 drops a proposal outside the candidate set. Below the platform's `verdict_min_confidence` the agent pages with its verdict instead of acting. Its model is a device (ADR 0014 decision 3) mounted with the residency of the cluster; the context it sends is probe results, node metadata and the `dmesg` excerpt after the outbound scrub of ADR 0014 decision 5, never workload data or process arguments. With the model unreachable, the rules still act and every ambiguous case pages: silence is never an action. This is the one place in the design where a model's judgment leads to an action with no cursor, and it is bounded by decisions 7 and 8; ADR 0014 decision 9 still holds for every session a person or a team owns.
+
+7. **What the controller may do on its own, and what it may only request.**
+
+   | Action | Automatic | Otherwise |
+   |---|---|---|
+   | run a probe, on the node or its peers | yes | |
+   | exclude a component, reset a GPU, restart a mount helper | yes | |
+   | lift a component exclusion it set, after the probe passes twice | yes | |
+   | cordon a node (`online 0`) | yes, within the budget of decision 8 | an approval request to the platform group |
+   | drain (`kill -TERM --node`) | only where the pool's `auto_drain` lists the classes on the node and every process on it is of those classes | an approval request |
+   | replace (`rm` on the node, ADR 0010 amendment 1) | no | an approval request; with no pool manager, a `page:` to the hardware owner |
+   | fence (`fenced`) | never | a person, under ADR 0008 amendment 4 |
+   | uncordon a node, or undo any action a person took | never | a person |
+
+   Requests are ADR 0017 approvals on the health process, answered by a person in the platform group; the agent cannot answer them (ADR 0017 decision 5). `auto_drain` is empty by default; a pool of checkpointed training gangs may list `gang` so that a dead GPU costs one restart from checkpoint rather than a hung run until morning.
+
+8. **A disruption budget bounds the controller, not the nodes.** The platform default `node_health_budget` caps, per pool and per zone, how many nodes the controller may hold cordoned at once and how many it may cordon per hour. At the cap the controller stops acting and pages with the verdicts it would have acted on, each as an approval request. If more than the platform's `collector_stale_max` share of a pool's nodes have stale passive sources, or a probe class fails on more than `fault_spread` of a pool, the controller stops acting on that pool altogether and pages: a fleet-wide fault is a broken collector, a bad rollout or a device fault, and is the platform team's to read. A new policy version or a new model starts in `node_health_mode=shadow`: verdicts and the actions they would have taken are recorded and shown in `/sys/k8s/<id>/health/shadow`, and nothing is done, until a person switches the pool to `act`.
+
+9. **Every action has a receipt and its evidence.** The node receipt records each automatic action with the identity, the policy version and the rule, or the agent's verdict with its confidence: `cordoned 03:12 by svc:platform-health (node-health v3, rule xid-79-reset-failed)`. The evidence artifact (class `sensitive`, ADR 0011 amendment 5) pins the probe receipts, the `health` snapshot, the `dmesg` excerpt, and for an agent verdict the model device, the context hash, the verdict and its reasons. Probe runs and inferences are priced to the platform cost centre (ADR 0014 decision 6) and appear in the node's `price` beside its cordoned hours. `ls` shows `cordoned (auto)`, so the platform can tell its controller's cordons from its people's.
+
+10. **People win, and the platform's own repairer is not second-guessed.** A person who writes `online 1` on a node or a component lifts the controller's action and suppresses it on that node for the platform's `health_suppress` window, with a prompted reason in the receipt. The controller never reverses a person. Where the platform runs its own repairer (`caps: node-repair`, naming Karpenter node repair, a cloud auto-repair or Medik8s NodeHealthCheck), the controller does not cordon, drain or replace nodes: it keeps probing, publishes the node conditions of decision 1 so the repairer can act on them, keeps the component exclusions of decision 4 (a repairer acts on whole nodes only), and records the repairer's actions in the node receipt with the actor `platform:<repairer>`.
+
+11. **A node is tested before it is trusted.** A node that joins a pool, or returns from cordon, carries the taint `convoy.io/untested` until the pool's burn-in suite passes: every probe class once, and on a node with no workload yet, the memory test and the full GPU diagnostic. The burn-in is priced to the platform. A node that fails burn-in stays tainted and is handled by decision 7 as any faulty node. A pool's `burn_in` may be `none`, and `explain` on a plan that lands on that pool prints `burn-in: none`.
+
+## Declined
+
+| Proposal | Why not | What replaces it |
+|---|---|---|
+| cordon on `Ready=False` alone | the node lifecycle controller already taints unreachable nodes, and kubelet unreachability is often the network | component probes (decisions 1 and 2) |
+| act on a stale or unknown source | a hung collector would cordon healthy nodes; a missing one would clear sick ones | only fresh results trigger (decision 5) |
+| a model deciding every case | not reproducible, and the clear cases need no judgment | rules first, the agent for `ambiguous` only (decision 5) |
+| the agent with the SRE's rights, or free-form `kubectl` | a model with the platform identity can drain, replace and fence | a fixed action set with typed verdicts (decisions 6 and 7) |
+| automatic fencing | fencing a live kernel permits two writers (ADR 0008 amendment 4) | never automatic (decision 7) |
+| cordoning every node whose shared-filesystem mount hangs | a throttled filesystem or an impaired zone would empty the pool | peer attribution, the device marked `degraded` (decision 3) |
+| a separate remediation operator (a draino-style controller) beside Convoy | a second writer of node state with its own logs and no receipts | the health agent in the controller (decision 6) |
+| a second remediator where the platform has one | two controllers fighting over one node | defer under `caps: node-repair` (decision 10) |
+| a live memory test on a node in service | it competes with workloads for the memory it is testing | EDAC passively; memory test at burn-in (decision 11) |
+
+## Consequences
+
+- US-16's incident runs without a person until the replacement: the GPU's XID 79 excludes `gpu3` and resets it, the failed reset and the hung NVMe cordon the node, the drain is an approval request unless the pool lists `gang` in `auto_drain`, and replacement and fencing stay a person's, as US-16 decided.
+- New `caps` keys: `node-repair`, `dra-device-taints`, `fs-probe:<type>` (the probe for each shared-filesystem driver, provided with its driver package, ADR 0011 amendment 1). New platform defaults: `probe_interval` per class, `fault_spread`, `exclusion_max`, `node_health_policy`, `verdict_min_confidence`, `auto_drain` per pool, `node_health_budget`, `collector_stale_max`, `node_health_mode`, `health_suppress`, `burn_in` per pool. New paths: `probe`, `gpu/<i>/online` and `fs/<device>/online` under each node, `/sys/k8s/<id>/health/shadow`. New states: `degraded: <component>` for a node, `degraded` for a device, and `cordoned (auto)`.
+- ROADMAP: the probe package and the burn-in taint are M10 with the node agent; the health agent session and its verdict schema are M2 with the controller; component states and their exclusion from allocatable are M8 with the node tree.
+- ADR 0014 decision 9 is unchanged for every session a person or a team owns; this record is the one exception and names its bounds. ADR 0011 amendment 5 is unchanged; its thresholds now have a reader.
+- Open, to be settled against this ADR: default thresholds per GPU generation and per filesystem driver; whether a node may return from cordon automatically after burn-in; how verdicts in shadow mode are scored against what people did, before a pool switches to `act`; probes for components not listed (NICs and RDMA links, local NVMe RAID, InfiniBand).
+- No user story probes this record yet.

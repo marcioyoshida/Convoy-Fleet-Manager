@@ -127,6 +127,8 @@ Facts that constrain the design:
 
 **Consequences.** Receipts record the node of every partition attempt and group member, and `status`, `top` and `ps --node` show it (ADR 0013 decision 5). The node agent (ROADMAP M10) gains collectors for hung tasks, EDAC and GPU events, and `caps` reports `dcgm` and `node-agent` as the sources `health` depends on. A replacement arrives as a hotplug event inside the device, so the inventory's event stream (decision 8) carries node-added and node-removed as well as device events. See docs/user-stories/US-16-node-fault.md.
 
+Note · 2026-11-10: the draft [ADR 0021](0021-a-node-is-tested-before-it-is-trusted.md) gives the thresholds of this amendment a reader. Probes test each component and feed `health`; a policy and a health agent session in the controller exclude a GPU or a shared-filesystem client before the node, and cordon by writing `online 0` within a disruption budget; drain, replacement and fencing stay requests to a person. It adds per-component `online` files, a `probe` file, the node state `degraded: <component>` and, beside `disconnected` of amendment 4, a device state `degraded` for a shared filesystem that fails on many nodes at once.
+
 ## Rules · 2026-11-09 · from the user-story probes
 
 Each line is a `rule` finding from `docs/user-stories/README.md` written here as decided; the story holds the reasoning.
