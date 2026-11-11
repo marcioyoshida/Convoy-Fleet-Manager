@@ -53,3 +53,4 @@ Each line is a `rule` finding from `docs/user-stories/README.md` written here as
 - **L7.4** (US-07) the annotation `transient_exit_codes` (or the package's declaration) marks attempts that do not burn the floor but do burn deadline and budget; the receipt counts attempts per index.
 - **L8.4** (US-08) wall-clock deadlines are read in the session's `TZ`; receipts store UTC and the zone; `crontab` sets `timeZone`.
 - **L8.7** (US-08) `caps: alerting` is required for `page:` actions; absence is a plan-time refusal.
+- **L23.11** (US-23) a restart caused by a node health action (ADR 0021) or by the platform's node repairer counts as an infrastructure retry, separate from `--retries`, within the platform's `infra_retries` bound; `explain` prints both bounds and the receipt lists the faults that spent each infrastructure retry.

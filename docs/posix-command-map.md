@@ -292,3 +292,12 @@ Rules the sixteen stories in `docs/user-stories/` decided for specific commands.
 | `kubectl` (toolbox) | the generated kubeconfig asks the session for a token per call; no token in the file | L21.3 |
 | `mount`, `PS1` | `mount` shows the age of each device's cached state; prompt marks older than `prompt_stale` render `?` | L21.7 |
 | `nohup` | the shell warns once when a local command passes `local_max`; the receipt records it | L21.10 |
+| `secret` | `secret scrub` follows the device writes of the processes that held the version and reads forward from them (ADR 0007 amendment 5 decision 2), applies each device class's `scrub:` capability and reports the removal date of what it cannot remove, lists consumer groups past matched offsets, gates `--purge` on each object's owning group, shows match locations to security and owners only, and scans string fields first within `--budget` | L22.1, L22.2, L22.4, L22.5, L22.6, L22.8 |
+| `cat`, `cut`, `head` on a typed topic | fixed text forms: ISO 8601 UTC timestamps, decimals as strings with scale, base64 bytes, enum symbols, bare unions; the schema cache is keyed by registry and id, with fingerprints | L22.3, L22.7 |
+| `kill` | a drain caused by a component the checkpoint needs (a member's GPU, the checkpoint device's client) skips the checkpoint and names the last good one | L23.4 |
+| `status`, `wait` | print the estimated start including the burn-in of joining nodes; receipts count infrastructure retries apart from `--retries` | L23.8, L23.11 |
+| `env`, `export` | a unit gets only the variables it declares with `--env`; a session variable reaches a unit only when named (ADR 0013 decision 4) | L24.3 |
+| `diff` | `diff` of two `explain --at=<path>` plans lists what differs between two environments; `release` prints the same differences from the mount where the digest last passed (ADR 0013 decisions 3 and 7) | L24.4 |
+| `make` and any local stage | under a source-repository mount with `image=`, runs in that image; `explain` names the image of every stage | L24.5 |
+| `ps`, `cost` | units from a non-default branch show their daily cost and their TTL | L24.8 |
+| `netstat` | dropped connections per unit with the host, where `caps: flows` exists; `egress: undeclared` for an image with no annotation | L24.10 |

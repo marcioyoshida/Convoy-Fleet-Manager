@@ -1,6 +1,6 @@
 # User stories as design probes
 
-The nine workloads in [walkthroughs.md](../walkthroughs.md) showed that the design carries them. This directory asks a harder question of the same nine, plus four written against [ADR 0012](../adr/0012-logs-and-queues-are-devices.md) to reach the edge and the Kafka primitive, and one against [ADR 0013](../adr/0013-native-verbs-have-one-shape.md) and [ADR 0014](../adr/0014-assisted-completion-the-model-proposes.md) for the assisted shell, and one against [ADR 0015](../adr/0015-tables-and-catalogs-are-devices.md) for tables and catalogs, and one fleet operation (a faulty node) that found the node layer missing, and one against [ADR 0016](../adr/0016-identity-is-a-user-rights-belong-to-groups.md) for identity (an offboarding, a one-member approving group, a root assumption, a group that vanishes), and one against [ADR 0017](../adr/0017-approvals-are-objects-on-the-process.md) for approvals (a release answered after the author's session ended, a policy edit under a pending gate, a denial, an agent at a gate, a cron entry gated nightly), and one against [ADR 0018](../adr/0018-labels-are-the-signal-admission-is-the-decision.md) for labels (cost by group across two clouds, a backup of one process, adoption of a foreign Deployment, a cluster without admission, a package without a mapping), and one against [ADR 0019](../adr/0019-a-unit-has-an-address-reach-is-a-grant.md) for networking (a cross-team grant, a gated public address, a span refused, a notebook behind the login, a replica debugged from the laptop, a cluster that enforces nothing, a canary under open streams), and one against [ADR 0020](../adr/0020-a-session-is-a-journal-not-a-pod.md) for the session (a drained session host, a second terminal and a watch, an overnight token expiry, a secret typed into env, `newgrp` across residencies, an edge site without its link), and one against ADR 0012 decision 10 and ADR 0007 amendment 5 for typed topics and secret scrub (two pinned reader schemas over one topic, a copy into a held lake table, a leaked password scrubbed across artifacts, logs, a topic and a table), and one against [ADR 0021](../adr/0021-a-node-is-tested-before-it-is-trusted.md) for node health (a night with nobody awake: a GPU fault under a training rank, a shared filesystem failing in one zone, a collector rollout, the platform's own repairer, an edge site without its link), and one from an application developer's laptop to test and production (an arm64 image on amd64 nodes, session env inherited by a unit, a toolbox that is not the service's image, a dependency one major version apart, undeclared egress, a namespace's defaulted limit, a laptop build offered to production, a profile difference found by a crash): for each persona who would run them, does every aspect of the abstraction hold, and where does a verb route to the wrong place? Each story follows [TEMPLATE.md](TEMPLATE.md), which fixes sixteen aspects to cover and twelve loophole probes to run, so that a reader can tell "checked and fine" from "never checked". Findings are collected below with a proposed disposition. **All twenty-nine `amend` findings were applied on 2026-11-09**: as dated amendments to ADR 0001 to 0011 and as inline revisions of the drafts ADR 0012 and 0014, each citing its finding. The sixty `rule` findings were written the same day into a dated Rules section of the ADR each touches, a rules table in the command map, a section of the compiler document and a per-milestone section of the roadmap. US-17's three revisions to ADR 0016 and five rules, US-18's two revisions to ADR 0017 and four rules, US-19's two revisions to ADR 0018 and four rules, US-20's two revisions to ADR 0019 and eight rules, and US-21's two revisions to ADR 0020 and eight rules, were applied the same way on 2026-11-10. The `open` and `accepted` findings stand as written in each story.
+The nine workloads in [walkthroughs.md](../walkthroughs.md) showed that the design carries them. This directory asks a harder question of the same nine, plus four written against [ADR 0012](../adr/0012-logs-and-queues-are-devices.md) to reach the edge and the Kafka primitive, and one against [ADR 0013](../adr/0013-native-verbs-have-one-shape.md) and [ADR 0014](../adr/0014-assisted-completion-the-model-proposes.md) for the assisted shell, and one against [ADR 0015](../adr/0015-tables-and-catalogs-are-devices.md) for tables and catalogs, and one fleet operation (a faulty node) that found the node layer missing, and one against [ADR 0016](../adr/0016-identity-is-a-user-rights-belong-to-groups.md) for identity (an offboarding, a one-member approving group, a root assumption, a group that vanishes), and one against [ADR 0017](../adr/0017-approvals-are-objects-on-the-process.md) for approvals (a release answered after the author's session ended, a policy edit under a pending gate, a denial, an agent at a gate, a cron entry gated nightly), and one against [ADR 0018](../adr/0018-labels-are-the-signal-admission-is-the-decision.md) for labels (cost by group across two clouds, a backup of one process, adoption of a foreign Deployment, a cluster without admission, a package without a mapping), and one against [ADR 0019](../adr/0019-a-unit-has-an-address-reach-is-a-grant.md) for networking (a cross-team grant, a gated public address, a span refused, a notebook behind the login, a replica debugged from the laptop, a cluster that enforces nothing, a canary under open streams), and one against [ADR 0020](../adr/0020-a-session-is-a-journal-not-a-pod.md) for the session (a drained session host, a second terminal and a watch, an overnight token expiry, a secret typed into env, `newgrp` across residencies, an edge site without its link), and one against ADR 0012 decision 10 and ADR 0007 amendment 5 for typed topics and secret scrub (two pinned reader schemas over one topic, a copy into a held lake table, a leaked password scrubbed across artifacts, logs, a topic and a table), and one against [ADR 0021](../adr/0021-a-node-is-tested-before-it-is-trusted.md) for node health (a night with nobody awake: a GPU fault under a training rank, a shared filesystem failing in one zone, a collector rollout, the platform's own repairer, an edge site without its link), and one from an application developer's laptop to test and production (an arm64 image on amd64 nodes, session env inherited by a unit, a toolbox that is not the service's image, a dependency one major version apart, undeclared egress, a namespace's defaulted limit, a laptop build offered to production, a profile difference found by a crash): for each persona who would run them, does every aspect of the abstraction hold, and where does a verb route to the wrong place? Each story follows [TEMPLATE.md](TEMPLATE.md), which fixes sixteen aspects to cover and twelve loophole probes to run, so that a reader can tell "checked and fine" from "never checked". Findings are collected below with a proposed disposition. **All twenty-nine `amend` findings were applied on 2026-11-09**: as dated amendments to ADR 0001 to 0011 and as inline revisions of the drafts ADR 0012 and 0014, each citing its finding. The sixty `rule` findings were written the same day into a dated Rules section of the ADR each touches, a rules table in the command map, a section of the compiler document and a per-milestone section of the roadmap. US-17's three revisions to ADR 0016 and five rules, US-18's two revisions to ADR 0017 and four rules, US-19's two revisions to ADR 0018 and four rules, US-20's two revisions to ADR 0019 and eight rules, US-21's two revisions to ADR 0020 and eight rules, US-22's revision to ADR 0007 amendment 5 and seven rules, US-23's three revisions to ADR 0021 and eight rules, and US-24's two revisions to ADR 0013 and seven rules, were applied the same way on 2026-11-10. The `open` and `accepted` findings stand as written in each story.
 
 | Story | Title | Primary | Secondary | Findings |
 |---|---|---|---|---|
@@ -74,7 +74,7 @@ The first five were set by the owner; the other five were added because the walk
 
 ## Findings register
 
-One hundred and eighty-one findings. Disposition counts: **46 amend** (29 applied to the ADRs on 2026-11-09, 11 applied inline to the drafts ADR 0016 to 0020 on 2026-11-10; L22.1 proposed against ADR 0007 amendment 5, L23.1 to L23.3 against ADR 0021 and L24.3 and L24.4 against ADR 0013, not yet applied), **111 rule** (60 written into their documents on 2026-11-09, 29 on 2026-11-10; seven from US-22, eight from US-23 and seven from US-24 proposed, not yet written), **6 open** (design that did not exist yet; five drafted on 2026-11-10: L6.5 in ADR 0016, L3.1 in ADR 0017, L4.6 in ADR 0019, L12.5 in ADR 0012 decision 10, L9.7 in ADR 0007 amendment 5; L24.1, the inner loop from a laptop, not yet), **17 accepted** (a surfaced limitation), 1 cross-reference. Full text is in each story's section 10.
+One hundred and eighty-one findings. Disposition counts: **46 amend** (29 applied to the ADRs on 2026-11-09; 17 on 2026-11-10: 11 inline to the drafts ADR 0016 to 0020, then L22.1 to ADR 0007 amendment 5, L23.1 to L23.3 inline to ADR 0021, and L24.3 and L24.4 inline to ADR 0013), **111 rule** (60 written into their documents on 2026-11-09, 51 on 2026-11-10), **6 open** (design that did not exist yet; five drafted on 2026-11-10: L6.5 in ADR 0016, L3.1 in ADR 0017, L4.6 in ADR 0019, L12.5 in ADR 0012 decision 10, L9.7 in ADR 0007 amendment 5; L24.1, the inner loop from a laptop, not yet), **17 accepted** (a surfaced limitation), 1 cross-reference. Full text is in each story's section 10.
 
 | Id | Short name | Probe | Disposition | Touches |
 |---|---|---|---|---|
@@ -227,37 +227,37 @@ One hundred and eighty-one findings. Disposition counts: **46 amend** (29 applie
 | L21.9 | no exec into session pods; break-glass by approval, shown by `who` | P9 | rule, applied | ADR 0020 d8; ADR 0016 d6; ADR 0017 |
 | L21.10 | a local command past `local_max` warns and is receipted | P7 | rule, applied | ADR 0020 d3; ADR 0013 |
 | L21.11 | a one-host residency waits in `restoring` | P8 | accepted | ADR 0020 d8; ADR 0016 d11 |
-| L22.1 | scrub scope follows device writes and reads forward from them | P11, P12 | amend | ADR 0007 a5; ADR 0012 d2; ADR 0015 d4 |
-| L22.2 | each device class reports what scrub it can do; retention dates for the rest | P11 | rule | ADR 0007 a5; ADR 0012 d3, d10; ADR 0015 d4, d5 |
-| L22.3 | schema cache keyed by registry and id, with fingerprints | P6 | rule | ADR 0012 d10 |
-| L22.4 | consumer groups past matched offsets listed and paged | P9 | rule | ADR 0007 a5; ADR 0012 L12.6 |
-| L22.5 | purge needs an approver from each object's owning group | P10 | rule | ADR 0007 a5; ADR 0017 d2 |
-| L22.6 | scrub match locations visible to security and owners only | P4 | rule | ADR 0007 a5; ADR 0016 L17.6 |
-| L22.7 | fixed text forms for decimals, timestamps, bytes, enums, unions | P2 | rule | ADR 0012 d10; ADR 0015 d2 |
-| L22.8 | schema-aware scan of string fields; budget binds in order of exposure | P5 | rule | ADR 0007 a5; ADR 0013 d3 |
+| L22.1 | scrub scope follows device writes and reads forward from them | P11, P12 | amend, applied | ADR 0007 a5; ADR 0012 d2; ADR 0015 d4 |
+| L22.2 | each device class reports what scrub it can do; retention dates for the rest | P11 | rule, applied | ADR 0007 a5; ADR 0012 d3, d10; ADR 0015 d4, d5 |
+| L22.3 | schema cache keyed by registry and id, with fingerprints | P6 | rule, applied | ADR 0012 d10 |
+| L22.4 | consumer groups past matched offsets listed and paged | P9 | rule, applied | ADR 0007 a5; ADR 0012 L12.6 |
+| L22.5 | purge needs an approver from each object's owning group | P10 | rule, applied | ADR 0007 a5; ADR 0017 d2 |
+| L22.6 | scrub match locations visible to security and owners only | P4 | rule, applied | ADR 0007 a5; ADR 0016 L17.6 |
+| L22.7 | fixed text forms for decimals, timestamps, bytes, enums, unions | P2 | rule, applied | ADR 0012 d10; ADR 0015 d2 |
+| L22.8 | schema-aware scan of string fields; budget binds in order of exposure | P5 | rule, applied | ADR 0007 a5; ADR 0013 d3 |
 | L22.9 | a held snapshot keeps leaked rows readable until the hold expires | none | accepted | ADR 0007 a5; ADR 0015 d5, L15.5 |
-| L23.1 | an empty node the controller drained is replaced without a person | P10, P5 | amend | ADR 0021 d7, d8; ADR 0010 a1 |
-| L23.2 | a GPU reset waits until no process holds the GPU | P2 | amend | ADR 0021 d4; ADR 0011 a5 |
-| L23.3 | fault spread computed along the path to the device (mount target, zone) | P8 | amend | ADR 0021 d3; ADR 0011 a1, a4 |
-| L23.4 | a drain caused by a component the checkpoint needs skips the checkpoint | P7 | rule | ADR 0021 d7; ADR 0008 a1; ADR 0004 a1 |
-| L23.5 | the health model gets named kernel facilities only, never audit records | P4 | rule | ADR 0021 d6; ADR 0014 d5 |
-| L23.6 | readings carry the collector version; a step with a rollout is the rollout's | P6 | rule | ADR 0021 d5, d8 |
-| L23.7 | `caps` says whether the platform repairer honours a drain | P1 | rule | ADR 0021 d10; ADR 0008 a1 |
-| L23.8 | burn-in capacity is shown as joining, with an estimated start | P5 | rule | ADR 0021 d11; ADR 0003 L16.6; ADR 0013 d5 |
-| L23.9 | at most one abandoned probe per component | P3 | rule | ADR 0021 d2; ADR 0008 a4 |
-| L23.10 | the policy runs at a cut-off site; verdicts queue for the link | P8 | rule | ADR 0021 d5, d6; ADR 0011 a4; ADR 0009 a1 |
-| L23.11 | infrastructure retries are counted apart from `--retries` | P12 | rule | ADR 0004 a1; ADR 0021 d7 |
+| L23.1 | an empty node the controller drained is replaced without a person | P10, P5 | amend, applied | ADR 0021 d7, d8; ADR 0010 a1 |
+| L23.2 | a GPU reset waits until no process holds the GPU | P2 | amend, applied | ADR 0021 d4; ADR 0011 a5 |
+| L23.3 | fault spread computed along the path to the device (mount target, zone) | P8 | amend, applied | ADR 0021 d3; ADR 0011 a1, a4 |
+| L23.4 | a drain caused by a component the checkpoint needs skips the checkpoint | P7 | rule, applied | ADR 0021 d7; ADR 0008 a1; ADR 0004 a1 |
+| L23.5 | the health model gets named kernel facilities only, never audit records | P4 | rule, applied | ADR 0021 d6; ADR 0014 d5 |
+| L23.6 | readings carry the collector version; a step with a rollout is the rollout's | P6 | rule, applied | ADR 0021 d5, d8 |
+| L23.7 | `caps` says whether the platform repairer honours a drain | P1 | rule, applied | ADR 0021 d10; ADR 0008 a1 |
+| L23.8 | burn-in capacity is shown as joining, with an estimated start | P5 | rule, applied | ADR 0021 d11; ADR 0003 L16.6; ADR 0013 d5 |
+| L23.9 | at most one abandoned probe per component | P3 | rule, applied | ADR 0021 d2; ADR 0008 a4 |
+| L23.10 | the policy runs at a cut-off site; verdicts queue for the link | P8 | rule, applied | ADR 0021 d5, d6; ADR 0011 a4; ADR 0009 a1 |
+| L23.11 | infrastructure retries are counted apart from `--retries` | P12 | rule, applied | ADR 0004 a1; ADR 0021 d7 |
 | L23.12 | a component with no probe class degrades with no verdict | none | accepted | ADR 0021 consequences |
 | L24.1 | the laptop's working tree and local images have no path into the session | P11 | open | ADR 0005; ADR 0011 a2; ADR 0020 d5 |
-| L24.2 | the plan checks the digest's platforms against the target nodes | P7 | rule | ADR 0013 d3, d4; ADR 0011 d7 |
-| L24.3 | a unit's env is its declaration; session env only when named | P12 | amend | ADR 0013 d4, d7; ADR 0005; ADR 0001 |
-| L24.4 | `explain --at` and the release diff against where the digest last passed | P6, P8 | amend | ADR 0013 d3, d7; ADR 0010; ADR 0017 |
-| L24.5 | local stages under a source mount run in its `image=` | P2 | rule | ADR 0003; ADR 0011 a2; ADR 0013 d3 |
-| L24.6 | `--connect` carries a version range checked against `/sys` | P9 | rule | ADR 0019 d3; ADR 0011 d7 |
-| L24.7 | `explain` prints the namespace's defaulted limits, quota and Pod Security | P9 | rule | ADR 0013 d3; ADR 0010 |
-| L24.8 | branch units carry a TTL and a daily cost | P3, P5 | rule | ADR 0010; ADR 0013 d7; ADR 0006 |
-| L24.9 | provenance is a mount requirement checked at plan time; secret-shaped files in layers refused | P4 | rule | ADR 0010; ADR 0013 d7; ADR 0007 a2 |
-| L24.10 | undeclared egress is printed; units declare `--egress`; drops counted | P7 | rule | ADR 0019 d4; ADR 0002; ADR 0013 d4 |
+| L24.2 | the plan checks the digest's platforms against the target nodes | P7 | rule, applied | ADR 0013 d3, d4; ADR 0011 d7 |
+| L24.3 | a unit's env is its declaration; session env only when named | P12 | amend, applied | ADR 0013 d4, d7; ADR 0005; ADR 0001 |
+| L24.4 | `explain --at` and the release diff against where the digest last passed | P6, P8 | amend, applied | ADR 0013 d3, d7; ADR 0010; ADR 0017 |
+| L24.5 | local stages under a source mount run in its `image=` | P2 | rule, applied | ADR 0003; ADR 0011 a2; ADR 0013 d3 |
+| L24.6 | `--connect` carries a version range checked against `/sys` | P9 | rule, applied | ADR 0019 d3; ADR 0011 d7 |
+| L24.7 | `explain` prints the namespace's defaulted limits, quota and Pod Security | P9 | rule, applied | ADR 0013 d3; ADR 0010 |
+| L24.8 | branch units carry a TTL and a daily cost | P3, P5 | rule, applied | ADR 0010; ADR 0013 d7; ADR 0006 |
+| L24.9 | provenance is a mount requirement checked at plan time; secret-shaped files in layers refused | P4 | rule, applied | ADR 0010; ADR 0013 d7; ADR 0007 a2 |
+| L24.10 | undeclared egress is printed; units declare `--egress`; drops counted | P7 | rule, applied | ADR 0019 d4; ADR 0002; ADR 0013 d4 |
 | L24.11 | no interactive debugging of production, no callbacks to the laptop | none | accepted | ADR 0005; ADR 0019 d7; ADR 0016 d6 |
 
 ## Structural misroutes
@@ -333,6 +333,9 @@ The first table lists every finding that touches an ADR, whatever its dispositio
 | 0018 | decisions 1, 2, 3, 5 and 7 revised inline | L19.5 (all five); L19.7 (decision 1) |
 | 0019 | decisions 2 and 7 revised inline | L20.8; L20.2 |
 | 0020 | decisions 2 and 6 revised inline | L21.2; L21.4 |
+| 0007 | amendment 5 decision 2 revised inline | L22.1 |
+| 0021 | decisions 3, 4 and 7 revised inline | L23.3; L23.2; L23.1 |
+| 0013 | decisions 3, 4 and 7 revised inline | L24.4 (decisions 3 and 7); L24.3 (decision 4) |
 
 ## Writing a new story
 

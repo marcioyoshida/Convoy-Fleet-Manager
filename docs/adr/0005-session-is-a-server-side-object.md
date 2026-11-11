@@ -15,6 +15,8 @@ One session pod per user runs the parser, planner, local backend, mount table, e
 
 Detach and reattach work. The audit stream is trustworthy. Session state (mount table, env, cwd) is server-side and inherited by launched processes at creation time, Plan 9 style. Identity, ownership and networking all store their state here, so this decision precedes them. Identity is drafted in ADR 0016: the pod's ServiceAccount is only the runtime handle, the session's identity is the user and groups of the login token. The design of the session itself (placement per residency, the journal and restore, the attach protocol, a shell per terminal, idle and upgrade, the prompt) is drafted in [ADR 0020](0020-a-session-is-a-journal-not-a-pod.md).
 
+Note · 2026-11-10: units are the exception to inheritance. A unit outlives the session and every release re-creates its pods, so [ADR 0013](0013-native-verbs-have-one-shape.md) decision 4 (revised with L24.3) makes a unit's environment its declaration only; a session variable reaches a unit only when named with `--env NAME`. Every other launched process inherits as above.
+
 ## Rules · 2026-11-09 · from the user-story probes
 
 Each line is a `rule` finding from `docs/user-stories/README.md` written here as decided; the story holds the reasoning.

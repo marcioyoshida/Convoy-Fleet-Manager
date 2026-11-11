@@ -45,11 +45,15 @@ From the user-story probes. Each milestone's exit criteria include the rules lis
 - **L19.1** `cost --by group` prints declared and settled per group with the allocating component, an idle share, a `?` row, `declared only` where no cost package maps the label, and `unverified` on shell-only clusters.
 - **L19.2** ownership walks ownerReferences to the nearest labelled ancestor (`child of <ancestor>`); the controller labels children templates cannot reach; packages declare propagation in `caps`.
 - **L7.2** metered entries are labelled `declared`; a later `settled` source (provider billing export) reconciles; FinOps sees both; a package whose declared spend is under settled by a platform threshold is flagged in `pkg list`.
+- **L23.5** the health model is sent only the kernel facilities the policy names, never an audit record.
+- **L23.10** the node health policy and probes run in each site's part of the controller; ambiguous verdicts queue for the link.
+- **L23.11** infrastructure retries are counted apart from `--retries`, within `infra_retries`.
 
 **M3**
 
 - **L5.1** `--gang` requires `--checkpoint` on a zone-independent device (object store or RWX); the planner refuses a per-replica PVC path for checkpoints; `explain` prints the rule.
 - **L5.6** the session pre-creates PVCs named `<pid>-<index>` and mounts them by index through the downward API; they are retained on restart and on `kill` (ADR 0006); M3 exit criterion gains this case.
+- **L24.5** a source-repository mount's `image=` (or its devcontainer) runs local stages under it in that image; `explain` names every stage's image.
 
 **M4**
 
@@ -60,6 +64,8 @@ From the user-story probes. Each milestone's exit criteria include the rules lis
 - **L4.1** object-store mounts record the source artifact id as object metadata on `cp`; `ls -l` shows it; `run --model=` resolves and pins the id in the unit receipt; when the registry is the artifact store itself, `ln -s` is the recommended spelling.
 - **L4.5** the fileserver resolves every path argument to a content id at plan time, by sha256 for small objects and by object version id plus size for large ones, and the receipt says which.
 - **L6.4** `backup` excludes Secret objects by default; `--include-secrets` is audited; the receipt lists exclusions.
+- **L22.3** the schema cache is keyed by registry and id with fingerprints; a mismatch is refused naming both registries.
+- **L22.7** fixed text forms for timestamps, decimals, bytes, enums and unions, named in the column list.
 
 **M6**
 
@@ -77,6 +83,12 @@ From the user-story probes. Each milestone's exit criteria include the rules lis
 - **L17.7** `cron list` marks entries whose actor was removed at the provider; they keep running as the group's service identity.
 - **L17.8** `secret set` records its source (`prompt`, `stdin`, `producer`); `secret list --actor` marks what a user knows.
 - **L9.4** `secret retire` is two-phase: disable (version kept, reads denied and logged) for a cooling period, then delete; `fuser --unknown` lists Secret objects referenced by any pod path (env, envFrom, volumes, CSI) that the index did not create; denied reads reopen the retirement.
+- **L22.2** each device class reports its `scrub:` capability; matches it cannot remove are reported with their removal date.
+- **L22.4** consumer groups past matched offsets are listed with owners and paged.
+- **L22.5** `--purge` needs an approver from each purged object's owning group.
+- **L22.6** scrub match locations are readable by security and the owning groups only.
+- **L22.8** schema-aware scans of string fields; `--budget` binds in order of exposure, unscanned ranges listed.
+- **L24.9** provenance is a mount requirement checked at plan time; secret-shaped files in image layers are refused everywhere.
 
 **M8**
 
@@ -84,11 +96,22 @@ From the user-story probes. Each milestone's exit criteria include the rules lis
 - **L20.3** a withdrawn hostname stays reserved to its group for a hold period (30 days default); `netstat --held` lists held names.
 - **L19.4** on an `admission: shell-only` cluster `explain` prints the mode, cost and holds are `unverified`, `backup` and `cost` selectors need `--include-unverified`, `chown` is root-only; the inventory lists the cluster as an accepted risk.
 - **L10.9** `caps` is evaluated per target device at plan time; a backend the site lacks is a plan-time refusal naming the capability and the site.
+- **L23.7** `caps: node-repair` says whether the repairer honours a drain; where not, the controller drains within its wait.
+- **L23.8** burn-in capacity is listed as joining, with the estimated start in `status` and `wait`.
+- **L24.2** the plan checks the digest's platforms against the target pool's.
+- **L24.7** `explain` prints the namespace's defaulted limits, quota headroom and Pod Security level with their sources.
 
 **M9**
 
 - **L20.4** `--internal` certificates only from an issuer `caps` lists as private; otherwise refused unless `internal-ct: allowed`.
 - **L8.6** holds copy the image by digest into a platform-held registry device (`/dev/registry/by-id/held`), or refuse when none exists.
+- **L24.8** branch units carry the profile's `branch_unit_ttl` and show their daily cost.
+
+**M10**
+
+- **L23.4** a drain caused by a component the checkpoint needs skips the checkpoint.
+- **L23.6** readings carry the collector version; a step that coincides with a rollout is the rollout's.
+- **L23.9** at most one abandoned probe per component per node.
 
 **M11**
 
@@ -102,4 +125,5 @@ From the user-story probes. Each milestone's exit criteria include the rules lis
 - **L3.5** `caps: metrics` is required for any metric condition; absence is a plan-time refusal, never a fallback.
 - **L4.3** platform default `idle_timeout` per unit class with a GPU; idle is scale-to-zero with volumes retained (ADR 0006); `ps` shows IDLE and the receipt the idle cost.
 - **L12.3** consumer units default to `maxSurge: 0`, the cooperative-sticky assignor and a drain on TERM that commits before leaving; printed by `explain`.
-
+- **L24.6** `--connect=<path>@<range>` checks the target's version from `/sys`.
+- **L24.10** undeclared egress is printed; units declare `--egress`; dropped connections counted per unit.
