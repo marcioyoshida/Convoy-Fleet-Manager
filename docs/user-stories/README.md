@@ -1,6 +1,6 @@
 # User stories as design probes
 
-The nine workloads in [walkthroughs.md](../walkthroughs.md) showed that the design carries them. This directory asks a harder question of the same nine, plus four written against [ADR 0012](../adr/0012-logs-and-queues-are-devices.md) to reach the edge and the Kafka primitive, and one against [ADR 0013](../adr/0013-native-verbs-have-one-shape.md) and [ADR 0014](../adr/0014-assisted-completion-the-model-proposes.md) for the assisted shell, and one against [ADR 0015](../adr/0015-tables-and-catalogs-are-devices.md) for tables and catalogs, and one fleet operation (a faulty node) that found the node layer missing, and one against [ADR 0016](../adr/0016-identity-is-a-user-rights-belong-to-groups.md) for identity (an offboarding, a one-member approving group, a root assumption, a group that vanishes), and one against [ADR 0017](../adr/0017-approvals-are-objects-on-the-process.md) for approvals (a release answered after the author's session ended, a policy edit under a pending gate, a denial, an agent at a gate, a cron entry gated nightly), and one against [ADR 0018](../adr/0018-labels-are-the-signal-admission-is-the-decision.md) for labels (cost by group across two clouds, a backup of one process, adoption of a foreign Deployment, a cluster without admission, a package without a mapping), and one against [ADR 0019](../adr/0019-a-unit-has-an-address-reach-is-a-grant.md) for networking (a cross-team grant, a gated public address, a span refused, a notebook behind the login, a replica debugged from the laptop, a cluster that enforces nothing, a canary under open streams), and one against [ADR 0020](../adr/0020-a-session-is-a-journal-not-a-pod.md) for the session (a drained session host, a second terminal and a watch, an overnight token expiry, a secret typed into env, `newgrp` across residencies, an edge site without its link): for each persona who would run them, does every aspect of the abstraction hold, and where does a verb route to the wrong place? Each story follows [TEMPLATE.md](TEMPLATE.md), which fixes sixteen aspects to cover and twelve loophole probes to run, so that a reader can tell "checked and fine" from "never checked". Findings are collected below with a proposed disposition. **All twenty-nine `amend` findings were applied on 2026-11-09**: as dated amendments to ADR 0001 to 0011 and as inline revisions of the drafts ADR 0012 and 0014, each citing its finding. The sixty `rule` findings were written the same day into a dated Rules section of the ADR each touches, a rules table in the command map, a section of the compiler document and a per-milestone section of the roadmap. US-17's three revisions to ADR 0016 and five rules, US-18's two revisions to ADR 0017 and four rules, US-19's two revisions to ADR 0018 and four rules, US-20's two revisions to ADR 0019 and eight rules, and US-21's two revisions to ADR 0020 and eight rules, were applied the same way on 2026-11-10. The `open` and `accepted` findings stand as written in each story.
+The nine workloads in [walkthroughs.md](../walkthroughs.md) showed that the design carries them. This directory asks a harder question of the same nine, plus four written against [ADR 0012](../adr/0012-logs-and-queues-are-devices.md) to reach the edge and the Kafka primitive, and one against [ADR 0013](../adr/0013-native-verbs-have-one-shape.md) and [ADR 0014](../adr/0014-assisted-completion-the-model-proposes.md) for the assisted shell, and one against [ADR 0015](../adr/0015-tables-and-catalogs-are-devices.md) for tables and catalogs, and one fleet operation (a faulty node) that found the node layer missing, and one against [ADR 0016](../adr/0016-identity-is-a-user-rights-belong-to-groups.md) for identity (an offboarding, a one-member approving group, a root assumption, a group that vanishes), and one against [ADR 0017](../adr/0017-approvals-are-objects-on-the-process.md) for approvals (a release answered after the author's session ended, a policy edit under a pending gate, a denial, an agent at a gate, a cron entry gated nightly), and one against [ADR 0018](../adr/0018-labels-are-the-signal-admission-is-the-decision.md) for labels (cost by group across two clouds, a backup of one process, adoption of a foreign Deployment, a cluster without admission, a package without a mapping), and one against [ADR 0019](../adr/0019-a-unit-has-an-address-reach-is-a-grant.md) for networking (a cross-team grant, a gated public address, a span refused, a notebook behind the login, a replica debugged from the laptop, a cluster that enforces nothing, a canary under open streams), and one against [ADR 0020](../adr/0020-a-session-is-a-journal-not-a-pod.md) for the session (a drained session host, a second terminal and a watch, an overnight token expiry, a secret typed into env, `newgrp` across residencies, an edge site without its link), and one against ADR 0012 decision 10 and ADR 0007 amendment 5 for typed topics and secret scrub (two pinned reader schemas over one topic, a copy into a held lake table, a leaked password scrubbed across artifacts, logs, a topic and a table): for each persona who would run them, does every aspect of the abstraction hold, and where does a verb route to the wrong place? Each story follows [TEMPLATE.md](TEMPLATE.md), which fixes sixteen aspects to cover and twelve loophole probes to run, so that a reader can tell "checked and fine" from "never checked". Findings are collected below with a proposed disposition. **All twenty-nine `amend` findings were applied on 2026-11-09**: as dated amendments to ADR 0001 to 0011 and as inline revisions of the drafts ADR 0012 and 0014, each citing its finding. The sixty `rule` findings were written the same day into a dated Rules section of the ADR each touches, a rules table in the command map, a section of the compiler document and a per-milestone section of the roadmap. US-17's three revisions to ADR 0016 and five rules, US-18's two revisions to ADR 0017 and four rules, US-19's two revisions to ADR 0018 and four rules, US-20's two revisions to ADR 0019 and eight rules, and US-21's two revisions to ADR 0020 and eight rules, were applied the same way on 2026-11-10. The `open` and `accepted` findings stand as written in each story.
 
 | Story | Title | Primary | Secondary | Findings |
 |---|---|---|---|---|
@@ -25,6 +25,7 @@ The nine workloads in [walkthroughs.md](../walkthroughs.md) showed that the desi
 | [US-19](US-19-label-the-fleet.md) | Bill every team across two clouds from one label, back up one process, and adopt what we did not create | PE | FIN, SEC, SRE, DE, DBA | 7 |
 | [US-20](US-20-expose-and-reach.md) | Put an API on the internet, let one other team call it, and reach a broken pod from my laptop without opening anything else | SRE | DO, DS, SEC, PE, FIN | 11 |
 | [US-21](US-21-session-survives.md) | Keep my shell through a sleeping laptop, a drained node, an expired token and a dead link, and always know which cluster I am typing into | DE | SRE, SEC, PE, DS, FIN | 11 |
+| [US-22](US-22-leak-in-the-stream.md) | Find every copy of a password a producer wrote into an event stream, from the topic to the lake, while the stream's schema keeps changing | SEC | DE, DBA, PE, FIN | 9 |
 
 ## Personas
 
@@ -47,30 +48,30 @@ The first five were set by the owner; the other five were added because the walk
 
 `●` the story stresses the aspect, `○` uses it, `–` does not touch it. Read the rows: an aspect with few `●` has few tests.
 
-| Aspect | 01 | 02 | 03 | 04 | 05 | 06 | 07 | 08 | 09 | 10 | 11 | 12 | 13 | 14 | 15 | 16 | 17 | 18 | 19 | 20 | 21 | Stress |
-|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
-| A1 Pipe, artifact, cache | ● | ○ | ○ | ● | ○ | – | ● | ● | ○ | ● | ● | ● | – | ○ | ● | ○ | ○ | ○ | ○ | ○ | ○ | 8 |
-| A2 Command, annotation | ● | ● | ○ | ● | ● | ○ | ● | ○ | ● | ○ | ○ | ● | ○ | ● | ○ | – | – | – | – | ○ | ○ | 8 |
-| A3 Session, mount table, attach | ○ | ○ | ● | ○ | ● | ● | ○ | ○ | ● | ● | ○ | ○ | ○ | ● | ○ | ○ | ● | ● | – | ● | ● | 10 |
-| A4 Backend selection | ● | ● | ○ | ● | ● | – | ○ | ○ | – | ● | ● | ● | ○ | ○ | ○ | ○ | – | – | ○ | – | ○ | 7 |
-| A5 Completion contract | ● | ● | ● | ● | ● | – | ● | ● | ● | ● | ● | ○ | ● | ○ | ● | ● | ○ | ● | – | – | – | 14 |
-| A6 Device tree, mounts, `/sys` | ○ | ● | ● | ○ | ● | ● | ○ | ● | ● | ● | ● | ○ | ● | ● | ● | ● | ○ | ○ | ● | ● | ● | 15 |
-| A7 Signals, groups | ○ | ● | ○ | ○ | ● | ● | ○ | – | ● | ○ | – | ● | – | – | – | ● | ○ | ○ | – | – | ● | 7 |
-| A8 Secrets | – | – | ○ | – | – | ● | ● | – | ● | ● | ○ | ○ | ● | ● | ○ | – | ● | – | – | – | ● | 8 |
-| A9 Cost | ● | ● | – | ● | ● | ○ | ● | ○ | – | ● | ● | ○ | ● | ● | ● | ● | ○ | ○ | ● | ● | ○ | 13 |
-| A10 Identity, approvals | ○ | ○ | ● | ○ | ○ | ● | ○ | ● | ● | ○ | ○ | ○ | ● | ● | ○ | ○ | ● | ● | ● | ● | ● | 11 |
-| A11 Defaults and `caps` | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | 21 |
-| A12 Storage | – | ● | – | ○ | ● | ● | – | ○ | – | ○ | ○ | – | ○ | – | ● | ● | – | ○ | ● | – | – | 6 |
-| A13 Networking | – | ○ | ● | ● | ○ | ○ | ● | – | – | ● | ○ | ○ | – | – | – | – | – | ○ | – | ● | ○ | 5 |
-| A14 Time, queueing | ● | ○ | ○ | ○ | ● | – | ○ | ● | ○ | ● | ○ | ○ | – | ○ | ○ | ○ | ○ | ● | ○ | ○ | ● | 6 |
-| A15 Audit, receipts, retention | ● | ○ | ● | ● | ○ | ○ | ● | ● | ● | ● | ● | ○ | ○ | ● | ● | ● | ● | ● | ● | ● | ● | 16 |
-| A16 Durability | ○ | ○ | ● | ○ | ● | ● | ○ | ● | ● | ● | ○ | ● | ○ | ○ | ○ | ● | ● | ○ | ○ | ○ | ● | 10 |
+| Aspect | 01 | 02 | 03 | 04 | 05 | 06 | 07 | 08 | 09 | 10 | 11 | 12 | 13 | 14 | 15 | 16 | 17 | 18 | 19 | 20 | 21 | 22 | Stress |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| A1 Pipe, artifact, cache | ● | ○ | ○ | ● | ○ | – | ● | ● | ○ | ● | ● | ● | – | ○ | ● | ○ | ○ | ○ | ○ | ○ | ○ | ● | 9 |
+| A2 Command, annotation | ● | ● | ○ | ● | ● | ○ | ● | ○ | ● | ○ | ○ | ● | ○ | ● | ○ | – | – | – | – | ○ | ○ | ○ | 8 |
+| A3 Session, mount table, attach | ○ | ○ | ● | ○ | ● | ● | ○ | ○ | ● | ● | ○ | ○ | ○ | ● | ○ | ○ | ● | ● | – | ● | ● | – | 10 |
+| A4 Backend selection | ● | ● | ○ | ● | ● | – | ○ | ○ | – | ● | ● | ● | ○ | ○ | ○ | ○ | – | – | ○ | – | ○ | ○ | 7 |
+| A5 Completion contract | ● | ● | ● | ● | ● | – | ● | ● | ● | ● | ● | ○ | ● | ○ | ● | ● | ○ | ● | – | – | – | ● | 15 |
+| A6 Device tree, mounts, `/sys` | ○ | ● | ● | ○ | ● | ● | ○ | ● | ● | ● | ● | ○ | ● | ● | ● | ● | ○ | ○ | ● | ● | ● | ● | 16 |
+| A7 Signals, groups | ○ | ● | ○ | ○ | ● | ● | ○ | – | ● | ○ | – | ● | – | – | – | ● | ○ | ○ | – | – | ● | – | 7 |
+| A8 Secrets | – | – | ○ | – | – | ● | ● | – | ● | ● | ○ | ○ | ● | ● | ○ | – | ● | – | – | – | ● | ● | 9 |
+| A9 Cost | ● | ● | – | ● | ● | ○ | ● | ○ | – | ● | ● | ○ | ● | ● | ● | ● | ○ | ○ | ● | ● | ○ | ○ | 13 |
+| A10 Identity, approvals | ○ | ○ | ● | ○ | ○ | ● | ○ | ● | ● | ○ | ○ | ○ | ● | ● | ○ | ○ | ● | ● | ● | ● | ● | ● | 12 |
+| A11 Defaults and `caps` | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | ● | 22 |
+| A12 Storage | – | ● | – | ○ | ● | ● | – | ○ | – | ○ | ○ | – | ○ | – | ● | ● | – | ○ | ● | – | – | ● | 7 |
+| A13 Networking | – | ○ | ● | ● | ○ | ○ | ● | – | – | ● | ○ | ○ | – | – | – | – | – | ○ | – | ● | ○ | – | 5 |
+| A14 Time, queueing | ● | ○ | ○ | ○ | ● | – | ○ | ● | ○ | ● | ○ | ○ | – | ○ | ○ | ○ | ○ | ● | ○ | ○ | ● | ○ | 6 |
+| A15 Audit, receipts, retention | ● | ○ | ● | ● | ○ | ○ | ● | ● | ● | ● | ● | ○ | ○ | ● | ● | ● | ● | ● | ● | ● | ● | ● | 17 |
+| A16 Durability | ○ | ○ | ● | ○ | ● | ● | ○ | ● | ● | ● | ○ | ● | ○ | ○ | ○ | ● | ● | ○ | ○ | ○ | ● | ● | 11 |
 
 **What no story reaches.** The session attach protocol itself (probed by US-21 against ADR 0020; an SSH bridge and session limits remain), `pkg install` with a failing `requires`, `nice`/`renice` under contention, debugging a failing partition beyond locating it (`strace`, ephemeral containers; US-16 covers the locating), and locks. US-10 closed the edge and disconnected-operation row; US-14 covers interactive assistance and the model as a device. US-15 covers tables and catalogs: a backfill from a topic into an Iceberg table with a hold, a branch write published by `release`, and a priced warehouse read. Two candidate stories would close most of the rest: a platform engineer installing a package that a cluster cannot satisfy, and an engineer debugging one failed partition of a thousand.
 
 ## Findings register
 
-One hundred and forty-nine findings. Disposition counts: **40 amend** (29 applied to the ADRs on 2026-11-09, 11 applied inline to the drafts ADR 0016 to 0020 on 2026-11-10), **89 rule** (60 written into their documents on 2026-11-09, 29 on 2026-11-10), **5 open** (design that did not exist yet, all drafted on 2026-11-10: L6.5 in ADR 0016, L3.1 in ADR 0017, L4.6 in ADR 0019, L12.5 in ADR 0012 decision 10, L9.7 in ADR 0007 amendment 5), **14 accepted** (a surfaced limitation), 1 cross-reference. Full text is in each story's section 10.
+One hundred and fifty-eight findings. Disposition counts: **41 amend** (29 applied to the ADRs on 2026-11-09, 11 applied inline to the drafts ADR 0016 to 0020 on 2026-11-10; L22.1 proposed against ADR 0007 amendment 5, not yet applied), **96 rule** (60 written into their documents on 2026-11-09, 29 on 2026-11-10; seven from US-22 proposed, not yet written), **5 open** (design that did not exist yet, all drafted on 2026-11-10: L6.5 in ADR 0016, L3.1 in ADR 0017, L4.6 in ADR 0019, L12.5 in ADR 0012 decision 10, L9.7 in ADR 0007 amendment 5), **15 accepted** (a surfaced limitation), 1 cross-reference. Full text is in each story's section 10.
 
 | Id | Short name | Probe | Disposition | Touches |
 |---|---|---|---|---|
@@ -223,6 +224,15 @@ One hundred and forty-nine findings. Disposition counts: **40 amend** (29 applie
 | L21.9 | no exec into session pods; break-glass by approval, shown by `who` | P9 | rule, applied | ADR 0020 d8; ADR 0016 d6; ADR 0017 |
 | L21.10 | a local command past `local_max` warns and is receipted | P7 | rule, applied | ADR 0020 d3; ADR 0013 |
 | L21.11 | a one-host residency waits in `restoring` | P8 | accepted | ADR 0020 d8; ADR 0016 d11 |
+| L22.1 | scrub scope follows device writes and reads forward from them | P11, P12 | amend | ADR 0007 a5; ADR 0012 d2; ADR 0015 d4 |
+| L22.2 | each device class reports what scrub it can do; retention dates for the rest | P11 | rule | ADR 0007 a5; ADR 0012 d3, d10; ADR 0015 d4, d5 |
+| L22.3 | schema cache keyed by registry and id, with fingerprints | P6 | rule | ADR 0012 d10 |
+| L22.4 | consumer groups past matched offsets listed and paged | P9 | rule | ADR 0007 a5; ADR 0012 L12.6 |
+| L22.5 | purge needs an approver from each object's owning group | P10 | rule | ADR 0007 a5; ADR 0017 d2 |
+| L22.6 | scrub match locations visible to security and owners only | P4 | rule | ADR 0007 a5; ADR 0016 L17.6 |
+| L22.7 | fixed text forms for decimals, timestamps, bytes, enums, unions | P2 | rule | ADR 0012 d10; ADR 0015 d2 |
+| L22.8 | schema-aware scan of string fields; budget binds in order of exposure | P5 | rule | ADR 0007 a5; ADR 0013 d3 |
+| L22.9 | a held snapshot keeps leaked rows readable until the hold expires | none | accepted | ADR 0007 a5; ADR 0015 d5, L15.5 |
 
 ## Structural misroutes
 
@@ -235,13 +245,13 @@ Reading the register across stories, the findings cluster into fifteen patterns.
 | S3 | **Policy on the verb, not on the mount** | Residency, egress and retention as flags are forgotten; as mount options they bind every command. | L8.2, L7.6, L7.7 | ADR 0011, ADR 0010 |
 | S4 | **Imperative verbs on reconciled objects** | Anything GitOps owns must be written as intent: image, route weight, scale, restart. G3 closed one case of a general rule. | L3.2, L9.3, L3.3, L20.1 | ADR 0010 |
 | S5 | **Hierarchical paths over flat names** | `cd`, `mkdir`, `rmdir` imply a tree; namespaces are a flat list with cascading deletion. | L6.1, L6.2, L6.6 | ADR 0011 |
-| S6 | **The artifact store is data at rest** | Pipes, receipts and logs have a location, a retention and a leak surface; the design treated them as plumbing. | L8.1, L8.3, L8.6, L7.1, L4.1, L1.5, L21.2 | ADR 0001, ADR 0006, ADR 0011, ADR 0020 |
+| S6 | **The artifact store is data at rest** | Pipes, receipts and logs have a location, a retention and a leak surface; the design treated them as plumbing. | L8.1, L8.3, L8.6, L7.1, L4.1, L1.5, L21.2, L22.1 | ADR 0001, ADR 0006, ADR 0007, ADR 0011, ADR 0020 |
 | S7 | **Self-reported numbers in the ledger** | Metered spend, receipt metrics and executable bands come from the thing being measured. | L7.2, L4.2, L2.2 | ADR 0009, ADR 0010 |
 | S8 | **Multi-party actions in a single-actor shell** | Approvals, producer/consumer rotation and forced retirements need a second identity; the shell has one stdin. | L3.1, L9.1, L9.8, L6.7 | ADR 0005, identity design |
-| S9 | **The created-elsewhere blind spot** | Executors, namespaces, consumers and inputs the planner did not create are seen by label, index or not at all. | L9.4, L2.4, L6.6, L8.3, L20.7 | ADR 0007, ADR 0011, ADR 0019 |
+| S9 | **The created-elsewhere blind spot** | Executors, namespaces, consumers and inputs the planner did not create are seen by label, index or not at all. | L9.4, L2.4, L6.6, L8.3, L20.7, L22.4 | ADR 0007, ADR 0011, ADR 0019 |
 | S10 | **Impossible pause, unbounded freeze** | Pause-with-checkpoint and group freeze are the default lifecycle verbs; some workloads have no checkpoint and collectives time out. | L2.6, L5.2, L4.3 | ADR 0004, ADR 0008 |
 | S11 | **Disconnected is a state, not a failure** | Device state, receipts, secrets and placement all assume the session can reach the cluster. At the edge the link is part of the system: a down device must queue, receipts must be spooled where the work ran, secrets must resolve locally, and compute must go to the data. | L10.1, L10.2, L10.6, L10.7, L10.5 | ADR 0003, ADR 0007, ADR 0009, ADR 0011 |
-| S12 | **A log is append-only; reruns, replacements and deletes do not mean what they mean on a file** | A rerun of a write appends beside the old records, a replacement is impossible, a delete is immediate and total, and an unbounded read never ends. Every verb that assumes file semantics must say what it does on a log. | L11.2, L11.3, L12.2, L13.1, L13.5 | ADR 0012 |
+| S12 | **A log is append-only; reruns, replacements and deletes do not mean what they mean on a file** | A rerun of a write appends beside the old records, a replacement is impossible, a delete is immediate and total, and an unbounded read never ends. Every verb that assumes file semantics must say what it does on a log. | L11.2, L11.3, L12.2, L13.1, L13.5, L22.2 | ADR 0012, ADR 0007 |
 | S13 | **Context that leaves the session is data at rest somewhere else** | Anything sent to a model, a provider or a remote service for the user's convenience (a comment to translate, a candidate list, a plan) is retained there under rules the session does not control; residency names a place, not a duration, and free text typed by a user is not covered by "secrets are references". | L14.2, L14.4, L14.5, L20.4, L20.8, L21.5 | ADR 0014 decisions 3 and 5, ADR 0019 decision 2, ADR 0020 decision 8 |
 | S14 | **The node is not in the tree** | Clusters are devices and pods are processes, so the layer where disks, GPUs and memory fail has no path, no health file, no verb and no column in `ps`; every hardware incident starts outside the shell, and the one verb that exists for a hung process (`kill -KILL`) cannot work there. | L16.1, L16.2, L16.7 | ADR 0011 decision 7, ADR 0008 |
 | S15 | **Identity changes outside the shell** | Users and groups are born and die at the identity provider, and a token is a cache of membership for its lifetime; Convoy can only observe a removal, at the event where the provider pushes one and at token expiry otherwise, and it can refuse nothing the provider does. Every rule about removal, orphaned groups and root assumption must say what the shell sees and when, never pretend to a veto. | L17.1, L17.2, L17.5 | ADR 0016 decisions 5, 6 and 9 |
@@ -258,12 +268,12 @@ The first table lists every finding that touches an ADR, whatever its dispositio
 | 0004 completion contract | L1.3, L2.6, L4.4, L5.1, L5.5, L7.3, L7.4, L8.4, L8.7, L9.5 |
 | 0005 session is server-side | L3.1, L6.7, L7.3, L9.5 |
 | 0006 detach is not destroy | L1.5, L5.6, L6.2, L8.3, L8.6, L11.4, L13.1 |
-| 0007 secrets are references | L3.3, L6.4, L7.1, L9.1, L9.2, L9.4, L9.7, L9.8, L10.6 |
+| 0007 secrets are references | L3.3, L6.4, L7.1, L9.1, L9.2, L9.4, L9.7, L9.8, L10.6, L22.1, L22.2, L22.4, L22.5, L22.6, L22.8, L22.9 |
 | 0008 signal routing | L2.3, L5.2, L9.2, L9.3, L9.6 |
 | 0009 stdout artifact, stderr log | L4.2, L7.1, L8.5, L9.7, L10.2 |
 | 0010 platform defaults | L2.2, L3.2, L4.3, L6.2, L7.2, L7.6, L8.2, L8.7, L9.3, L10.9, L12.3, L13.3 |
 | 0011 device tree | L2.1, L2.5, L3.3, L4.1, L5.3, L6.1, L7.7, L8.1, L8.2, L10.1, L10.5, L10.8 |
-| 0012 logs and queues are devices | L10.3, L11.1, L11.2, L11.3, L11.5, L11.6, L12.1, L12.2, L12.4, L12.5, L12.6, L13.1, L13.2, L13.3, L13.4, L13.5, L13.6 |
+| 0012 logs and queues are devices | L10.3, L11.1, L11.2, L11.3, L11.5, L11.6, L12.1, L12.2, L12.4, L12.5, L12.6, L13.1, L13.2, L13.3, L13.4, L13.5, L13.6, L22.2, L22.3, L22.7 |
 | 0013 native verbs have one shape (draft) | closes as verb entries: L3.5, L4.4, L5.5, L8.7, L10.9, L11.4, L12.2, L13.5; references without deciding: L3.1, L7.3, L9.5; L14.3 |
 | 0014 assisted completion (draft) | L14.1, L14.2, L14.3, L14.4, L14.5, L14.6 |
 | 0015 tables and catalogs are devices (draft) | L15.1, L15.2, L15.3, L15.4, L15.5, L15.6, L15.7 |
