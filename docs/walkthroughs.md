@@ -135,6 +135,89 @@ release --promote       weight 100/0, old ReplicaSet retained for --rollback
 
 **GAP G3, release writes intent.** The shell is imperative and the platform is declarative. If `release` patched the Deployment image directly, GitOps would revert it within minutes, which is the inert-feature failure mode. `release` must write the intended version where the platform says (the GitOps repository by default, the API server only when the platform sets `release_path=direct` for development namespaces), then wait for reconciliation. The receipt carries both the commit hash and the ReplicaSet hash so a reader can tie the audit line to the object. *Closed by: ROADMAP M11 scope and exit criterion; ADR 0010 already gives the platform the `release_path` default.*
 
+### The same release from a laptop, with a unit-test gate at every hop
+
+The session above starts at CI. The diagram follows one change from the developer's laptop: built and tested locally, pushed to GitHub, then promoted through `dev`, `int-staging`, a dry run and production. Every arrow forward passes a unit-test gate. Every gate that fails stops the chain at `&&` with exit 1, before anything is promoted.
+
+```mermaid
+flowchart TB
+    subgraph LAP["💻 Laptop: the developer's own loop, no Convoy in it (ADR 0022 decision 10)"]
+        direction LR
+        L1["edit"] --> L2["build locally<br/>make build, docker build"] --> L3{"unit tests<br/>make unit"}
+    end
+
+    subgraph GH["GitHub"]
+        direction LR
+        G1["git push<br/>open a pull request"] --> G2["CI in /clusters/ci<br/>batch ci.sh rebuilds from the commit"] --> G3{"unit tests<br/>on the CI image"} --> G4["merge<br/>digest sha256:9b1e…<br/>attested provenance: ci"]
+    end
+
+    subgraph DEV["/clusters/dev/orders"]
+        direction LR
+        D1["release orders-api sha256:9b1e…<br/>wait --healthy"] --> D2{"unit tests<br/>run --image=digest make unit"}
+    end
+
+    subgraph STG["/clusters/int-staging/orders"]
+        direction LR
+        S1["release orders-api sha256:9b1e…<br/>wait --healthy"] --> S2{"unit tests<br/>then integration tests<br/>against real dependencies"}
+    end
+
+    subgraph DRY["Dry run: nothing is written (ADR 0013 decision 3)"]
+        direction LR
+        R1["explain --at=/clusters/prod-eu/orders<br/>release orders-api sha256:9b1e…"] --> R2{"release diff against int-staging<br/>Pod Security, read-only root, limits,<br/>egress, provenance, platforms"} --> R3["approval object pins the plan<br/>another person runs approve<br/>(ADR 0017)"]
+    end
+
+    subgraph PRD["/clusters/prod-eu/orders"]
+        direction LR
+        P1{"unit tests<br/>run --image=digest make unit<br/>a Job, no traffic"} --> P2["release --canary=10%<br/>wait --healthy --error-rate-below=0.5%"] --> P3{"smoke tests<br/>on the canary"} --> P4["release --promote<br/>receipt: commit and ReplicaSet hashes"]
+    end
+
+    L3 -->|pass| G1
+    G4 --> D1
+    D2 -->|pass| S1
+    S2 -->|pass| R1
+    R3 --> P1
+
+    STOP["⛔ the chain stops: exit 1 or 3<br/>nothing promoted, receipt names the gate"]
+    L3 -.->|fail| L1
+    G3 -.->|fail| STOP
+    D2 -.->|fail| STOP
+    S2 -.->|fail| STOP
+    R2 -.->|"difference under --strict<br/>or release_diff=refuse"| STOP
+    R3 -.->|deny or timeout| STOP
+    P1 -.->|fail| STOP
+    P3 -.->|fail| RB["release --rollback<br/>route weight back to 0/100"]
+    RB --> STOP
+    STOP -.->|fix on the laptop| L1
+```
+
+**Session, from the merge onward**
+
+```bash
+$ D=sha256:9b1e…                          # the digest CI attested; tags are never promoted
+$ for env in dev int-staging; do
+    release orders-api $D --to=/clusters/$env/orders \
+    && wait --healthy orders-api --timeout=10m \
+    && (cd /clusters/$env/orders && run --image=$D make unit) \
+    || exit 1
+  done \
+  && (cd /clusters/int-staging/orders && run --image=$D make integration) \
+  && explain --at=/clusters/prod-eu/orders release orders-api $D --strict \
+  && cd /clusters/prod-eu/orders \
+  && run --image=$D make unit \
+  && release orders-api $D --to=/clusters/prod-eu/orders --canary=10% --strict \
+  && wait --healthy orders-api --timeout=15m --error-rate-below=0.5% \
+  && run --image=$D make smoke \
+  && release orders-api --promote --to=/clusters/prod-eu/orders
+```
+
+**What the gates hold.**
+
+- **The laptop's build is for the developer, not for release.** `make build` and `make unit` on the laptop give a fast answer and stay outside Convoy (ADR 0022 decision 10). The image a laptop builds is the laptop's architecture and carries `provenance: laptop`, so `int-staging` and `prod-eu`, whose profiles require `provenance=ci`, refuse it at plan time (rule L24.9, ADR 0022 decision 5). A developer who wants the cluster's architecture before pushing lends the tree and builds there (`attach --lend`, `run image-build`), which yields `provenance: session`, enough for `dev` and never for production.
+- **CI builds the one digest every later gate tests.** `batch ci.sh` rebuilds from the commit, runs the unit tests on that image and attests the digest. From there on the same bytes move; the unit tests run again at each hop because each mount has a different profile, and a test that passes in `dev` and fails under `int-staging`'s read-only root or egress policy is the failure US-24 found in production.
+- **Each mount runs its own tests.** `run --image=$D make unit` is a process in the mount being promoted to, with that mount's identity, profile, limits and egress (ADR 0013 decision 4). In `int-staging` the integration tests follow against the environment's real dependencies; in `prod-eu` the unit tests run as a Job that takes no traffic, before the canary.
+- **The dry run is `explain`, and it is what the approver signs.** `explain --at=/clusters/prod-eu/orders` prints the plan production would run without writing anything, and the release diff lists every difference from `int-staging`, where the digest last passed (L24.4). Under `--strict` or the production profile's `release_diff=refuse`, any difference stops the chain. Otherwise, when `release` reaches the policy for `prod-*`, the process suspends and the session creates an approval object holding the hash of that plan and its pinned `explain` output; a person other than the author approves it from their own session (ADR 0017 decisions 1 and 5).
+- **Production is a canary until the smoke tests pass.** `--canary=10%` writes a route weight as GitOps intent, `wait --healthy` reads readiness and the error rate, and the smoke tests run against the canary. A failure rolls the weight back to 0/100 and exits 1 with nothing promoted; `--promote` moves the weight to 100/0 and keeps the old ReplicaSet for `--rollback` (gap G3).
+
 ---
 
 ## 4. Machine learning pipeline
