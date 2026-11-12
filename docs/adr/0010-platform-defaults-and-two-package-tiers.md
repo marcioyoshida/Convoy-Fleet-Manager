@@ -15,6 +15,8 @@ Platform packages (operators, controllers, CRDs) are installed by the platform t
 
 Users see which default came from which profile through `explain`. `pkg remove` prints what is retained and how to destroy it. Drift is visible because installs are Git-backed.
 
+
+Note · 2026-11-12: the draft [ADR 0024](0024-a-device-is-installed-by-terraform.md) adds a third kind of package content, the device package's contract and its Terraform modules per provider, installed by `mknod` through the platform's runner; day-2 workloads stay with GitOps as decided here.
 ## Amendment 1 · 2026-11-09 · managed objects are written as intent (user stories US-03 and US-09, L3.2 and L9.3)
 
 **Context.** Walkthrough gap G3 made `release` write the image version to the GitOps repository. Everything else that mutates an object GitOps owns, a canary route weight, a replica count, a rollout-restart annotation, still patched the object directly, and self-heal reverts each within minutes. The shell is imperative and the platform is declarative, and the seam has to be in one place.

@@ -176,7 +176,7 @@ podFailurePolicy:
 
 ## 9. Package management — **Adjust**
 
-**Holds.** Day-0 infrastructure (clusters, VPCs, IAM, storage backends) is Terraform/OpenTofu's job; day-1/2 workloads are Helm/OCI; operators for stateful services; devcontainers for language dependencies.
+**Holds.** Day-0 infrastructure (clusters, VPCs, IAM, storage backends) is Terraform/OpenTofu's job; day-1/2 workloads are Helm/OCI; operators for stateful services; devcontainers for language dependencies. *Note 2026-11-12: the draft [ADR 0024](adr/0024-a-device-is-installed-by-terraform.md) keeps Terraform as the engine of day 0 and brings it into the shell as the install phase of every device: a device package carries a Terraform module per provider, `mknod` plans and installs through the platform's runner, and state is a device (US-27, L27.1).*
 
 **Wrong.**
 - **One `pkg install` cannot do both tiers.** Operators and CRDs are cluster-scoped and need cluster-admin; a user's namespace cannot install CloudNativePG. The note blurs platform packages and user packages.
