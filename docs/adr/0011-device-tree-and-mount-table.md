@@ -103,7 +103,7 @@ Facts that constrain the design:
 
 **Consequences.** The GitOps repository is now something `fuser` can report holders of and `ls -l` can show the identity of. Receipts name the store of every artifact. A fleet with one region has one store and sees no difference.
 
-Note · 2026-11-11: the draft [ADR 0022](0022-the-laptop-lends-a-tree-the-cluster-builds-it.md) adds a source-repository device kind `worktree`, `/dev/scm/by-id/wt-<host>-<name>`: a working tree lent from a laptop as read-only snapshots, `disconnected` while the laptop is away.
+Note · 2026-11-11: the draft [ADR 0022](0022-the-laptop-lends-a-tree-the-cluster-builds-it.md) adds a source-repository device kind `worktree`, `/dev/scm/by-id/wt-<user>-<host>-<name>`: a working tree lent from a laptop as read-only snapshots, `disconnected` while the laptop is away.
 
 ## Amendment 3 · 2026-11-09 · `nsmap` and `residency` are mount options (user stories US-06 and US-08, L6.1 and L8.2)
 
@@ -140,3 +140,4 @@ Each line is a `rule` finding from `docs/user-stories/README.md` written here as
 - **L5.3** (US-05) `/sys/k8s/<id>/preemption_rate` per node group (ADR 0011 decision 7); the band widens by expected restart loss on spot; the receipt separates productive from lost time.
 - **L7.7** (US-07) named queues carry a retention class and sit on a device with a topology; `mkfifo` prints both.
 - **L10.5** (US-10) `/sys/k8s/<id>/link` holds state, bandwidth and price per gigabyte; the band separates link egress from compute; placement prefers the side of the link with the data.
+- **L25.10** (US-25) the `worktree` source-repository device (ADR 0022) has the id `wt-<user>-<host>-<name>` and is readable by its lender unless shared with `lend --share=<group>` (full rule in ADR 0022).

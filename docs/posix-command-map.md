@@ -301,3 +301,7 @@ Rules the sixteen stories in `docs/user-stories/` decided for specific commands.
 | `make` and any local stage | under a source-repository mount with `image=`, runs in that image; `explain` names the image of every stage | L24.5 |
 | `ps`, `cost` | units from a non-default branch show their daily cost and their TTL | L24.8 |
 | `netstat` | dropped connections per unit with the host, where `caps: flows` exists; `egress: undeclared` for an image with no annotation | L24.10 |
+| `make` and any local stage under `/src/<name>` | runs with a per-process writable overlay over the read-only worktree, discarded at exit (ADR 0022) | L25.13 |
+| `ps` | a followed dev unit shows its digest, its tree and the updates since the build; a debugged one shows `paused (debugger)` with its duration; `--follow` shows its builds and their cost | L25.5, L25.6, L25.8 |
+| `run --unit --from`, `attach --env-of` | refused in a mount with `release_path=git`; a secret-shaped plain `--env` value is refused and `--env-of` writes none; `explain` of `--like` lists the target's policies it does not reproduce | L25.12, L25.14, L25.15 |
+| `attach --lend`, `lend` | `--dry-run` prints sent, excluded and withheld files; data files refused by `lend_exclude`; the device id carries the user and the snapshot is the lender's unless `--share=<group>` | L25.2, L25.3, L25.10 |

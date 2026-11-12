@@ -75,7 +75,7 @@ The first five were set by the owner; the other five were added because the walk
 
 ## Findings register
 
-One hundred and ninety-seven findings. Disposition counts: **50 amend** (29 applied to the ADRs on 2026-11-09; 17 on 2026-11-10: 11 inline to the drafts ADR 0016 to 0020, then L22.1 to ADR 0007 amendment 5, L23.1 to L23.3 inline to ADR 0021, and L24.3 and L24.4 inline to ADR 0013; L25.1, L25.4, L25.7 and L25.11 proposed against ADR 0022 on 2026-11-11, not yet applied), **122 rule** (60 written into their documents on 2026-11-09, 51 on 2026-11-10; eleven from US-25 proposed, not yet written), **6 open** (design that did not exist yet, all drafted: on 2026-11-10 L6.5 in ADR 0016, L3.1 in ADR 0017, L4.6 in ADR 0019, L12.5 in ADR 0012 decision 10, L9.7 in ADR 0007 amendment 5; on 2026-11-11 L24.1 in ADR 0022), **18 accepted** (a surfaced limitation), 1 cross-reference. Full text is in each story's section 10.
+One hundred and ninety-seven findings. Disposition counts: **50 amend** (29 applied to the ADRs on 2026-11-09; 17 on 2026-11-10: 11 inline to the drafts ADR 0016 to 0020, then L22.1 to ADR 0007 amendment 5, L23.1 to L23.3 inline to ADR 0021, and L24.3 and L24.4 inline to ADR 0013; 4 on 2026-11-11: L25.1, L25.4, L25.7 and L25.11 inline to ADR 0022), **122 rule** (60 written into their documents on 2026-11-09, 51 on 2026-11-10, 11 on 2026-11-11), **6 open** (design that did not exist yet, all drafted: on 2026-11-10 L6.5 in ADR 0016, L3.1 in ADR 0017, L4.6 in ADR 0019, L12.5 in ADR 0012 decision 10, L9.7 in ADR 0007 amendment 5; on 2026-11-11 L24.1 in ADR 0022), **18 accepted** (a surfaced limitation), 1 cross-reference. Full text is in each story's section 10.
 
 | Id | Short name | Probe | Disposition | Touches |
 |---|---|---|---|---|
@@ -260,21 +260,21 @@ One hundred and ninety-seven findings. Disposition counts: **50 amend** (29 appl
 | L24.9 | provenance is a mount requirement checked at plan time; secret-shaped files in layers refused | P4 | rule, applied | ADR 0010; ADR 0013 d7; ADR 0007 a2 |
 | L24.10 | undeclared egress is printed; units declare `--egress`; drops counted | P7 | rule, applied | ADR 0019 d4; ADR 0002; ADR 0013 d4 |
 | L24.11 | no interactive debugging of production, no callbacks to the laptop | none | accepted | ADR 0005; ADR 0019 d7; ADR 0016 d6 |
-| L25.1 | a sparse lend of one root as one tree; build context outside the snapshot refused at plan time | P7 | amend | ADR 0022 d1, d4 |
-| L25.2 | `lend --dry-run` lists sent, excluded and withheld files; a build needing one is refused | P7 | rule | ADR 0022 d2, d4; ADR 0007 a2 |
-| L25.3 | data files refused by `lend_exclude`, naming the residency | P11 | rule | ADR 0022 d2, d3; ADR 0010; ADR 0016 d11 |
-| L25.4 | a snapshot is current only when complete; request by path is authorization, not lazy fetch | P8 | amend | ADR 0022 d1, d2, d3; ADR 0011 a4; ADR 0020 d5 |
-| L25.5 | a followed unit is digest and tree; a digest passes only for the tree it was built from | P6 | rule | ADR 0022 d7; ADR 0013 d7 |
-| L25.6 | a debugger pause is shown and bounded by `debug_pause_max` | P10 | rule | ADR 0022 d8; ADR 0008; ADR 0010 |
-| L25.7 | dev units are `<name>-<user>` with their own address; a shared unit's name is refused | P10 | amend | ADR 0022 d6; ADR 0019 d2, d3; ADR 0013 d4 |
-| L25.8 | `--follow` coalesces builds, caps them per hour and shows their cost | P5 | rule | ADR 0022 d7; ADR 0010 |
-| L25.9 | build steps run without registry credentials, with `build_egress`; the builder pushes | P4 | rule | ADR 0022 d4; ADR 0016 d5; ADR 0019 d4 |
-| L25.10 | the worktree id carries the user; snapshots are the lender's unless shared | P4 | rule | ADR 0022 d1, d3; ADR 0016 d3; ADR 0011 a2 |
-| L25.11 | a snapshot's tree id is the git tree hash; a CI digest names the snapshot that passed | P6 | amend | ADR 0022 d1, d5; ADR 0001; ADR 0013 d7 |
-| L25.12 | dev units refused in mounts with `release_path=git` | P1 | rule | ADR 0022 d6; ADR 0010 a1 |
-| L25.13 | local stages under a worktree get a discarded writable overlay | P2 | rule | ADR 0003; ADR 0022 d1 |
-| L25.14 | secret-shaped plain env values refused; `--env-of` writes none | P12 | rule | ADR 0022 d9; ADR 0013 d4; ADR 0007 a2 |
-| L25.15 | `--like` lists the target's policies it does not reproduce | P9 | rule | ADR 0022 d6; ADR 0013 d3 |
+| L25.1 | a sparse lend of one root as one tree; build context outside the snapshot refused at plan time | P7 | amend, applied | ADR 0022 d1, d4 |
+| L25.2 | `lend --dry-run` lists sent, excluded and withheld files; a build needing one is refused | P7 | rule, applied | ADR 0022 d2, d4; ADR 0007 a2 |
+| L25.3 | data files refused by `lend_exclude`, naming the residency | P11 | rule, applied | ADR 0022 d2, d3; ADR 0010; ADR 0016 d11 |
+| L25.4 | a snapshot is current only when complete; request by path is authorization, not lazy fetch | P8 | amend, applied | ADR 0022 d1, d2, d3; ADR 0011 a4; ADR 0020 d5 |
+| L25.5 | a followed unit is digest and tree; a digest passes only for the tree it was built from | P6 | rule, applied | ADR 0022 d7; ADR 0013 d7 |
+| L25.6 | a debugger pause is shown and bounded by `debug_pause_max` | P10 | rule, applied | ADR 0022 d8; ADR 0008; ADR 0010 |
+| L25.7 | dev units are `<name>-<user>` with their own address; a shared unit's name is refused | P10 | amend, applied | ADR 0022 d6; ADR 0019 d2, d3; ADR 0013 d4 |
+| L25.8 | `--follow` coalesces builds, caps them per hour and shows their cost | P5 | rule, applied | ADR 0022 d7; ADR 0010 |
+| L25.9 | build steps run without registry credentials, with `build_egress`; the builder pushes | P4 | rule, applied | ADR 0022 d4; ADR 0016 d5; ADR 0019 d4 |
+| L25.10 | the worktree id carries the user; snapshots are the lender's unless shared | P4 | rule, applied | ADR 0022 d1, d3; ADR 0016 d3; ADR 0011 a2 |
+| L25.11 | a snapshot's tree id is the git tree hash; a CI digest names the snapshot that passed | P6 | amend, applied | ADR 0022 d1, d5; ADR 0001; ADR 0013 d7 |
+| L25.12 | dev units refused in mounts with `release_path=git` | P1 | rule, applied | ADR 0022 d6; ADR 0010 a1 |
+| L25.13 | local stages under a worktree get a discarded writable overlay | P2 | rule, applied | ADR 0003; ADR 0022 d1 |
+| L25.14 | secret-shaped plain env values refused; `--env-of` writes none | P12 | rule, applied | ADR 0022 d9; ADR 0013 d4; ADR 0007 a2 |
+| L25.15 | `--like` lists the target's policies it does not reproduce | P9 | rule, applied | ADR 0022 d6; ADR 0013 d3 |
 | L25.16 | no save-to-reload latency target; the measured time is printed | none | accepted | ADR 0022 d7; ADR 0020 d5 |
 
 ## Structural misroutes
@@ -354,6 +354,7 @@ The first table lists every finding that touches an ADR, whatever its dispositio
 | 0007 | amendment 5 decision 2 revised inline | L22.1 |
 | 0021 | decisions 3, 4 and 7 revised inline | L23.3; L23.2; L23.1 |
 | 0013 | decisions 3, 4 and 7 revised inline | L24.4 (decisions 3 and 7); L24.3 (decision 4) |
+| 0022 | decisions 1, 2, 4, 5 and 6 revised inline; decision 3 by rule L25.10 | L25.1 (decisions 1 and 4); L25.4 (decisions 1 and 2); L25.7 (decision 6); L25.11 (decisions 1 and 5) |
 
 ## Writing a new story
 
