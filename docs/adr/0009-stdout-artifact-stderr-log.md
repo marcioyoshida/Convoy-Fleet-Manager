@@ -17,6 +17,8 @@ Remote stages write stdout to their artifact and stderr to the container log; `2
 
 Note · 2026-11-10: the draft [ADR 0020](0020-a-session-is-a-journal-not-a-pod.md) decision 1 moves the watcher and receipt writer from the session to the Convoy controller, so a lost session loses no receipt; amendment 1 below is unchanged.
 
+Note · 2026-11-11: the draft [ADR 0023](0023-telemetry-is-a-device-the-shell-reads.md) decision 7 gives stderr its second half: a process's stderr is one path across its life, read from the pod while it exists and from the platform's log device after, and the receipt names the log device and selector that hold it.
+
 ## Amendment 1 · 2026-11-09 · receipts survive a lost link (user story US-10, L10.2)
 
 **Context.** The decision has the session watch the object and persist the exit code before TTL deletion. When the session cannot reach the cluster for longer than the TTL, the object is gone before anyone recorded how it ended, and the receipt has no exit code.

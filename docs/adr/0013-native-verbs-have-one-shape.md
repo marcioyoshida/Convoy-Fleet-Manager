@@ -114,7 +114,7 @@ The remark that prompted this record: the non-Linux commands could be more compr
 5. **`wait` has three subjects, and the contract code is what it returns.**
 
    - **synopsis** `wait [<pid>…]`, `wait <unit> --healthy [--error-rate-below=<pct>] [--lag-below=<n>] [--timeout=<duration>]`, `wait --lag-below=<n> <unit>`.
-   - **reads** receipts for pids; the rollout status and, for the metric conditions, the metrics source named by `caps: metrics` (L3.5); lag from the queue device, not from the unit (L12.4).
+   - **reads** receipts for pids; the rollout status and, for the metric conditions, the metrics source named by `caps: metrics` (L3.5; the draft [ADR 0023](0023-telemetry-is-a-device-the-shell-reads.md) decision 5 replaces it with a named condition read from a metrics device reachable from the target, and adds `--slo`, with absence read as `unknown`, decision 4); lag from the queue device, not from the unit (L12.4).
    - **writes** nothing.
    - **flags** `--healthy` is rollout complete and probes passing; `--error-rate-below` and `--lag-below` are conditions that need `caps: metrics` or a queue device, and their absence is a plan-time refusal, never a silent fallback to rollout status; `--timeout` makes `wait` itself exit 2.
    - **exit** the contract code of the waited process: 0, 0 with the degraded flag, 1, 2, 3. With several pids, the worst code. The degraded flag is readable after `wait` as `CONVOY_DEGRADED` and at `/sys/proc/<pid>/degraded`; `set -o nodegraded` turns it into exit 1 (ADR 0004 amendment 2). `wait` with no argument joins every process of the session, which is the barrier spelling (walkthrough gap G1).
