@@ -85,3 +85,4 @@ Each line is a `rule` finding from `docs/user-stories/README.md` written here as
 - **L17.3** (US-17) an approval policy names a group and may name a fallback group; a refusal under decision 7 prints both; `--approver=<fallback>` asks the fallback group and the receipt records that it was used and the size of the primary group at the time; root never approves.
 - **L21.5** (US-21) `newgrp` to a group of another residency is refused in the session, naming the residency of each and `attach --residency` (decision 11; ADR 0020 rule L21.5).
 - **L21.9** (US-21) no one holds `pods/exec`, `pods/attach`, `pods/portforward` or ephemeral containers on session pods; inspecting one is root break-glass under decision 6 and is shown to the user by `who` (ADR 0020 rule L21.9).
+- **L26.16** (US-26) a process that outlives its author's login reads its telemetry conditions as `svc:<group>`, recorded in the receipt (full rule in ADR 0023).

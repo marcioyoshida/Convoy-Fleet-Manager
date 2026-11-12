@@ -305,3 +305,8 @@ Rules the sixteen stories in `docs/user-stories/` decided for specific commands.
 | `ps` | a followed dev unit shows its digest, its tree and the updates since the build; a debugged one shows `paused (debugger)` with its duration; `--follow` shows its builds and their cost | L25.5, L25.6, L25.8 |
 | `run --unit --from`, `attach --env-of` | refused in a mount with `release_path=git`; a secret-shaped plain `--env` value is refused and `--env-of` writes none; `explain` of `--like` lists the target's policies it does not reproduce | L25.12, L25.14, L25.15 |
 | `attach --lend`, `lend` | `--dry-run` prints sent, excluded and withheld files; data files refused by `lend_exclude`; the device id carries the user and the snapshot is the lender's unless `--share=<group>` | L25.2, L25.3, L25.10 |
+| `cat`, `grep`, `tail` on a telemetry path | output passes the redactor; a read across stores names those it missed and is degraded; `grep -F` narrows only on a `substring` store; an artifact from a read keeps the source's retention | L26.6, L26.9, L26.10, L26.14 |
+| `cat /proc/<pid>/fd/2` | the time-ordered merge of every pod and attempt, prefixed `[index.attempt]`; `/proc/<pid>/task/<index>/fd/2` reads one partition | L26.12 |
+| `top`, `ps`, `netstat` | live columns from one controller cache per store; `joined by pod` where a store lacks Convoy labels | L26.11, L26.15 |
+| `wait --slo`, `release --canary` | conditions on the canary's series; `slo:` may name a platform SLO; read as `svc:<group>` after the author's login; long `unknown` rolls back | L26.1, L26.13, L26.16 |
+| `replay --verify` | fails when a telemetry read would now come from another source or resolution | L26.3 |

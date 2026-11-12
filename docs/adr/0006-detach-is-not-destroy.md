@@ -44,3 +44,4 @@ Each line is a `rule` finding from `docs/user-stories/README.md` written here as
 - **L6.2** (US-06) `rmdir` refuses a non-empty namespace; `rm -r` lists everything that would be lost and requires `--with-data` and, for namespaces with volumes, a second approval (US-03 L3.1); reclaim policy Retain is the platform default.
 - **L8.6** (US-08) holds copy the image by digest into a platform-held registry device (`/dev/registry/by-id/held`), or refuse when none exists.
 - **L11.4** (US-11) `explain --retain` prices the copy per month in the band.
+- **L26.3** (US-26) `--hold` on a telemetry read stores the result as an artifact, so a later `replay` reads it rather than a store that has since downsampled (full rule in ADR 0023).

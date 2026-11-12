@@ -76,7 +76,7 @@ The first five were set by the owner; the other five were added because the walk
 
 ## Findings register
 
-Two hundred and thirteen findings. Disposition counts: **55 amend** (29 applied to the ADRs on 2026-11-09; 17 on 2026-11-10: 11 inline to the drafts ADR 0016 to 0020, then L22.1 to ADR 0007 amendment 5, L23.1 to L23.3 inline to ADR 0021, and L24.3 and L24.4 inline to ADR 0013; 4 on 2026-11-11: L25.1, L25.4, L25.7 and L25.11 inline to ADR 0022; L26.1, L26.2, L26.5, L26.9 and L26.12 proposed against ADR 0023, not yet applied), **122 rule** (60 written into their documents on 2026-11-09, 51 on 2026-11-10, 11 on 2026-11-11; ten from US-26 proposed, not yet written), **6 open** (design that did not exist yet, all drafted: on 2026-11-10 L6.5 in ADR 0016, L3.1 in ADR 0017, L4.6 in ADR 0019, L12.5 in ADR 0012 decision 10, L9.7 in ADR 0007 amendment 5; on 2026-11-11 L24.1 in ADR 0022), **19 accepted** (a surfaced limitation), 1 cross-reference. Full text is in each story's section 10.
+Two hundred and thirteen findings. Disposition counts: **55 amend** (29 applied to the ADRs on 2026-11-09; 17 on 2026-11-10: 11 inline to the drafts ADR 0016 to 0020, then L22.1 to ADR 0007 amendment 5, L23.1 to L23.3 inline to ADR 0021, and L24.3 and L24.4 inline to ADR 0013; 4 on 2026-11-11: L25.1, L25.4, L25.7 and L25.11 inline to ADR 0022; 5 on 2026-11-12: L26.1, L26.2, L26.5, L26.9 and L26.12 inline to ADR 0023), **122 rule** (60 written into their documents on 2026-11-09, 51 on 2026-11-10, 11 on 2026-11-11, 10 on 2026-11-12), **6 open** (design that did not exist yet, all drafted: on 2026-11-10 L6.5 in ADR 0016, L3.1 in ADR 0017, L4.6 in ADR 0019, L12.5 in ADR 0012 decision 10, L9.7 in ADR 0007 amendment 5; on 2026-11-11 L24.1 in ADR 0022), **19 accepted** (a surfaced limitation), 1 cross-reference. Full text is in each story's section 10.
 
 | Id | Short name | Probe | Disposition | Touches |
 |---|---|---|---|---|
@@ -277,22 +277,22 @@ Two hundred and thirteen findings. Disposition counts: **55 amend** (29 applied 
 | L25.14 | secret-shaped plain env values refused; `--env-of` writes none | P12 | rule, applied | ADR 0022 d9; ADR 0013 d4; ADR 0007 a2 |
 | L25.15 | `--like` lists the target's policies it does not reproduce | P9 | rule, applied | ADR 0022 d6; ADR 0013 d3 |
 | L25.16 | no save-to-reload latency target; the measured time is printed | none | accepted | ADR 0022 d7; ADR 0020 d5 |
-| L26.1 | a canary condition reads the canary version only, gateway responses included | P7 | amend | ADR 0023 d5; ADR 0013 d7; ADR 0019 |
-| L26.2 | the settle state uses the tenant's out-of-order window | P6 | amend | ADR 0023 d3, d12; ADR 0001 a1 |
-| L26.3 | receipts record source and resolution; `replay --verify` fails across downsampling | P6 | rule | ADR 0023 d3; ADR 0006 a2 |
+| L26.1 | a canary condition reads the canary version only, gateway responses included | P7 | amend, applied | ADR 0023 d5; ADR 0013 d7; ADR 0019 |
+| L26.2 | the settle state uses the tenant's out-of-order window | P6 | amend, applied | ADR 0023 d3, d12; ADR 0001 a1 |
+| L26.3 | receipts record source and resolution; `replay --verify` fails across downsampling | P6 | rule, applied | ADR 0023 d3; ADR 0006 a2 |
 | L26.4 | residency binds processing and storage, not where the reader sits | P11 | accepted | ADR 0016 d11; ADR 0020; ADR 0005 |
-| L26.5 | `telemetry_readers` groups read without owning, audited | P10 | amend | ADR 0023 d8; ADR 0016 d3, d6; ADR 0017 |
-| L26.6 | artifacts from telemetry reads keep the source's retention and its scrub | P11, P3 | rule | ADR 0023 d3; ADR 0007 a2, a5; ADR 0006 |
-| L26.7 | an unestimable read is bounded by its upper bound | P5 | rule | ADR 0023 d9; ADR 0014 d6 |
-| L26.8 | estimates use statistics endpoints only, never a data query | P5 | rule | ADR 0023 d9 |
-| L26.9 | only substring stores narrow by `grep -F` | P6 | amend | ADR 0023 d10; ADR 0001; ADR 0002 |
-| L26.10 | a read across stores names the missing ones and is degraded | P8 | rule | ADR 0023 d8, d12; ADR 0004 a2 |
-| L26.11 | `caps: label-keys`; joins fall back to pod names | P9 | rule | ADR 0023 d6; ADR 0018 |
-| L26.12 | stderr of a multi-pod process is prefixed by partition and attempt | P2 | amend | ADR 0023 d7; ADR 0009; ADR 0013 d5 |
-| L26.13 | `slo:` names platform SLO objects; shadowing refused | P1 | rule | ADR 0023 d5, d6; ADR 0010 a1 |
-| L26.14 | telemetry reads pass the redactor before terminal, journal and artifacts | P4 | rule | ADR 0023 d2; ADR 0020 L21.2; ADR 0007 a5 |
-| L26.15 | live columns from one controller cache per store, cost shared | P5 | rule | ADR 0023 d4, d9; ADR 0013 d5 |
-| L26.16 | unattended conditions read as `svc:<group>`; long unknown rolls a canary back | P12 | rule | ADR 0023 d4, d5; ADR 0016 d5 |
+| L26.5 | `telemetry_readers` groups read without owning, audited | P10 | amend, applied | ADR 0023 d8; ADR 0016 d3, d6; ADR 0017 |
+| L26.6 | artifacts from telemetry reads keep the source's retention and its scrub | P11, P3 | rule, applied | ADR 0023 d3; ADR 0007 a2, a5; ADR 0006 |
+| L26.7 | an unestimable read is bounded by its upper bound | P5 | rule, applied | ADR 0023 d9; ADR 0014 d6 |
+| L26.8 | estimates use statistics endpoints only, never a data query | P5 | rule, applied | ADR 0023 d9 |
+| L26.9 | only substring stores narrow by `grep -F` | P6 | amend, applied | ADR 0023 d10; ADR 0001; ADR 0002 |
+| L26.10 | a read across stores names the missing ones and is degraded | P8 | rule, applied | ADR 0023 d8, d12; ADR 0004 a2 |
+| L26.11 | `caps: label-keys`; joins fall back to pod names | P9 | rule, applied | ADR 0023 d6; ADR 0018 |
+| L26.12 | stderr of a multi-pod process is prefixed by partition and attempt | P2 | amend, applied | ADR 0023 d7; ADR 0009; ADR 0013 d5 |
+| L26.13 | `slo:` names platform SLO objects; shadowing refused | P1 | rule, applied | ADR 0023 d5, d6; ADR 0010 a1 |
+| L26.14 | telemetry reads pass the redactor before terminal, journal and artifacts | P4 | rule, applied | ADR 0023 d2; ADR 0020 L21.2; ADR 0007 a5 |
+| L26.15 | live columns from one controller cache per store, cost shared | P5 | rule, applied | ADR 0023 d4, d9; ADR 0013 d5 |
+| L26.16 | unattended conditions read as `svc:<group>`; long unknown rolls a canary back | P12 | rule, applied | ADR 0023 d4, d5; ADR 0016 d5 |
 
 ## Structural misroutes
 
@@ -373,6 +373,7 @@ The first table lists every finding that touches an ADR, whatever its dispositio
 | 0021 | decisions 3, 4 and 7 revised inline | L23.3; L23.2; L23.1 |
 | 0013 | decisions 3, 4 and 7 revised inline | L24.4 (decisions 3 and 7); L24.3 (decision 4) |
 | 0022 | decisions 1, 2, 4, 5 and 6 revised inline; decision 3 by rule L25.10 | L25.1 (decisions 1 and 4); L25.4 (decisions 1 and 2); L25.7 (decision 6); L25.11 (decisions 1 and 5) |
+| 0023 | decisions 3, 5, 7, 8 and 10 revised inline | L26.2 (decision 3); L26.1 (decision 5); L26.12 (decision 7); L26.5 (decision 8); L26.9 (decision 10) |
 
 ## Writing a new story
 

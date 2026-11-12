@@ -79,3 +79,4 @@ Each line is a `rule` finding from `docs/user-stories/README.md` written here as
 - **L22.5** (US-22) the purge gate requires, for each object to be purged, an approver from that object's owning group (ADR 0016 decision 7), and the commit or deletion records the approver.
 - **L22.6** (US-22) match locations in a scrub receipt are readable by the security group and by the owning group of each matched object only; the rest of the receipt follows rule L17.6.
 - **L22.8** (US-22) where a schema is known the scrub scans only string and bytes fields, and the band is in `explain`; `--budget` binds, the scan runs in order of exposure (logs, artifacts, device ranges) and a degraded receipt lists the ranges left unscanned.
+- **L26.6, L26.14** (US-26) artifacts written from telemetry reads keep the source's retention and are reached by its scrub; telemetry reads pass the session's redactor and report matches to the store's owning group (full rules in ADR 0023).
