@@ -46,3 +46,4 @@ Each line is a `rule` finding from `docs/user-stories/README.md` written here as
 - **L11.4** (US-11) `explain --retain` prices the copy per month in the band.
 - **L26.3** (US-26) `--hold` on a telemetry read stores the result as an artifact, so a later `replay` reads it rather than a store that has since downsampled (full rule in ADR 0023).
 - **L27.9** (US-27) `umount` or decommission of a store with holds is refused, naming each hold; `hold move <store>` copies held artifacts to a store with `caps: object-lock` or `bucket-lock`, sets the target lock to the original expiry, verifies content ids, and records the chain of custody (source, target, checksums, times, actors) in the hold's receipt.
+- **L28.5, L28.6** (US-28) a plan may not destroy or replace a data-holding resource the change did not name; a partial apply registers `iac: partial` and is priced until completed or removed (full rules in ADR 0024).

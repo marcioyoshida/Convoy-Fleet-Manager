@@ -78,7 +78,7 @@ The first five were set by the owner; the other five were added because the walk
 
 ## Findings register
 
-Two hundred and forty-five findings. Disposition counts: **61 amend** (29 applied to the ADRs on 2026-11-09; 17 on 2026-11-10: 11 inline to the drafts ADR 0016 to 0020, then L22.1 to ADR 0007 amendment 5, L23.1 to L23.3 inline to ADR 0021, and L24.3 and L24.4 inline to ADR 0013; 4 on 2026-11-11: L25.1, L25.4, L25.7 and L25.11 inline to ADR 0022; 8 on 2026-11-12: L26.1, L26.2, L26.5, L26.9 and L26.12 inline to ADR 0023, then L27.4, L27.12 and L27.13 inline to ADRs 0010, 0016 and 0008; L28.1, L28.12 and L28.14 proposed against ADR 0024, not yet applied), **155 rule** (60 written into their documents on 2026-11-09, 51 on 2026-11-10, 11 on 2026-11-11, 22 on 2026-11-12; eleven from US-28 proposed, not yet written), **7 open** (design that did not exist yet, all drafted: on 2026-11-10 L6.5 in ADR 0016, L3.1 in ADR 0017, L4.6 in ADR 0019, L12.5 in ADR 0012 decision 10, L9.7 in ADR 0007 amendment 5; on 2026-11-11 L24.1 in ADR 0022; on 2026-11-12 L27.1 in ADR 0024), **21 accepted** (a surfaced limitation), 1 cross-reference. Full text is in each story's section 10.
+Two hundred and forty-five findings. Disposition counts: **61 amend** (29 applied to the ADRs on 2026-11-09; 17 on 2026-11-10: 11 inline to the drafts ADR 0016 to 0020, then L22.1 to ADR 0007 amendment 5, L23.1 to L23.3 inline to ADR 0021, and L24.3 and L24.4 inline to ADR 0013; 4 on 2026-11-11: L25.1, L25.4, L25.7 and L25.11 inline to ADR 0022; 11 on 2026-11-12: L26.1, L26.2, L26.5, L26.9 and L26.12 inline to ADR 0023, then L27.4, L27.12 and L27.13 inline to ADRs 0010, 0016 and 0008; then L28.1, L28.12 and L28.14 inline to ADR 0024), **155 rule** (60 written into their documents on 2026-11-09, 51 on 2026-11-10, 11 on 2026-11-11, 33 on 2026-11-12), **7 open** (design that did not exist yet, all drafted: on 2026-11-10 L6.5 in ADR 0016, L3.1 in ADR 0017, L4.6 in ADR 0019, L12.5 in ADR 0012 decision 10, L9.7 in ADR 0007 amendment 5; on 2026-11-11 L24.1 in ADR 0022; on 2026-11-12 L27.1 in ADR 0024), **21 accepted** (a surfaced limitation), 1 cross-reference. Full text is in each story's section 10.
 
 | Id | Short name | Probe | Disposition | Touches |
 |---|---|---|---|---|
@@ -312,20 +312,20 @@ Two hundred and forty-five findings. Disposition counts: **61 amend** (29 applie
 | L27.15 | script bands include units over a horizon; `cost --reprice-at` | P5, P10 | rule, applied | ADR 0013 d7; ADR 0010; ADR 0017 |
 | L27.16 | commitments, credits and discounts are not in the forecast | P5 | accepted | ADR 0010 |
 | L27.17 | a canary across providers writes DNS weights as intent | P1 | rule, applied | ADR 0019 d2; ADR 0013 d7 |
-| L28.1 | one approval record for the repository review and the Convoy gate | P10 | amend | ADR 0024 d4; ADR 0017 d1, d5 |
-| L28.2 | `mknod` shows its stage; `kill` closes the PR before apply, defers during it | P2 | rule | ADR 0024 d3, d5; ADR 0004; ADR 0013 d5 |
-| L28.3 | a re-plan voids the approval and re-asks with the diff | P6 | rule | ADR 0024 d4; ADR 0017; L18.3 |
-| L28.4 | claimed `caps` are verified against the provider before registration | P6 | rule | ADR 0024 d5; ADR 0011 d7 |
-| L28.5 | destroys of data resources a change did not name are refused; a workspace per instance | P1 | rule | ADR 0024 d4, d6; ADR 0006 |
-| L28.6 | a partial apply registers `iac: partial`, priced and completable | P3 | rule | ADR 0024 d5; ADR 0006 |
-| L28.7 | delegated paths take package instances only; principals limited to the group | P4 | rule | ADR 0024 d2, d10; ADR 0016 d5 |
-| L28.8 | usage-priced bands from contract inputs; plans reused per input hash | P5 | rule | ADR 0024 d4; ADR 0010 |
-| L28.9 | an unreachable runner is reported; out-of-band devices marked for adoption | P8 | rule | ADR 0024 d8, d10 |
-| L28.10 | adoption needs a no-change plan; unmodelled attributes listed or passed through | P9 | rule | ADR 0024 d8 |
-| L28.11 | where the runner publishes plans is declared; sensitive inputs are references | P11 | rule | ADR 0024 d7, d10; ADR 0007 a2 |
-| L28.12 | platform class defaults fill contract inputs before module defaults | P12 | amend | ADR 0024 d2; ADR 0010 |
-| L28.13 | package upgrades never re-plan instances; each instance upgrades itself | P1 | rule | ADR 0024 d2, d6; ADR 0010 |
-| L28.14 | `--like` refused on unsupported inputs unless `--drop` names them | P7 | amend | ADR 0024 d9; ADR 0012 |
+| L28.1 | one approval record for the repository review and the Convoy gate | P10 | amend, applied | ADR 0024 d4; ADR 0017 d1, d5 |
+| L28.2 | `mknod` shows its stage; `kill` closes the PR before apply, defers during it | P2 | rule, applied | ADR 0024 d3, d5; ADR 0004; ADR 0013 d5 |
+| L28.3 | a re-plan voids the approval and re-asks with the diff | P6 | rule, applied | ADR 0024 d4; ADR 0017; L18.3 |
+| L28.4 | claimed `caps` are verified against the provider before registration | P6 | rule, applied | ADR 0024 d5; ADR 0011 d7 |
+| L28.5 | destroys of data resources a change did not name are refused; a workspace per instance | P1 | rule, applied | ADR 0024 d4, d6; ADR 0006 |
+| L28.6 | a partial apply registers `iac: partial`, priced and completable | P3 | rule, applied | ADR 0024 d5; ADR 0006 |
+| L28.7 | delegated paths take package instances only; principals limited to the group | P4 | rule, applied | ADR 0024 d2, d10; ADR 0016 d5 |
+| L28.8 | usage-priced bands from contract inputs; plans reused per input hash | P5 | rule, applied | ADR 0024 d4; ADR 0010 |
+| L28.9 | an unreachable runner is reported; out-of-band devices marked for adoption | P8 | rule, applied | ADR 0024 d8, d10 |
+| L28.10 | adoption needs a no-change plan; unmodelled attributes listed or passed through | P9 | rule, applied | ADR 0024 d8 |
+| L28.11 | where the runner publishes plans is declared; sensitive inputs are references | P11 | rule, applied | ADR 0024 d7, d10; ADR 0007 a2 |
+| L28.12 | platform class defaults fill contract inputs before module defaults | P12 | amend, applied | ADR 0024 d2; ADR 0010 |
+| L28.13 | package upgrades never re-plan instances; each instance upgrades itself | P1 | rule, applied | ADR 0024 d2, d6; ADR 0010 |
+| L28.14 | `--like` refused on unsupported inputs unless `--drop` names them | P7 | amend, applied | ADR 0024 d9; ADR 0012 |
 | L28.15 | a clean plan does not guarantee a clean apply | none | accepted | ADR 0024 d4 |
 
 ## Structural misroutes
@@ -413,6 +413,7 @@ The first table lists every finding that touches an ADR, whatever its dispositio
 | 0010 | amendment 1 revised inline | L27.4 |
 | 0016 | decision 1 revised inline | L27.12 |
 | 0008 | preemption grace revised inline | L27.13 |
+| 0024 | decisions 2, 4 and 9 revised inline | L28.12 (decision 2); L28.1 (decision 4); L28.14 (decision 9) |
 
 ## Writing a new story
 

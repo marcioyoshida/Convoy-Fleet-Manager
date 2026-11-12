@@ -81,6 +81,7 @@ From the user-story probes. Each milestone's exit criteria include the rules lis
 - **L26.10** a read across telemetry stores names those it missed and is degraded.
 - **L27.3** account resources in no Terraform state are listed before translation.
 - **L27.5** a table copy rewrites its metadata; byte copies of tables are refused.
+- **L28.4** claimed `caps` are verified against the provider before registration.
 
 **M6**
 
@@ -107,6 +108,9 @@ From the user-story probes. Each milestone's exit criteria include the rules lis
 - **L26.14** telemetry reads pass the redactor before terminal, journal and artifacts.
 - **L27.2** Terraform state and plans are a secret sink.
 - **L27.11** `secret move` rotates on the target; values copied only controller-side.
+- **L28.3** a re-plan voids the approval and re-asks with the diff.
+- **L28.7** delegated paths take package instances only; principals limited to the group.
+- **L28.11** where the runner publishes plans is declared; sensitive inputs are references.
 
 **M8**
 
@@ -122,12 +126,19 @@ From the user-story probes. Each milestone's exit criteria include the rules lis
 - **L26.15** live columns from one controller cache per store, cost shared.
 - **L27.14** the release diff covers the clusters' `caps` and the verbs they disable.
 - **L27.15** script bands include units over a horizon; `cost --reprice-at`.
+- **L28.2** `mknod` shows its stage; `kill` closes the PR before apply, defers during it.
+- **L28.5** destroys of data resources a change did not name are refused; a workspace per instance.
+- **L28.6** a partial apply registers `iac: partial`, priced and completable.
+- **L28.9** an unreachable runner is reported; out-of-band devices marked for adoption.
+- **L28.10** adoption needs a no-change plan.
 
 **M9**
 
 - **L20.4** `--internal` certificates only from an issuer `caps` lists as private; otherwise refused unless `internal-ct: allowed`.
 - **L8.6** holds copy the image by digest into a platform-held registry device (`/dev/registry/by-id/held`), or refuse when none exists.
 - **L24.8** branch units carry the profile's `branch_unit_ttl` and show their daily cost.
+- **L28.8** usage-priced bands from contract inputs; plans reused per input hash.
+- **L28.13** package upgrades never re-plan instances.
 
 **M10**
 

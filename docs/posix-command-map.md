@@ -316,3 +316,6 @@ Rules the sixteen stories in `docs/user-stories/` decided for specific commands.
 | `wait --lag-below` | on a replication unit, reads `/sys/unit/<name>/lag` from its package | L27.7 |
 | `umount`, `hold move` | a store with holds is not decommissioned; `hold move` keeps the expiry under the target's lock and records the chain of custody | L27.9 |
 | `cost --reprice-at`, `explain --horizon` | reprices settled receipts with the target's price files; a script's band includes its units over the horizon | L27.15 |
+| `mknod` | a process with stages in `ps`; `kill` closes the PR before apply, deferred during it; a re-plan voids the approval; a partial apply registers `iac: partial`; an unreachable runner exits 2 at `--deadline` | L28.2, L28.3, L28.6, L28.9 |
+| `mknod --adopt`, `mknod --like` | adoption needs a no-change plan, unmodelled attributes listed or passed through; `--like` refused on unsupported inputs without `--drop` | L28.10, L28.14 |
+| `explain mknod` | inputs with their source; usage-priced bands; plans reused per input hash; where plans are published | L28.8, L28.11, L28.12 |
