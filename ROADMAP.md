@@ -14,7 +14,7 @@ Build order follows the dependency chain the design uncovered: nothing above dep
 | **M7 Identity and secrets** | approvals pinned to plan hashes and the runner identity per module path (ADR 0024), telemetry tenancy, `label-enforce`, `telemetry_readers` and residency per device (ADR 0023), provenance levels `ci`, `session`, `any` per profile (ADR 0022), ADR 0016 (user and groups from the login token, group-owned objects, `svc:<group>` for unattended work, `wheel` assumes root with approval, `/etc/fstab.d/<group>`), `whoami`, `id`, owner labels + CEL admission, the group boundary as default-deny in the namespace template (ADR 0019), `sudo`, secrets as references, reference-only RBAC, workload identity, secret versions + reference index + `fuser` + `secret rotate`/`retire` + `kill -HUP` reload (gap G10) | multi-tenant safety | a user cannot `kill` a process owned by a group they are not in, or read a secret they can mount; a member can act on an absent colleague's job |
 | **M8 Fleet** | `mknod` with the runner's plan as `explain`, registration from module outputs, `/sys/<class>/<id>/iac/` and adoption by `import` blocks (ADR 0024), `top`, `ps` and `netstat` columns from the default telemetry devices, `?` with an age when unknown (ADR 0023), session hosts per residency, including edge sites (ADR 0020), device tree `/dev/k8s/by-id` + views, `/sys/k8s` metadata, hotplug events, the node tree under `/sys/k8s/<id>/nodes/` with `online` and `fenced` (ADR 0011 amendment 5), per-component `online` files, the `degraded` states and their exclusion from allocatable (ADR 0021), `mount` of clusters under `/clusters/…` with identity options, read-only `all` union, disconnected mode, cross-cluster artifact boundary with egress in the band (ADR 0011) | multi-cluster | `ps -A` across three clusters; a cross-cluster stage shows its egress cost at dry-run; a removed cluster fails `ls` fast instead of hanging |
 | **M9 Packages** | device packages with a contract and Terraform modules per provider (ADR 0024), `pkg` (GitOps-reconciled user packages), `tool add` (toolbox layers with annotations), package manifest with `requires` against `caps` | platform adoption | installing a package with a missing requirement fails at pre-flight with the platform's instruction |
-| **M10 Signals node agent** | cgroup freeze DaemonSet for STOP/CONT; group freeze with a Lease barrier (ADR 0008 amendment 1, gap G2); node health collectors (hung tasks, EDAC, GPU events) and the receipt spool (ADR 0011 amendment 5, ADR 0009 amendment 1); the probe package for GPU, shared-filesystem, memory and disk faults, peer attribution and the `convoy.io/untested` burn-in taint (ADR 0021); CRIU `pause`/`resume` where CRI-O is present | interactive control | `kill -STOP --group` on a 64-GPU job freezes all ranks within one tick and `kill -CONT --group` resumes them; STOP on one rank is refused |
+| **M10 Signals node agent** | preemption grace bounded by each pool's `preemption_notice` (ADR 0008, L27.13), cgroup freeze DaemonSet for STOP/CONT; group freeze with a Lease barrier (ADR 0008 amendment 1, gap G2); node health collectors (hung tasks, EDAC, GPU events) and the receipt spool (ADR 0011 amendment 5, ADR 0009 amendment 1); the probe package for GPU, shared-filesystem, memory and disk faults, peer attribution and the `convoy.io/untested` burn-in taint (ADR 0021); CRIU `pause`/`resume` where CRI-O is present | interactive control | `kill -STOP --group` on a 64-GPU job freezes all ranks within one tick and `kill -CONT --group` resumes them; STOP on one rank is refused |
 | **M11 Networking and services** | `wait --slo` and `release --canary` on named unit conditions evaluated on the canary's series (ADR 0023), dev units named `<name>-<user>` with `--from`, `--like`, `--follow` and `--debug`, `attach --env-of` (ADR 0022), `expose` with reach, span and grants, `run --connect`, `netstat` and `/sys/unit/<name>/net/`, the session hosts view and `attach -L` (ADR 0019), default-deny policy, Gateway routes, service units with probes and rollouts, `release` that writes intent to the GitOps repository and waits for reconciliation (gap G3), `scale` delegating stateful scale-down to the operator or refusing (gap G6) | `run api-server` | a process exposed publicly has a certificate, a route, and a rollback in under a minute; a `release` to prod without a second approver exits 3 before any write |
 
 Not scheduled: debugging (ephemeral containers), devices (DRA claims), events and triggers, time (`at`), locks, named pipes, backups and environment forks. They are designed in `docs/stories.md` and will be slotted once M3 ships.
@@ -58,12 +58,15 @@ From the user-story probes. Each milestone's exit criteria include the rules lis
 - **L24.5** a source-repository mount's `image=` (or its devcontainer) runs local stages under it in that image; `explain` names every stage's image.
 - **L25.9** `image-build` steps run without registry credentials and with `build_egress`; the builder pushes.
 - **L25.13** local stages under a worktree get a discarded writable overlay.
+- **L27.6** cross-provider copies above `transfer_min` use the provider's transfer service, verified.
 
 **M4**
 
 - **L1.6** `crontab` derives `startingDeadlineSeconds` from `--deadline`, and a skipped run writes a receipt with exit 2 and the declared action.
 - **L26.3** telemetry receipts record source and resolution; `replay --verify` fails across downsampling.
 - **L26.6** artifacts from telemetry reads keep the source's retention and its scrub.
+- **L27.9** decommission refused while holds; `hold move` keeps expiry and chain of custody.
+- **L27.10** receipts and holds naming a broker's offsets are listed and copied before it goes.
 
 **M5**
 
@@ -76,6 +79,8 @@ From the user-story probes. Each milestone's exit criteria include the rules lis
 - **L26.7** an unestimable telemetry read is bounded by its upper bound.
 - **L26.8** telemetry estimates use statistics endpoints only.
 - **L26.10** a read across telemetry stores names those it missed and is degraded.
+- **L27.3** account resources in no Terraform state are listed before translation.
+- **L27.5** a table copy rewrites its metadata; byte copies of tables are refused.
 
 **M6**
 
@@ -100,6 +105,8 @@ From the user-story probes. Each milestone's exit criteria include the rules lis
 - **L22.8** schema-aware scans of string fields; `--budget` binds in order of exposure, unscanned ranges listed.
 - **L24.9** provenance is a mount requirement checked at plan time; secret-shaped files in image layers are refused everywhere.
 - **L26.14** telemetry reads pass the redactor before terminal, journal and artifacts.
+- **L27.2** Terraform state and plans are a secret sink.
+- **L27.11** `secret move` rotates on the target; values copied only controller-side.
 
 **M8**
 
@@ -113,6 +120,8 @@ From the user-story probes. Each milestone's exit criteria include the rules lis
 - **L24.7** `explain` prints the namespace's defaulted limits, quota headroom and Pod Security level with their sources.
 - **L26.11** `caps: label-keys`; joins fall back to pod names.
 - **L26.15** live columns from one controller cache per store, cost shared.
+- **L27.14** the release diff covers the clusters' `caps` and the verbs they disable.
+- **L27.15** script bands include units over a horizon; `cost --reprice-at`.
 
 **M9**
 
@@ -148,3 +157,6 @@ From the user-story probes. Each milestone's exit criteria include the rules lis
 - **L25.15** `explain` of `--like` lists the target's policies it does not reproduce.
 - **L26.13** `slo:` may name a platform SLO; shadowing is refused.
 - **L26.16** unattended conditions read as `svc:<group>`; a long `unknown` rolls a canary back.
+- **L27.7** replication packages provide lag; the cutover waits on it.
+- **L27.8** rollback after moving writes needs reverse replication.
+- **L27.17** a canary across providers writes DNS weights as intent.

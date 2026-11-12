@@ -310,3 +310,9 @@ Rules the sixteen stories in `docs/user-stories/` decided for specific commands.
 | `top`, `ps`, `netstat` | live columns from one controller cache per store; `joined by pod` where a store lacks Convoy labels | L26.11, L26.15 |
 | `wait --slo`, `release --canary` | conditions on the canary's series; `slo:` may name a platform SLO; read as `svc:<group>` after the author's login; long `unknown` rolls back | L26.1, L26.13, L26.16 |
 | `replay --verify` | fails when a telemetry read would now come from another source or resolution | L26.3 |
+| `cp` across providers | above `transfer_min` runs the provider's transfer service, verified by counts and checksums; a table copy rewrites its metadata, a byte copy of a table is refused | L27.5, L27.6 |
+| `secret move` | rotates on the target by default; `--copy-values` only controller-side under an approved grant | L27.11 |
+| `release --to`, `release --rollback` | prints the target cluster's missing `caps` and the verbs they disable; moving writes needs reverse replication before the switch; a canary across providers writes DNS weights as intent | L27.8, L27.14, L27.17 |
+| `wait --lag-below` | on a replication unit, reads `/sys/unit/<name>/lag` from its package | L27.7 |
+| `umount`, `hold move` | a store with holds is not decommissioned; `hold move` keeps the expiry under the target's lock and records the chain of custody | L27.9 |
+| `cost --reprice-at`, `explain --horizon` | reprices settled receipts with the target's price files; a script's band includes its units over the horizon | L27.15 |

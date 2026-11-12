@@ -1,6 +1,6 @@
 # ADR 0008: Signals route by backing object; STOP is a cgroup freeze, pause is CRIU
 
-**Status:** Proposed · 2026-11-08
+**Status:** Proposed · 2026-11-08 · revised 2026-11-12 with user-story finding L27.13 (marked inline)
 **Supersedes / relates to:** docs/debate-review.md §2, §6
 
 ## Context
@@ -13,7 +13,7 @@ The toolbox entrypoint is a real init and commands run under `exec`. TERM acts o
 
 ## Consequences
 
-STOP without the node agent is refused with the reason. Preempted training jobs get up to 300 s to write a checkpoint. Established TCP connections do not survive `resume` on another node and the receipt says so.
+STOP without the node agent is refused with the reason. Preempted training jobs get up to 300 s to write a checkpoint, bounded by the pool's preemption notice, which `/sys/k8s/<id>/preemption_notice` carries per node pool (about two minutes on EC2 Spot, about 30 s on GCP and Azure Spot, of which GKE gives pods about 15 s). Where the final checkpoint does not fit the notice, a preemption loses up to one checkpoint interval and the plan says so, and `--gang` on such a pool refuses a checkpoint interval longer than the platform's `spot_loss_max` (revised 2026-11-12, L27.13). Established TCP connections do not survive `resume` on another node and the receipt says so.
 
 ## Amendment 1 · 2026-11-08 · coordinated groups (walkthroughs 2, 5, 6)
 

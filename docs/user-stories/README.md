@@ -77,7 +77,7 @@ The first five were set by the owner; the other five were added because the walk
 
 ## Findings register
 
-Two hundred and thirty findings. Disposition counts: **58 amend** (29 applied to the ADRs on 2026-11-09; 17 on 2026-11-10: 11 inline to the drafts ADR 0016 to 0020, then L22.1 to ADR 0007 amendment 5, L23.1 to L23.3 inline to ADR 0021, and L24.3 and L24.4 inline to ADR 0013; 4 on 2026-11-11: L25.1, L25.4, L25.7 and L25.11 inline to ADR 0022; 5 on 2026-11-12: L26.1, L26.2, L26.5, L26.9 and L26.12 inline to ADR 0023; L27.4, L27.12 and L27.13 proposed against ADRs 0010, 0016 and 0008, not yet applied), **122 rule** (60 written into their documents on 2026-11-09, 51 on 2026-11-10, 11 on 2026-11-11, 10 on 2026-11-12; twelve from US-27 proposed, not yet written), **7 open** (design that did not exist yet, all drafted: on 2026-11-10 L6.5 in ADR 0016, L3.1 in ADR 0017, L4.6 in ADR 0019, L12.5 in ADR 0012 decision 10, L9.7 in ADR 0007 amendment 5; on 2026-11-11 L24.1 in ADR 0022; on 2026-11-12 L27.1 in ADR 0024), **20 accepted** (a surfaced limitation), 1 cross-reference. Full text is in each story's section 10.
+Two hundred and thirty findings. Disposition counts: **58 amend** (29 applied to the ADRs on 2026-11-09; 17 on 2026-11-10: 11 inline to the drafts ADR 0016 to 0020, then L22.1 to ADR 0007 amendment 5, L23.1 to L23.3 inline to ADR 0021, and L24.3 and L24.4 inline to ADR 0013; 4 on 2026-11-11: L25.1, L25.4, L25.7 and L25.11 inline to ADR 0022; 8 on 2026-11-12: L26.1, L26.2, L26.5, L26.9 and L26.12 inline to ADR 0023, then L27.4, L27.12 and L27.13 inline to ADRs 0010, 0016 and 0008), **144 rule** (60 written into their documents on 2026-11-09, 51 on 2026-11-10, 11 on 2026-11-11, 22 on 2026-11-12), **7 open** (design that did not exist yet, all drafted: on 2026-11-10 L6.5 in ADR 0016, L3.1 in ADR 0017, L4.6 in ADR 0019, L12.5 in ADR 0012 decision 10, L9.7 in ADR 0007 amendment 5; on 2026-11-11 L24.1 in ADR 0022; on 2026-11-12 L27.1 in ADR 0024), **20 accepted** (a surfaced limitation), 1 cross-reference. Full text is in each story's section 10.
 
 | Id | Short name | Probe | Disposition | Touches |
 |---|---|---|---|---|
@@ -295,22 +295,22 @@ Two hundred and thirty findings. Disposition counts: **58 amend** (29 applied to
 | L26.15 | live columns from one controller cache per store, cost shared | P5 | rule, applied | ADR 0023 d4, d9; ADR 0013 d5 |
 | L26.16 | unattended conditions read as `svc:<group>`; long unknown rolls a canary back | P12 | rule, applied | ADR 0023 d4, d5; ADR 0016 d5 |
 | L27.1 | Terraform state, plans and cross-provider translation have no place in the shell | P9 | **open** (drafted: ADR 0024) | debate-review; ADR 0010; ADR 0011; ADR 0014 |
-| L27.2 | Terraform state and plans are a secret sink | P4 | rule | ADR 0007 a2; ADR 0020 L21.2 |
-| L27.3 | account resources in no state are listed before translation | P9 | rule | ADR 0011 d7; ADR 0018 |
-| L27.4 | writes to Terraform-managed resources are intent to the IaC repository | P1 | amend | ADR 0010 a1 |
-| L27.5 | a table copy rewrites its metadata; byte copies of tables refused | P5, P7 | rule | ADR 0015 d2, d4; ADR 0011 |
-| L27.6 | large cross-provider copies use the provider's transfer service, verified | P5 | rule | ADR 0003 a1; ADR 0011 |
-| L27.7 | replication packages provide lag; the cutover waits on it | P3, P10 | rule | ADR 0012; ADR 0013 d5 |
-| L27.8 | rollback after moving writes needs reverse replication | P8 | rule | ADR 0013 d7; ADR 0006 |
-| L27.9 | decommission refused while holds; `hold move` keeps expiry and chain of custody | P11 | rule | ADR 0006 a1, a2; ADR 0001 a2 |
-| L27.10 | receipts and holds naming a broker's offsets are listed and copied before it goes | P6 | rule | ADR 0012 d2; ADR 0006 a2 |
-| L27.11 | `secret move` rotates on the target; values copied only controller-side | P4 | rule | ADR 0007 a3, a4; ADR 0017 |
-| L27.12 | groups resolved from the directory when the token carries none | P12, P10 | amend | ADR 0016 d1, d2 |
-| L27.13 | preemption grace bounded by the pool's notice | P2 | amend | ADR 0008; ADR 0004 a1 |
-| L27.14 | the release diff covers the clusters' `caps` and the verbs they disable | P8 | rule | ADR 0013 d3; ADR 0011 |
-| L27.15 | script bands include units over a horizon; `cost --reprice-at` | P5, P10 | rule | ADR 0013 d7; ADR 0010; ADR 0017 |
+| L27.2 | Terraform state and plans are a secret sink | P4 | rule, applied | ADR 0007 a2; ADR 0020 L21.2 |
+| L27.3 | account resources in no state are listed before translation | P9 | rule, applied | ADR 0011 d7; ADR 0018 |
+| L27.4 | writes to Terraform-managed resources are intent to the IaC repository | P1 | amend, applied | ADR 0010 a1 |
+| L27.5 | a table copy rewrites its metadata; byte copies of tables refused | P5, P7 | rule, applied | ADR 0015 d2, d4; ADR 0011 |
+| L27.6 | large cross-provider copies use the provider's transfer service, verified | P5 | rule, applied | ADR 0003 a1; ADR 0011 |
+| L27.7 | replication packages provide lag; the cutover waits on it | P3, P10 | rule, applied | ADR 0012; ADR 0013 d5 |
+| L27.8 | rollback after moving writes needs reverse replication | P8 | rule, applied | ADR 0013 d7; ADR 0006 |
+| L27.9 | decommission refused while holds; `hold move` keeps expiry and chain of custody | P11 | rule, applied | ADR 0006 a1, a2; ADR 0001 a2 |
+| L27.10 | receipts and holds naming a broker's offsets are listed and copied before it goes | P6 | rule, applied | ADR 0012 d2; ADR 0006 a2 |
+| L27.11 | `secret move` rotates on the target; values copied only controller-side | P4 | rule, applied | ADR 0007 a3, a4; ADR 0017 |
+| L27.12 | groups resolved from the directory when the token carries none | P12, P10 | amend, applied | ADR 0016 d1, d2 |
+| L27.13 | preemption grace bounded by the pool's notice | P2 | amend, applied | ADR 0008; ADR 0004 a1 |
+| L27.14 | the release diff covers the clusters' `caps` and the verbs they disable | P8 | rule, applied | ADR 0013 d3; ADR 0011 |
+| L27.15 | script bands include units over a horizon; `cost --reprice-at` | P5, P10 | rule, applied | ADR 0013 d7; ADR 0010; ADR 0017 |
 | L27.16 | commitments, credits and discounts are not in the forecast | P5 | accepted | ADR 0010 |
-| L27.17 | a canary across providers writes DNS weights as intent | P1 | rule | ADR 0019 d2; ADR 0013 d7 |
+| L27.17 | a canary across providers writes DNS weights as intent | P1 | rule, applied | ADR 0019 d2; ADR 0013 d7 |
 
 ## Structural misroutes
 
@@ -394,6 +394,9 @@ The first table lists every finding that touches an ADR, whatever its dispositio
 | 0013 | decisions 3, 4 and 7 revised inline | L24.4 (decisions 3 and 7); L24.3 (decision 4) |
 | 0022 | decisions 1, 2, 4, 5 and 6 revised inline; decision 3 by rule L25.10 | L25.1 (decisions 1 and 4); L25.4 (decisions 1 and 2); L25.7 (decision 6); L25.11 (decisions 1 and 5) |
 | 0023 | decisions 3, 5, 7, 8 and 10 revised inline | L26.2 (decision 3); L26.1 (decision 5); L26.12 (decision 7); L26.5 (decision 8); L26.9 (decision 10) |
+| 0010 | amendment 1 revised inline | L27.4 |
+| 0016 | decision 1 revised inline | L27.12 |
+| 0008 | preemption grace revised inline | L27.13 |
 
 ## Writing a new story
 
