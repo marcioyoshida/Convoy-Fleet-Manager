@@ -1,6 +1,6 @@
 # ADR 0025: A computer is a device, and Kubernetes is one driver of it
 
-**Status:** Draft · 2026-11-12
+**Status:** Draft · 2026-11-12 · rules from user story US-29 added 2026-11-13
 **Supersedes / relates to:** open finding L29.1 (compute is a Kubernetes device class only); ADR 0003 and its amendment 1 (three backends, placement by locality); ADR 0011 decisions 1, 2, 3, 6, 7 and 9 and amendments 1, 3, 4 and 5 (clusters as devices, `by-id` and views, mounts, `all`, `/sys`, the same rules for every class, drivers from packages, `residency`, `disconnected`, the node tree); ADR 0004 and its amendments (the completion contract); ADR 0008 (signals); ADR 0009 and ADR 0023 decision 7 (stderr as one path); ADR 0013 decisions 4, 7, 8 and 11 (contract flags, unit verbs, device verbs and `caps`, no flag outside the record); ADR 0016 decisions 4 and 5 (open is a credential exchange, `svc:<group>`); ADR 0019 decisions 5 and 6 (the platform's boundary, unenforced reach reported); ADR 0021 decision 7 (what the health controller may do); ADR 0024 (installed by Terraform); US-29 findings L29.2 to L29.18
 
 ## Context
@@ -95,8 +95,27 @@ Facts that constrain the design:
 
 ## Consequences
 
-- L29.1 is drafted here. US-29's other findings land on this record when US-29 is applied: L29.2 (signals), L29.4 and L29.13 (requeues and `unknown`), L29.5 (identity modes), L29.6 (price models), L29.8 and L29.18 (residency of sinks and per-topology splits), L29.9 and L29.14 (intent and external operators), L29.10 to L29.12 and L29.15 to L29.16 as fields of decision 2; L29.3 and L29.7 remain amendments to ADR 0003, which decision 4 already assumes.
+- L29.1 is drafted here. [US-29](../user-stories/US-29-one-pipeline-many-computers.md) was applied on 2026-11-13: L29.3 and L29.7 revised ADR 0003 inline (the decision and amendment 1), which decision 4 assumes; its fourteen rules are in the Rules section below, with pointers in ADRs 0003, 0004, 0008, 0009, 0010, 0011, 0013, 0016, 0017, 0019, 0021, 0022, 0023 and 0024; L29.17 is accepted.
 - ADR 0011 decision 1 reads as one kind of decision 1 here; `/dev/k8s` and `/sys/k8s/<id>/` remain as views. ADR 0003's distributed tier is no longer Indexed Job or Argo only; on Kubernetes it still is. ADR 0013 decision 4 gains `--on`. The node tree of ADR 0011 amendment 5 exists only where the driver exposes nodes (`k8s`, `slurm`, `vm`).
 - New `caps` keys: `stage`, `signals=`, `image=`, `bounds`, `preemption`, `identity=`, `price`, `queue`, `netpol=`, `operator=`, `sinks`. New paths: `/dev/compute/`, `/sys/compute/<id>/queue`, `/sys/proc/<pid>/backend`.
 - ROADMAP: the compute class, its views and `/sys/compute/` are M8 with the fleet; the five driver packages are M9; placement by the ordered filter and `--on` are M3 with the distributed backend; identity modes and the per-kind exchange are M7; price models are M4 with receipts.
 - Open, to be settled against this record: moving data to a computer's own file system before a stage (a Slurm cluster's Lustre, a function's ephemeral disk) and back; interactive work on a scheduler (`salloc`, a notebook on a GPU node); GPU clouds that are neither functions nor batch (per-second GPU containers); computers at the edge with no provider API; reconciling an allocation's accounting with the platform's receipts; a story that probes this record.
+
+## Rules · 2026-11-13 · from the user-story probes
+
+Each line is a `rule` finding from `docs/user-stories/README.md` written here as decided; the story holds the reasoning.
+
+- **L29.2** (US-29) each computer lists the signals it delivers in `caps` (`signals=`); a signal outside the list is refused with exit 3 naming the computer and the signal; `kill -TERM` on a function stage stops new invocations and lets the running ones end within their bound; `pause` is refused where the computer has no checkpoint.
+- **L29.4** (US-29) a requeue or preemption by the computer's own scheduler is a new attempt: stderr is opened in append mode and prefixed `[index.attempt]` (ADR 0023 decision 7), and the requeue never counts against `--retries`, as `DisruptionTarget` does not on Kubernetes (ADR 0004).
+- **L29.5** (US-29) each computer declares `identity=per-user|per-group|shared`; per-user submission uses the exchange of ADR 0016 decision 4 (a per-user `slurmrestd` token, the user's mapped uid); under `shared`, `explain` says that files the job writes are owned by the shared identity, and a mount with `identity=required` refuses the placement.
+- **L29.6** (US-29) each computer declares its price model; an allocation is shown in its own units with the balance read from the scheduler, never converted to money without a rate the platform sets; the receipt settles each stage in its model and sums only lines that share a unit.
+- **L29.8** (US-29) the residency of every mounted input binds the placement of the stage that reads it; a computer's log and metric sinks carry a topology, and a stage whose computer writes them outside the residency is refused.
+- **L29.9** (US-29) on a computer installed by a module, `release` and `scale` write the image and the size as intent to the instance's module inputs (`/sys/<class>/<id>/iac/vars/`), and the provider's own rolling update applies them.
+- **L29.10** (US-29) on an external scheduler the driver compiles the remaining deadline into the job's time limit and the plan's members into its step count; steps inside the job are shown as members in `ps -T`.
+- **L29.11** (US-29) a conversion to another image format (SIF, a function's archive) starts from the OCI digest and is a cached stage keyed by it (ADR 0001); the receipt records the digest and the converted image's hash.
+- **L29.12** (US-29) function stages invoke synchronously or with a failure destination the driver reads; throttles and failures are counted per partition, shown in `ps -T` and drive the contract.
+- **L29.13** (US-29) the backend job id is written to `/sys/proc/<pid>/backend` at submission; an unreachable computer makes its processes `unknown`, never `failed` (ADR 0011 amendment 4); they are resolved from the scheduler's accounting when the link returns, and a `kill` meanwhile is queued.
+- **L29.14** (US-29) a computer declares `operator=platform|external` and, if external, the operator's channel; on an external computer node verbs from people and from the health controller become requests on that channel, and the controller only reports and excludes the node from placement.
+- **L29.15** (US-29) account-wide limits (function concurrency, batch vCPU quotas, a scheduler's per-account limits) are shown in `/sys/<class>/<id>/` with what others hold, and the plan-time quota check uses what remains.
+- **L29.16** (US-29) each computer declares its enforcement (`netpol=networkpolicy|firewall|security-group|none`); `expose` on a VM pool compiles to a load balancer and firewall rules written as module intent (ADR 0024); names come from the platform's DNS zone (ADR 0019 decision 5).
+- **L29.18** (US-29) a stage over inputs in several topologies is split into one part per topology, each placed inside its residency, and only the stage's outputs cross, priced as an egress line.

@@ -87,3 +87,4 @@ Each line is a `rule` finding from `docs/user-stories/README.md` written here as
 - **L21.9** (US-21) no one holds `pods/exec`, `pods/attach`, `pods/portforward` or ephemeral containers on session pods; inspecting one is root break-glass under decision 6 and is shown to the user by `who` (ADR 0020 rule L21.9).
 - **L26.16** (US-26) a process that outlives its author's login reads its telemetry conditions as `svc:<group>`, recorded in the receipt (full rule in ADR 0023).
 - **L28.7** (US-28) contract inputs that name principals are limited to the owning group's service identities, and a delegated module path takes only device package instances (full rule in ADR 0024).
+- **L29.5** (US-29) each computer declares `identity=per-user|per-group|shared`; a shared identity is printed by `explain` and refused under `identity=required` (full rule in [ADR 0025](0025-a-computer-is-a-device-kubernetes-is-one-driver.md)).

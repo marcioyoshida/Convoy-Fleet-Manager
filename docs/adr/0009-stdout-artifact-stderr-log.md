@@ -34,3 +34,4 @@ Each line is a `rule` finding from `docs/user-stories/README.md` written here as
 - **L4.2** (US-04) the toolbox provides `convoy-metric key=value` writing to `/sys/receipt/$pid/metrics`; receipts carry a `metrics` map flagged self-reported (see US-07 L7.2).
 - **L8.5** (US-08) `replay` runs under the caller's identity, which needs read on the held closure only; the replay receipt links to the original and records both identities.
 - **L16.2** (US-16) the receipt records node and attempt per partition and per group member; `status <pid>` lists partitions with node, attempt and kernel state (from the node agent) and `top` surfaces partitions stuck in D state; `ps --node <name>` and `ps -o node` exist.
+- **L29.6, L29.11** (US-29) receipts settle each stage in its computer's price model, allocations in their own units; an image conversion records the digest and the converted hash (full rules in [ADR 0025](0025-a-computer-is-a-device-kubernetes-is-one-driver.md)).

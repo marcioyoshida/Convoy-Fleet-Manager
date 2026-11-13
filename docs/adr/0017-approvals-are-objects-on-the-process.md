@@ -84,3 +84,4 @@ Each line is a `rule` finding from `docs/user-stories/README.md` written here as
 - **L18.5** (US-18) the answers on an approval object (identity, group, time, reason) are visible to the requesting actor and the owning group regardless of rule L17.6, because an answer is an act toward that process; the inbox stays visible to the approving group only.
 - **L18.6** (US-18) every policy has a timeout and the platform default is bounded (24 h unless set); `explain` prints it; at expiry the holds are released, the page route fires and the process exits 3; `df` lists held bytes per pending object.
 - **L28.3** (US-28) `plan changed` joins the enumerated void reasons of rule L18.3; the new request shows the diff between plans (full rule in ADR 0024).
+- **L29.14** (US-29) on a computer run by an external operator, node verbs become requests on the operator's channel (full rule in [ADR 0025](0025-a-computer-is-a-device-kubernetes-is-one-driver.md)).

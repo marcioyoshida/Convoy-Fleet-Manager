@@ -59,6 +59,11 @@ From the user-story probes. Each milestone's exit criteria include the rules lis
 - **L25.9** `image-build` steps run without registry credentials and with `build_egress`; the builder pushes.
 - **L25.13** local stages under a worktree get a discarded writable overlay.
 - **L27.6** cross-provider copies above `transfer_min` use the provider's transfer service, verified.
+- **L29.8** a computer's log sink counts for residency.
+- **L29.10** the remaining deadline compiles into an external scheduler's time limit.
+- **L29.12** throttled and dropped function invocations count as failures.
+- **L29.15** account-wide limits are checked net of what others hold.
+- **L29.18** a stage over several topologies is split per topology.
 
 **M4**
 
@@ -67,6 +72,9 @@ From the user-story probes. Each milestone's exit criteria include the rules lis
 - **L26.6** artifacts from telemetry reads keep the source's retention and its scrub.
 - **L27.9** decommission refused while holds; `hold move` keeps expiry and chain of custody.
 - **L27.10** receipts and holds naming a broker's offsets are listed and copied before it goes.
+- **L29.4** a scheduler's requeue is a new attempt with its stderr kept.
+- **L29.6** receipts settle in each computer's price model.
+- **L29.11** image conversions start from the digest and are cached by it.
 
 **M5**
 
@@ -111,6 +119,7 @@ From the user-story probes. Each milestone's exit criteria include the rules lis
 - **L28.3** a re-plan voids the approval and re-asks with the diff.
 - **L28.7** delegated paths take package instances only; principals limited to the group.
 - **L28.11** where the runner publishes plans is declared; sensitive inputs are references.
+- **L29.5** computers declare per-user, per-group or shared identity.
 
 **M8**
 
@@ -131,6 +140,9 @@ From the user-story probes. Each milestone's exit criteria include the rules lis
 - **L28.6** a partial apply registers `iac: partial`, priced and completable.
 - **L28.9** an unreachable runner is reported; out-of-band devices marked for adoption.
 - **L28.10** adoption needs a no-change plan.
+- **L29.9** `release` and `scale` on a module-installed VM pool write intent.
+- **L29.13** processes on an unreachable computer are `unknown`, with the backend job id.
+- **L29.14** node verbs on an externally operated computer become requests.
 
 **M9**
 
@@ -145,6 +157,7 @@ From the user-story probes. Each milestone's exit criteria include the rules lis
 - **L23.4** a drain caused by a component the checkpoint needs skips the checkpoint.
 - **L23.6** readings carry the collector version; a step that coincides with a rollout is the rollout's.
 - **L23.9** at most one abandoned probe per component per node.
+- **L29.2** signals a computer does not deliver are refused.
 
 **M11**
 
@@ -171,3 +184,4 @@ From the user-story probes. Each milestone's exit criteria include the rules lis
 - **L27.7** replication packages provide lag; the cutover waits on it.
 - **L27.8** rollback after moving writes needs reverse replication.
 - **L27.17** a canary across providers writes DNS weights as intent.
+- **L29.16** `expose` on a VM pool compiles to its firewall as module intent.

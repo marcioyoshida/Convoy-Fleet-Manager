@@ -1,6 +1,6 @@
 # ADR 0003: Three backends, local first, chosen from known input size
 
-**Status:** Proposed · 2026-11-08
+**Status:** Proposed · 2026-11-08 · revised 2026-11-13 with user-story findings L29.3 (the decision) and L29.7 (amendment 1), marked inline
 **Supersedes / relates to:** docs/pipeline-compiler.md §5, §6; docs/debate-review.md §5
 
 ## Context
@@ -9,7 +9,7 @@ Making every command a pod costs seconds of scheduling and image pull. The notes
 
 ## Decision
 
-The planner tries, in order: local (in the session), parallel-local (one toolbox pod, split across cores on tmpfs), distributed (Indexed Job or Argo Workflow over partitions). Thresholds come from the platform profile; users override with `--engine` or `@remote`. Partition count derives from input size, the only size the planner may use.
+The planner tries, in order: local (in the session), parallel-local (one toolbox pod, split across cores on tmpfs), distributed (Indexed Job or Argo Workflow over partitions). Thresholds come from the platform profile; users override with `--engine` or `@remote`. Partition count derives from input size, the only size the planner may use, and, on a target with a maximum run time (`max_duration` in its `caps`, ADR 0025 decision 2), from that bound and the executable's declared throughput, so that every partition fits it; a stage whose partitions cannot fit is a plan-time refusal naming the bound and the next candidate (revised 2026-11-13, L29.3).
 
 ## Consequences
 
@@ -21,7 +21,7 @@ Note · 2026-11-12: the draft [ADR 0025](0025-a-computer-is-a-device-kubernetes-
 
 **Context.** The working directory chooses the cluster a stage runs in. A stage that reads a device local to one site from a working directory on the central cluster would pull the raw bytes over the site's link, which is the one thing an edge deployment cannot afford, and nothing in the decision above places a stage where its input is.
 
-**Decision.** Among the clusters the session has mounted, a stage runs on the cluster where its largest input device is local, provided that cluster's `caps` satisfy the stage; otherwise on the cwd's cluster with the egress line priced. Locality is read from the topology of the device path (ADR 0011 decision 2). `explain` prints `placement: <cluster>` with the reason for every stage, and only the stage's outputs cross the link. The user may pin a stage with `--engine` or `@<mount>` as before, and the pin is printed with its egress.
+**Decision.** Among the computers the session has mounted (clusters and, under ADR 0025, every other kind), placement is one ordered filter (revised 2026-11-13, L29.7): computers outside the residency of any input, or whose log and metric sinks lie outside it, are removed; then those whose `caps` or bounds cannot run the stage; then the stage runs on the computer where its largest input device is local; what is left is ranked by price band and estimated start (`/sys/<class>/<id>/queue`), and `--deadline` removes a candidate whose estimated start cannot meet it. With no local candidate, the stage runs on the cwd's computer with the egress line priced. Locality is read from the topology of the device path (ADR 0011 decision 2). `explain` prints `placement: <cluster>` with the reason for every stage, and every candidate with the step that kept or removed it and its estimated start, and only the stage's outputs cross the link. The user may pin a stage with `--engine` or `@<mount>` as before, and the pin is printed with its egress.
 
 **Consequences.** A site needs the capabilities a stage requires, evaluated per device (`caps` per target, ADR 0013 decision 8); a one-node site without Argo runs linear scripts only and `explain` says so. The input-size rule is unchanged: size still decides the backend, locality decides the cluster.
 
@@ -34,3 +34,4 @@ Each line is a `rule` finding from `docs/user-stories/README.md` written here as
 - **L24.5** (US-24) a source-repository mount (ADR 0011 amendment 2) takes `image=<ref>|devcontainer` (the repository's `.devcontainer` definition); local stages whose cwd is under that mount run in that image as a parallel-local backend pod, and `explain` names the image of every stage, `toolbox <digest>` included.
 - **L25.13** (US-25) a local stage whose cwd is under a worktree mount (ADR 0022) gets a per-process writable overlay, discarded at exit, and `explain` prints `overlay: discarded` (full rule in ADR 0022).
 - **L27.6** (US-27) a cross-provider copy above the platform's `transfer_min` runs as a transfer executable from a package (Storage Transfer Service, DataSync, AzCopy) where `caps` lists one, with egress and requests priced on both sides, and the receipt verifies object counts and checksums.
+- **L29.15, L29.18** (US-29) the plan-time quota check uses what remains of account-wide limits after what others hold; a stage over inputs in several topologies is split per topology, and only outputs cross (full rules in [ADR 0025](0025-a-computer-is-a-device-kubernetes-is-one-driver.md)).
