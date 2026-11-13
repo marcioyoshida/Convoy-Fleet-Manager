@@ -323,3 +323,8 @@ Rules the sixteen stories in `docs/user-stories/` decided for specific commands.
 | `ps`, `ps -T`, `wait` | `/sys/proc/<pid>/backend` names the backend job; an unreachable computer's processes are `unknown`; a scheduler's requeue is a new attempt, not a retry; throttled invocations and steps inside a job are members | L29.4, L29.10, L29.12, L29.13 |
 | `explain` (placement) | candidates filtered by residency including log sinks, `caps` and bounds, locality, then ranked by cost and estimated start; account-wide limits net of others; a stage over several topologies split per topology; bands in each computer's price model | L29.6, L29.8, L29.15, L29.18 |
 | `release`, `scale`, `expose` on a VM pool | written as module intent; `expose` compiles to a load balancer and firewall rules | L29.9, L29.16 |
+| `ln -sf` on a registry tag | moves the tag; a tag owned by GitOps, CI or a replication rule is intent or refused; `ls -l` shows the digest and who moved it | L30.2 |
+| `rm`, `du` on a registry | `rm` of a pinned digest refused; bytes go at the registry's garbage collection; `du` splits unique and shared layers | L30.3 |
+| `cp` of an image | by digest with its referrers or refused; never outside the residency; the layer scrub runs | L30.9, L30.14 |
+| `fuser` on a digest, `ls --base` | every pod running the digest, Convoy-created or not; images by base digest | L30.12 |
+| `release` (images) | stale scans rescanned or refused; vulnerability exceptions with expiry; `verify=` printed; the target's mirror checked first | L30.8, L30.10, L30.11, L30.13 |

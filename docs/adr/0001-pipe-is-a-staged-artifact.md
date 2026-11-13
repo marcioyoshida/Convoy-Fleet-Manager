@@ -37,3 +37,4 @@ Each line is a `rule` finding from `docs/user-stories/README.md` written here as
 
 - **L1.1** (US-01) annotated commands hash their declared `env` list; `unknown` commands and executables hash the whole environment minus a platform-declared volatile list (`PWD`, `OLDPWD`, `CONVOY_PID`, `_`, `SHLVL`); `type` and `explain --cache` print the subset; a cache hit names the subset in the receipt.
 - **L4.5** (US-04) the fileserver resolves every path argument to a content id at plan time, by sha256 for small objects and by object version id plus size for large ones, and the receipt says which.
+- **L30.9** (US-30) a copy of an image between registries keeps its content id and carries its referrers, or is refused (full rule in [ADR 0026](0026-a-registry-is-a-device-a-tag-is-a-name-for-a-digest.md)).

@@ -80,7 +80,7 @@ The first five were set by the owner; the other five were added because the walk
 
 ## Findings register
 
-Two hundred and eighty findings. Disposition counts: **65 amend** (29 applied to the ADRs on 2026-11-09; 17 on 2026-11-10: 11 inline to the drafts ADR 0016 to 0020, then L22.1 to ADR 0007 amendment 5, L23.1 to L23.3 inline to ADR 0021, and L24.3 and L24.4 inline to ADR 0013; 4 on 2026-11-11: L25.1, L25.4, L25.7 and L25.11 inline to ADR 0022; 11 on 2026-11-12: L26.1, L26.2, L26.5, L26.9 and L26.12 inline to ADR 0023, then L27.4, L27.12 and L27.13 inline to ADRs 0010, 0016 and 0008; then L28.1, L28.12 and L28.14 inline to ADR 0024; 2 on 2026-11-13: L29.3 and L29.7 inline to ADR 0003; L30.6 and L30.7 proposed against ADRs 0003 and 0022, not yet applied), **182 rule** (60 written into their documents on 2026-11-09, 51 on 2026-11-10, 11 on 2026-11-11, 33 on 2026-11-12, 14 on 2026-11-13; 13 proposed by US-30, not yet written), **9 open** (design that did not exist yet, all drafted: on 2026-11-10 L6.5 in ADR 0016, L3.1 in ADR 0017, L4.6 in ADR 0019, L12.5 in ADR 0012 decision 10, L9.7 in ADR 0007 amendment 5; on 2026-11-11 L24.1 in ADR 0022; on 2026-11-12 L27.1 in ADR 0024 and L29.1 in ADR 0025; on 2026-11-13 L30.1 in ADR 0026), **23 accepted** (a surfaced limitation), 1 cross-reference. Full text is in each story's section 10.
+Two hundred and eighty findings. Disposition counts: **65 amend** (29 applied to the ADRs on 2026-11-09; 17 on 2026-11-10: 11 inline to the drafts ADR 0016 to 0020, then L22.1 to ADR 0007 amendment 5, L23.1 to L23.3 inline to ADR 0021, and L24.3 and L24.4 inline to ADR 0013; 4 on 2026-11-11: L25.1, L25.4, L25.7 and L25.11 inline to ADR 0022; 11 on 2026-11-12: L26.1, L26.2, L26.5, L26.9 and L26.12 inline to ADR 0023, then L27.4, L27.12 and L27.13 inline to ADRs 0010, 0016 and 0008; then L28.1, L28.12 and L28.14 inline to ADR 0024; 4 on 2026-11-13: L29.3 and L29.7 inline to ADR 0003, then L30.6 inline to ADR 0003 amendment 1 and L30.7 inline to ADR 0022), **182 rule** (60 written into their documents on 2026-11-09, 51 on 2026-11-10, 11 on 2026-11-11, 33 on 2026-11-12, 27 on 2026-11-13), **9 open** (design that did not exist yet, all drafted: on 2026-11-10 L6.5 in ADR 0016, L3.1 in ADR 0017, L4.6 in ADR 0019, L12.5 in ADR 0012 decision 10, L9.7 in ADR 0007 amendment 5; on 2026-11-11 L24.1 in ADR 0022; on 2026-11-12 L27.1 in ADR 0024 and L29.1 in ADR 0025; on 2026-11-13 L30.1 in ADR 0026), **23 accepted** (a surfaced limitation), 1 cross-reference. Full text is in each story's section 10.
 
 | Id | Short name | Probe | Disposition | Touches |
 |---|---|---|---|---|
@@ -348,22 +348,22 @@ Two hundred and eighty findings. Disposition counts: **65 amend** (29 applied to
 | L29.17 | results differ across hardware; the receipt names the computer and versions | none | accepted | ADR 0009 |
 | L29.18 | a stage over several topologies is split per topology; only outputs cross | P11 | rule, applied | ADR 0003 a1; ADR 0011 a3; ADR 0012 d5 |
 | L30.1 | registries are not a device class: no repositories, tags, digests, referrers, residency or price | none | **open** (drafted: ADR 0026) | ADR 0011 d9, a1, a2; ADR 0006; ADR 0022 d4; ADR 0013 d8 |
-| L30.2 | a tag is a name for a digest; moving one owned by GitOps, CI or a replication rule is intent or refused | P1 | rule | ADR 0010 a1; ADR 0013 d7; ADR 0022 d5 |
-| L30.3 | `rm` of a pinned digest refused; `du` reports unique and shared layer bytes | P2 | rule | ADR 0006; ADR 0009; ADR 0013 d6 |
-| L30.4 | lifecycle policies are device facts; digests they would expire that something pins are protected first | P3 | rule | ADR 0006; L8.6; ADR 0024 d6 |
-| L30.5 | repositories are owned by groups; pulls scoped to the pod's group, not the node's role | P4 | rule | ADR 0016 d2, d5; ADR 0018 |
-| L30.6 | the image is an input for locality and egress; pull from the nearest replica | P5 | amend | ADR 0003 a1; ADR 0025 d4; ADR 0010 |
-| L30.7 | `image-build` resolves every `FROM` to a digest, keys the cache by it; `--refresh-base` | P6 | amend | ADR 0022 d4; ADR 0001; ADR 0009 |
-| L30.8 | scan results carry database version and time; stale scans rescanned or refused | P6 | rule | ADR 0013 d3; ADR 0017 |
-| L30.9 | `cp` of an image copies its referrers or is refused; promotion is a copy by digest | P7 | rule | ADR 0001; ADR 0013 d8 |
-| L30.10 | `caps` reports `verify=enforce\|audit\|none`; `verify=required` refuses the rest | P7 | rule | ADR 0018 d6; ADR 0019 d6 |
-| L30.11 | `release` checks the cluster's mirror holds the digest before replacing any replica | P8 | rule | ADR 0011 a4; ADR 0013 d7; ADR 0025 |
-| L30.12 | `fuser` on a digest lists every pod running it; images listed by base digest | P9 | rule | ADR 0011 d7; L9.4 |
-| L30.13 | a vulnerability exception is an approval object pinned to a digest and a CVE, with an expiry | P10 | rule | ADR 0017 d1; ADR 0016 d7 |
-| L30.14 | registries and repositories carry residency; replication or `cp` outside it refused | P11 | rule | ADR 0011 a3; ADR 0007 a2; L24.9 |
-| L30.15 | receipts record every container's digest from pod status, injected ones included | P12 | rule | ADR 0009; ADR 0018 |
+| L30.2 | a tag is a name for a digest; moving one owned by GitOps, CI or a replication rule is intent or refused | P1 | rule, applied | ADR 0010 a1; ADR 0013 d7; ADR 0022 d5 |
+| L30.3 | `rm` of a pinned digest refused; `du` reports unique and shared layer bytes | P2 | rule, applied | ADR 0006; ADR 0009; ADR 0013 d6 |
+| L30.4 | lifecycle policies are device facts; digests they would expire that something pins are protected first | P3 | rule, applied | ADR 0006; L8.6; ADR 0024 d6 |
+| L30.5 | repositories are owned by groups; pulls scoped to the pod's group, not the node's role | P4 | rule, applied | ADR 0016 d2, d5; ADR 0018 |
+| L30.6 | the image is an input for locality and egress; pull from the nearest replica | P5 | amend, applied | ADR 0003 a1; ADR 0025 d4; ADR 0010 |
+| L30.7 | `image-build` resolves every `FROM` to a digest, keys the cache by it; `--refresh-base` | P6 | amend, applied | ADR 0022 d4; ADR 0001; ADR 0009 |
+| L30.8 | scan results carry database version and time; stale scans rescanned or refused | P6 | rule, applied | ADR 0013 d3; ADR 0017 |
+| L30.9 | `cp` of an image copies its referrers or is refused; promotion is a copy by digest | P7 | rule, applied | ADR 0001; ADR 0013 d8 |
+| L30.10 | `caps` reports `verify=enforce\|audit\|none`; `verify=required` refuses the rest | P7 | rule, applied | ADR 0018 d6; ADR 0019 d6 |
+| L30.11 | `release` checks the cluster's mirror holds the digest before replacing any replica | P8 | rule, applied | ADR 0011 a4; ADR 0013 d7; ADR 0025 |
+| L30.12 | `fuser` on a digest lists every pod running it; images listed by base digest | P9 | rule, applied | ADR 0011 d7; L9.4 |
+| L30.13 | a vulnerability exception is an approval object pinned to a digest and a CVE, with an expiry | P10 | rule, applied | ADR 0017 d1; ADR 0016 d7 |
+| L30.14 | registries and repositories carry residency; replication or `cp` outside it refused | P11 | rule, applied | ADR 0011 a3; ADR 0007 a2; L24.9 |
+| L30.15 | receipts record every container's digest from pod status, injected ones included | P12 | rule, applied | ADR 0009; ADR 0018 |
 | L30.16 | scanners disagree; a clean scan is not proof | none | accepted | ADR 0017 |
-| L30.17 | production uses public images only by digest from a platform mirror | none | rule | ADR 0022 d5; ADR 0010; ADR 0006 |
+| L30.17 | production uses public images only by digest from a platform mirror | none | rule, applied | ADR 0022 d5; ADR 0010; ADR 0006 |
 
 ## Structural misroutes
 
@@ -422,7 +422,7 @@ The first table lists every finding that touches an ADR, whatever its dispositio
 | compute beyond Kubernetes (US-29) | L29.1 (a compute class, open, drafted in ADR 0025); ADR 0003: L29.3, L29.7 (amend), L29.15, L29.18; ADR 0008: L29.2; ADR 0004: L29.4, L29.10, L29.12; ADR 0016: L29.5; ADR 0010: L29.6, L29.9; ADR 0011: L29.8, L29.13; ADR 0022: L29.11; ADR 0021: L29.14; ADR 0019: L29.16; L29.17 accepted |
 | 0025 a computer is a device, Kubernetes is one driver (draft) | drafts L29.1; gives L29.2, L29.4, L29.5, L29.6, L29.8, L29.9, L29.10, L29.11, L29.12, L29.13, L29.14, L29.15, L29.16 and L29.18 their fields; assumes L29.3 and L29.7 in decision 4; the fourteen rules written in its Rules section on 2026-11-13 |
 | OCI registries (US-30) | L30.1 (a registry class, open, drafted in ADR 0026); ADR 0003 a1: L30.6 (amend); ADR 0022 d4: L30.7 (amend); ADR 0006: L30.3, L30.4; ADR 0010: L30.2, L30.17; ADR 0016: L30.5; ADR 0013: L30.8, L30.9; ADR 0018: L30.10, L30.15; ADR 0011: L30.11, L30.12, L30.14; ADR 0017: L30.13; L30.16 accepted |
-| 0026 a registry is a device, a tag is a name for a digest (draft) | drafts L30.1; makes the held registry of L8.6 a device of the class; gives L30.2, L30.3, L30.4, L30.5, L30.8, L30.9, L30.10, L30.11, L30.12, L30.13, L30.14, L30.15 and L30.17 their decisions; assumes L30.6 and L30.7 |
+| 0026 a registry is a device, a tag is a name for a digest (draft) | drafts L30.1; makes the held registry of L8.6 a device of the class; gives L30.2, L30.3, L30.4, L30.5, L30.8, L30.9, L30.10, L30.11, L30.12, L30.13, L30.14, L30.15 and L30.17 their decisions; assumes L30.6 and L30.7; the thirteen rules written in its Rules section on 2026-11-13 |
 
 | ADR | Amendment | Applies |
 |---|---|---|
@@ -456,6 +456,7 @@ The first table lists every finding that touches an ADR, whatever its dispositio
 | 0008 | preemption grace revised inline | L27.13 |
 | 0024 | decisions 2, 4 and 9 revised inline | L28.12 (decision 2); L28.1 (decision 4); L28.14 (decision 9) |
 | 0003 | the decision and amendment 1 revised inline | L29.3 (decision); L29.7 (amendment 1) |
+| 0003, 0022 | amendment 1 and decision 4 revised inline | L30.6 (ADR 0003 amendment 1); L30.7 (ADR 0022 decision 4) |
 
 ## Writing a new story
 

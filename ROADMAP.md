@@ -75,6 +75,8 @@ From the user-story probes. Each milestone's exit criteria include the rules lis
 - **L29.4** a scheduler's requeue is a new attempt with its stderr kept.
 - **L29.6** receipts settle in each computer's price model.
 - **L29.11** image conversions start from the digest and are cached by it.
+- **L30.3** pinned digests cannot be deleted; `du` splits shared layers.
+- **L30.15** receipts record every container that ran, injected ones included.
 
 **M5**
 
@@ -90,6 +92,9 @@ From the user-story probes. Each milestone's exit criteria include the rules lis
 - **L27.3** account resources in no Terraform state are listed before translation.
 - **L27.5** a table copy rewrites its metadata; byte copies of tables are refused.
 - **L28.4** claimed `caps` are verified against the provider before registration.
+- **L30.2** tags owned by GitOps, CI or replication are moved as intent.
+- **L30.9** image copies carry their referrers.
+- **L30.14** registries carry residency; copies never leave it.
 
 **M6**
 
@@ -120,6 +125,10 @@ From the user-story probes. Each milestone's exit criteria include the rules lis
 - **L28.7** delegated paths take package instances only; principals limited to the group.
 - **L28.11** where the runner publishes plans is declared; sensitive inputs are references.
 - **L29.5** computers declare per-user, per-group or shared identity.
+- **L30.5** repositories belong to groups; pulls are as the pod's group.
+- **L30.8** stale scans are rescanned or refused.
+- **L30.10** each computer reports whether it enforces signatures.
+- **L30.13** vulnerability exceptions are approvals with an expiry.
 
 **M8**
 
@@ -143,6 +152,9 @@ From the user-story probes. Each milestone's exit criteria include the rules lis
 - **L29.9** `release` and `scale` on a module-installed VM pool write intent.
 - **L29.13** processes on an unreachable computer are `unknown`, with the backend job id.
 - **L29.14** node verbs on an externally operated computer become requests.
+- **L30.4** lifecycle policies never expire a pinned digest.
+- **L30.11** a release checks the target's mirror first.
+- **L30.12** `fuser` on a digest lists every pod running it.
 
 **M9**
 
@@ -151,6 +163,7 @@ From the user-story probes. Each milestone's exit criteria include the rules lis
 - **L24.8** branch units carry the profile's `branch_unit_ttl` and show their daily cost.
 - **L28.8** usage-priced bands from contract inputs; plans reused per input hash.
 - **L28.13** package upgrades never re-plan instances.
+- **L30.17** production takes public images only from a platform mirror.
 
 **M10**
 
