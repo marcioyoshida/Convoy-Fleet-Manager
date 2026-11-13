@@ -61,6 +61,8 @@ Facts that constrain the design:
 - [US-25](../user-stories/US-25-edit-here-run-there.md) probes this record under the developer persona with a monorepo and a shared test namespace. Its four amendments were applied inline on 2026-11-11: L25.1 (sparse lends of one root, a build context outside the snapshot refused, decisions 1 and 4), L25.4 (a snapshot is current only when complete, decisions 1 and 2), L25.7 (dev units named `<name>-<user>` with their own address, decision 6) and L25.11 (the tree id is the git tree hash; a CI digest names the snapshot that passed, decisions 1 and 5). Its eleven rules are written below, with cross-references in ADRs 0003, 0010, 0011, 0013 and 0019, the command map and ROADMAP M2, M3, M5 and M11. L25.16, the save-to-reload latency, is accepted: no target, the measured time is printed.
 - Settled by US-25: monorepos are lent as sparse paths of one root (L25.1); a snapshot is promoted by committing on the laptop, never in the session, and the git tree hash ties the commit to the snapshot (L25.11); the reload latency is measured, not promised (L25.16). Still open: large binary assets in a working tree.
 
+
+Note · 2026-11-13: the draft [ADR 0026](0026-a-registry-is-a-device-a-tag-is-a-name-for-a-digest.md) makes the registry `image-build` pushes to a device; `caps: dev-registry` names the path `/registries/<id>/dev/<group>/`, and every tag a build or a release names is resolved to a digest at plan time (decision 4).
 ## Rules · 2026-11-11 · from the user-story probes
 
 Each line is a `rule` finding from `docs/user-stories/README.md` written here as decided; the story holds the reasoning.
