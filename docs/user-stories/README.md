@@ -79,7 +79,7 @@ The first five were set by the owner; the other five were added because the walk
 
 ## Findings register
 
-Two hundred and sixty-three findings. Disposition counts: **63 amend** (29 applied to the ADRs on 2026-11-09; 17 on 2026-11-10: 11 inline to the drafts ADR 0016 to 0020, then L22.1 to ADR 0007 amendment 5, L23.1 to L23.3 inline to ADR 0021, and L24.3 and L24.4 inline to ADR 0013; 4 on 2026-11-11: L25.1, L25.4, L25.7 and L25.11 inline to ADR 0022; 11 on 2026-11-12: L26.1, L26.2, L26.5, L26.9 and L26.12 inline to ADR 0023, then L27.4, L27.12 and L27.13 inline to ADRs 0010, 0016 and 0008; then L28.1, L28.12 and L28.14 inline to ADR 0024; L29.3 and L29.7 proposed against ADR 0003, not yet applied), **169 rule** (60 written into their documents on 2026-11-09, 51 on 2026-11-10, 11 on 2026-11-11, 33 on 2026-11-12; 14 proposed by US-29, not yet written), **8 open** (design that did not exist yet; seven drafted: on 2026-11-10 L6.5 in ADR 0016, L3.1 in ADR 0017, L4.6 in ADR 0019, L12.5 in ADR 0012 decision 10, L9.7 in ADR 0007 amendment 5; on 2026-11-11 L24.1 in ADR 0022; on 2026-11-12 L27.1 in ADR 0024; L29.1, compute beyond Kubernetes, not yet drafted), **22 accepted** (a surfaced limitation), 1 cross-reference. Full text is in each story's section 10.
+Two hundred and sixty-three findings. Disposition counts: **63 amend** (29 applied to the ADRs on 2026-11-09; 17 on 2026-11-10: 11 inline to the drafts ADR 0016 to 0020, then L22.1 to ADR 0007 amendment 5, L23.1 to L23.3 inline to ADR 0021, and L24.3 and L24.4 inline to ADR 0013; 4 on 2026-11-11: L25.1, L25.4, L25.7 and L25.11 inline to ADR 0022; 11 on 2026-11-12: L26.1, L26.2, L26.5, L26.9 and L26.12 inline to ADR 0023, then L27.4, L27.12 and L27.13 inline to ADRs 0010, 0016 and 0008; then L28.1, L28.12 and L28.14 inline to ADR 0024; L29.3 and L29.7 proposed against ADR 0003, not yet applied), **169 rule** (60 written into their documents on 2026-11-09, 51 on 2026-11-10, 11 on 2026-11-11, 33 on 2026-11-12; 14 proposed by US-29, not yet written), **8 open** (design that did not exist yet, all drafted: on 2026-11-10 L6.5 in ADR 0016, L3.1 in ADR 0017, L4.6 in ADR 0019, L12.5 in ADR 0012 decision 10, L9.7 in ADR 0007 amendment 5; on 2026-11-11 L24.1 in ADR 0022; on 2026-11-12 L27.1 in ADR 0024 and L29.1 in ADR 0025), **22 accepted** (a surfaced limitation), 1 cross-reference. Full text is in each story's section 10.
 
 | Id | Short name | Probe | Disposition | Touches |
 |---|---|---|---|---|
@@ -328,7 +328,7 @@ Two hundred and sixty-three findings. Disposition counts: **63 amend** (29 appli
 | L28.13 | package upgrades never re-plan instances; each instance upgrades itself | P1 | rule, applied | ADR 0024 d2, d6; ADR 0010 |
 | L28.14 | `--like` refused on unsupported inputs unless `--drop` names them | P7 | amend, applied | ADR 0024 d9; ADR 0012 |
 | L28.15 | a clean plan does not guarantee a clean apply | none | accepted | ADR 0024 d4 |
-| L29.1 | compute is a Kubernetes device class only; no class or driver contract for other computers | none | **open** | ADR 0003; ADR 0011 d1, d2, d9; ADR 0013 d8; ADR 0004; ADR 0008 |
+| L29.1 | compute is a Kubernetes device class only; no class or driver contract for other computers | none | **open** (drafted: ADR 0025) | ADR 0003; ADR 0011 d1, d2, d9; ADR 0013 d8; ADR 0004; ADR 0008 |
 | L29.2 | each computer lists the signals it delivers; others refused; `TERM` on functions stops dispatch | P2 | rule | ADR 0008; ADR 0013 d8, d10 |
 | L29.3 | partitions sized to the target's `max_duration`, or refused at plan time | none | amend | ADR 0003; ADR 0002; ADR 0004 |
 | L29.4 | a scheduler's requeue is a new attempt, appended and prefixed, never a retry | P12 | rule | ADR 0004; ADR 0009; ADR 0023 d7 |
@@ -401,7 +401,8 @@ The first table lists every finding that touches an ADR, whatever its dispositio
 | 0023 telemetry is a device the shell reads (draft) | replaces L3.5 with decision 5; L26.1, L26.2, L26.3, L26.5, L26.6, L26.7, L26.8, L26.9, L26.10, L26.11, L26.12, L26.13, L26.14, L26.15, L26.16 |
 | fleet operation across providers (US-27) | L27.1 (Terraform, open); ADR 0010 a1: L27.4; ADR 0016: L27.12; ADR 0008: L27.13; ADR 0007: L27.2, L27.11; ADR 0006: L27.9; ADR 0011: L27.3; ADR 0012: L27.7, L27.10; ADR 0013: L27.8, L27.14, L27.15; ADR 0015: L27.5; ADR 0019: L27.17; ADR 0003: L27.6; L27.16 accepted |
 | 0024 a device is installed by Terraform (draft) | drafts L27.1; realises L27.2, L27.3, L27.4 and L27.17 in decisions 6 and 7; L28.1, L28.2, L28.3, L28.4, L28.5, L28.6, L28.7, L28.8, L28.9, L28.10, L28.11, L28.12, L28.13, L28.14, L28.15 |
-| compute beyond Kubernetes (US-29) | L29.1 (a compute class, open); ADR 0003: L29.3, L29.7 (amend), L29.15, L29.18; ADR 0008: L29.2; ADR 0004: L29.4, L29.10, L29.12; ADR 0016: L29.5; ADR 0010: L29.6, L29.9; ADR 0011: L29.8, L29.13; ADR 0022: L29.11; ADR 0021: L29.14; ADR 0019: L29.16; L29.17 accepted |
+| compute beyond Kubernetes (US-29) | L29.1 (a compute class, open, drafted in ADR 0025); ADR 0003: L29.3, L29.7 (amend), L29.15, L29.18; ADR 0008: L29.2; ADR 0004: L29.4, L29.10, L29.12; ADR 0016: L29.5; ADR 0010: L29.6, L29.9; ADR 0011: L29.8, L29.13; ADR 0022: L29.11; ADR 0021: L29.14; ADR 0019: L29.16; L29.17 accepted |
+| 0025 a computer is a device, Kubernetes is one driver (draft) | drafts L29.1; gives L29.2, L29.4, L29.5, L29.6, L29.8, L29.9, L29.10, L29.11, L29.12, L29.13, L29.14, L29.15, L29.16 and L29.18 their fields; assumes L29.3 and L29.7 in decision 4 |
 
 | ADR | Amendment | Applies |
 |---|---|---|

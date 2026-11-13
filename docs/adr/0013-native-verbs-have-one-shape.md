@@ -31,7 +31,7 @@ The remark that prompted this record: the non-Linux commands could be more compr
    | contract | `wait`, `status`, `retry`, `time`, `timeout` | decision 5 |
    | lineage | `replay` | decision 6 |
    | unit | `scale`, `release`, `expose`, `kill -HUP` | decision 7 |
-   | device | `mount`, `umount`, `caps`, `df`, `du`, `fuser`, `rmvol`, `seek`; `mknod` drafted in [ADR 0024](0024-a-device-is-installed-by-terraform.md) | decision 8 |
+   | device | `mount`, `umount`, `caps`, `df`, `du`, `fuser`, `rmvol`, `seek`; `mknod` drafted in [ADR 0024](0024-a-device-is-installed-by-terraform.md); computers as devices and the `--on` contract flag drafted in [ADR 0025](0025-a-computer-is-a-device-kubernetes-is-one-driver.md) | decision 8 |
    | platform | `pkg`, `tool`, `secret`, `approve`, `pause`, `resume` | decision 9 |
 
    `cd`, `pwd`, `ps`, `jobs`, `kill`, `nice`, `renice`, `cron`, `at`, `xargs`, `tee`, `mkfifo`, `mkdir`, `rm`, `chmod`, `chown`, `id`, `whoami`, `sudo` keep their POSIX synopsis and are specified by the command map and the ADR that gives them their backing object. They are not repeated here.

@@ -15,6 +15,8 @@ The planner tries, in order: local (in the session), parallel-local (one toolbox
 
 Most commands never create a pod. Cold start is avoided rather than mitigated. Quota is checked at plan time from partitions × requests.
 
+Note · 2026-11-12: the draft [ADR 0025](0025-a-computer-is-a-device-kubernetes-is-one-driver.md) extends the distributed tier to every computer whose driver supports the stage's shape (Slurm job arrays, function invocations, batch array jobs, VM pools), and places by one ordered filter: residency, then `caps` and bounds, then the locality of amendment 1, ranked by cost and estimated start (decision 4). On Kubernetes the tier is still Indexed Job or Argo Workflow.
+
 ## Amendment 1 · 2026-11-09 · placement by device locality (user story US-10, L10.7)
 
 **Context.** The working directory chooses the cluster a stage runs in. A stage that reads a device local to one site from a working directory on the central cluster would pull the raw bytes over the site's link, which is the one thing an edge deployment cannot afford, and nothing in the decision above places a stage where its input is.

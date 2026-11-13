@@ -97,6 +97,8 @@ Facts that constrain the design:
 
 Note · 2026-11-12: the draft [ADR 0024](0024-a-device-is-installed-by-terraform.md) gives a device package a device contract and a Terraform module per provider beside its driver; `mknod` installs a device through the platform's runner, the module's outputs register it here, and `/sys/<class>/<id>/iac/` records the module instance (`iac: managed` or `iac: none`).
 
+Note · 2026-11-12: the draft [ADR 0025](0025-a-computer-is-a-device-kubernetes-is-one-driver.md) makes compute one device class, `/dev/compute/`, with Kubernetes as one kind beside `slurm`, `fn`, `batch` and `vm`; decision 1 is the `k8s` kind of it, and `/dev/k8s` and `/sys/k8s/<id>/` remain as views of `/dev/compute/by-kind/k8s` and `/sys/compute/<id>/`.
+
 ## Amendment 2 · 2026-11-09 · source repositories and artifact stores are devices (user stories US-03 and US-08, L3.3 and L8.1)
 
 **Context.** `release` writes to a GitOps repository that is not in the device tree: no identity, no mount options, no `df`. The artifact store, where every pipe and receipt lives, was never placed at all; a single global store breaks residency for every intermediate artifact (ADR 0001 amendment 2).
