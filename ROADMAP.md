@@ -79,6 +79,9 @@ From the user-story probes. Each milestone's exit criteria include the rules lis
 - **L33.16** `explain` warns on file counts above a metadata limit.
 - **L34.9** interactive requests print a start estimate; `--wait` bounds it.
 - **L34.14** interactive work gets the smallest share outside domain pools.
+- **L35.6** edge transfers use the link class allowed; images by changed layers.
+- **L35.14** power budgets gate edge stages.
+- **L35.16** image architectures checked before any transfer.
 
 **M4**
 
@@ -99,6 +102,8 @@ From the user-story probes. Each milestone's exit criteria include the rules lis
 - **L33.18** a stage-in reads a pinned snapshot of its source.
 - **L34.7** inputs read by a kernel are recorded with snapshots.
 - **L34.18** interactive output is marked and not released until reproduced.
+- **L35.3** `done-local` until outputs are delivered; the only copy is stated.
+- **L35.4** edge uploads stay within residency, with the device's location.
 
 **M5**
 
@@ -170,6 +175,8 @@ From the user-story probes. Each milestone's exit criteria include the rules lis
 - **L34.5** interactive applications only through the gateway login.
 - **L34.6** restricted notebooks are scrubbed when they leave the home device.
 - **L34.12** launches from a kernel are the attached person's.
+- **L35.5** device certificates outlast `contact_max`; revocation at contact.
+- **L35.17** trust roots reach devices before images that need them.
 
 **M8**
 
@@ -209,6 +216,11 @@ From the user-story probes. Each milestone's exit criteria include the rules lis
 - **L33.7** staged copies and per-process file systems removed after `stage_keep`.
 - **L34.8** drains and OOM kills are told to the people attached.
 - **L34.10** allocation use outside Convoy shown in `cost`.
+- **L35.2** fan-outs over contacts report each device's state.
+- **L35.8** `replace` carries work, not data; silent work becomes `lost`.
+- **L35.10** workloads outside Convoy are read at contact and counted.
+- **L35.12** a local stop on a device wins.
+- **L35.13** edge children count deadlines in contacts.
 
 **M9**
 
@@ -222,6 +234,7 @@ From the user-story probes. Each milestone's exit criteria include the rules lis
 - **L32.12** domain layout is read from the driver, never written.
 - **L33.11** lasting file systems from modules, per-process ones from drivers.
 - **L34.13** a platform notebook hub is the driver; no second spawner.
+- **L35.11** intent merged into the fleet manager's deployment.
 
 **M10**
 
@@ -229,6 +242,8 @@ From the user-story probes. Each milestone's exit criteria include the rules lis
 - **L23.6** readings carry the collector version; a step that coincides with a rollout is the rollout's.
 - **L23.9** at most one abandoned probe per component per node.
 - **L29.2** signals a computer does not deliver are refused.
+- **L35.7** signals to a device out of contact are queued.
+- **L35.15** edge receipts carry the clock source and offset.
 
 **M11**
 

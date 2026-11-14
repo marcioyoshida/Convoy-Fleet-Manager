@@ -85,7 +85,7 @@ The first five were set by the owner; the other five were added because the walk
 
 ## Findings register
 
-Three hundred and seventy-three findings. Disposition counts: **72 amend** (29 applied to the ADRs on 2026-11-09; 17 on 2026-11-10: 11 inline to the drafts ADR 0016 to 0020, then L22.1 to ADR 0007 amendment 5, L23.1 to L23.3 inline to ADR 0021, and L24.3 and L24.4 inline to ADR 0013; 4 on 2026-11-11: L25.1, L25.4, L25.7 and L25.11 inline to ADR 0022; 11 on 2026-11-12: L26.1, L26.2, L26.5, L26.9 and L26.12 inline to ADR 0023, then L27.4, L27.12 and L27.13 inline to ADRs 0010, 0016 and 0008; then L28.1, L28.12 and L28.14 inline to ADR 0024; 6 on 2026-11-13: L29.3 and L29.7 inline to ADR 0003, then L30.6 inline to ADR 0003 amendment 1 and L30.7 inline to ADR 0022, then L31.5 and L31.9 inline to ADR 0017; 4 on 2026-11-14: L32.4 inline to ADR 0004 amendment 1 and L32.6 inline to ADR 0021, then L33.13 inline to ADR 0001 amendment 2, then L34.3 inline to ADR 0020 decision 7; L35.9 proposed against ADR 0011 amendment 4, not yet applied), **255 rule** (60 written into their documents on 2026-11-09, 51 on 2026-11-10, 11 on 2026-11-11, 33 on 2026-11-12, 40 on 2026-11-13, 45 on 2026-11-14; 15 proposed by US-35, not yet written), **14 open** (design that did not exist yet, all drafted: on 2026-11-10 L6.5 in ADR 0016, L3.1 in ADR 0017, L4.6 in ADR 0019, L12.5 in ADR 0012 decision 10, L9.7 in ADR 0007 amendment 5; on 2026-11-11 L24.1 in ADR 0022; on 2026-11-12 L27.1 in ADR 0024 and L29.1 in ADR 0025; on 2026-11-13 L30.1 in ADR 0026 and L31.1 in ADR 0027; on 2026-11-14 L32.1 in ADR 0028, L33.1 in ADR 0029, L34.1 in ADR 0030 and L35.1 in ADR 0031), **31 accepted** (a surfaced limitation), 1 cross-reference. Full text is in each story's section 10.
+Three hundred and seventy-three findings. Disposition counts: **72 amend** (29 applied to the ADRs on 2026-11-09; 17 on 2026-11-10: 11 inline to the drafts ADR 0016 to 0020, then L22.1 to ADR 0007 amendment 5, L23.1 to L23.3 inline to ADR 0021, and L24.3 and L24.4 inline to ADR 0013; 4 on 2026-11-11: L25.1, L25.4, L25.7 and L25.11 inline to ADR 0022; 11 on 2026-11-12: L26.1, L26.2, L26.5, L26.9 and L26.12 inline to ADR 0023, then L27.4, L27.12 and L27.13 inline to ADRs 0010, 0016 and 0008; then L28.1, L28.12 and L28.14 inline to ADR 0024; 6 on 2026-11-13: L29.3 and L29.7 inline to ADR 0003, then L30.6 inline to ADR 0003 amendment 1 and L30.7 inline to ADR 0022, then L31.5 and L31.9 inline to ADR 0017; 5 on 2026-11-14: L32.4 inline to ADR 0004 amendment 1 and L32.6 inline to ADR 0021, then L33.13 inline to ADR 0001 amendment 2, then L34.3 inline to ADR 0020 decision 7, then L35.9 inline to ADR 0011 amendment 4), **255 rule** (60 written into their documents on 2026-11-09, 51 on 2026-11-10, 11 on 2026-11-11, 33 on 2026-11-12, 40 on 2026-11-13, 60 on 2026-11-14), **14 open** (design that did not exist yet, all drafted: on 2026-11-10 L6.5 in ADR 0016, L3.1 in ADR 0017, L4.6 in ADR 0019, L12.5 in ADR 0012 decision 10, L9.7 in ADR 0007 amendment 5; on 2026-11-11 L24.1 in ADR 0022; on 2026-11-12 L27.1 in ADR 0024 and L29.1 in ADR 0025; on 2026-11-13 L30.1 in ADR 0026 and L31.1 in ADR 0027; on 2026-11-14 L32.1 in ADR 0028, L33.1 in ADR 0029, L34.1 in ADR 0030 and L35.1 in ADR 0031), **31 accepted** (a surfaced limitation), 1 cross-reference. Full text is in each story's section 10.
 
 | Id | Short name | Probe | Disposition | Touches |
 |---|---|---|---|---|
@@ -444,22 +444,22 @@ Three hundred and seventy-three findings. Disposition counts: **72 amend** (29 a
 | L34.18 | interactive output carries `interactive` lineage, is never a cache hit, and is not released until reproduced | none | rule, applied | ADR 0001 a1; ADR 0002; ADR 0026 |
 | L34.19 | interactive work is placed near its data, not near the person | none | accepted | ADR 0016 d11; L26.4 |
 | L35.1 | computers with no API that pull work at contact have no kind, contact model or delivery states | none | **open** (drafted: ADR 0031) | ADR 0025 d2, d3, d5, d8; ADR 0011 a4; ADR 0009 a1; ADR 0029 d7 |
-| L35.2 | a fan-out over contacts is one process with a floor and a deadline, and per-device states | P8 | rule | ADR 0004 a2; ADR 0025 d4; ADR 0026 |
-| L35.3 | `done-local` until outputs are delivered; the only copy is stated with its bytes at risk | P7 | rule | ADR 0029 d7; ADR 0006; ADR 0009 a1 |
-| L35.4 | edge uploads only to stores in the data's residency; outputs carry the device's location | P11 | rule | ADR 0011 a3; ADR 0029 d6; ADR 0016 d11 |
-| L35.5 | device certificates outlive `contact_max`; revocation takes effect at next contact | P4 | rule | ADR 0007 a4; ADR 0016 d4; ADR 0024 d6 |
-| L35.6 | transfers use the link class urgency allows, priced per link; images by changed layers | P5 | rule | ADR 0011 d7 (L10.5); ADR 0026; ADR 0010 |
-| L35.7 | a signal to a computer out of contact is queued until contact; the receipt says which came first | P2 | rule | ADR 0008; ADR 0011 a4; ADR 0004 |
-| L35.8 | `replace` carries desired state and pending work, not data; silent work becomes `lost` | P3 | rule | ADR 0011 d2 (L10.8); ADR 0006; ADR 0024 d6 |
-| L35.9 | `out-of-contact` is a normal state with last and next contact; ages printed; late contacts alert | P6 | amend | ADR 0011 a4; ADR 0025 d2 |
-| L35.10 | workloads Convoy did not deploy are read at contact, shown and counted, never removed | P9 | rule | ADR 0024 d8; ADR 0025 d2 |
-| L35.11 | intent merged into the fleet manager's deployment, never replacing others' components | P1 | rule | ADR 0010 a1; ADR 0025 d8 |
-| L35.12 | a local authority's stop is `stopped locally` and is not overridden | P10 | rule | ADR 0021 d10; ADR 0008; ADR 0017 |
-| L35.13 | edge children count deadlines in contacts, bounded by the tree's deadline | P12 | rule | ADR 0004 a3; ADR 0017 d7 |
-| L35.14 | power budgets in `bounds`; stages declare `--energy` and wait for power | none | rule | ADR 0025 d2, d4 |
-| L35.15 | edge receipts carry the clock source and the offset measured at contact | none | rule | ADR 0009; ADR 0009 a1 |
-| L35.16 | image platforms checked against device architectures before any transfer | none | rule | ADR 0025 d2; ADR 0026; ADR 0022 |
-| L35.17 | a new trust root reaches edge computers before images signed only with the new key | none | rule | ADR 0026; ADR 0007 |
+| L35.2 | a fan-out over contacts is one process with a floor and a deadline, and per-device states | P8 | rule, applied | ADR 0004 a2; ADR 0025 d4; ADR 0026 |
+| L35.3 | `done-local` until outputs are delivered; the only copy is stated with its bytes at risk | P7 | rule, applied | ADR 0029 d7; ADR 0006; ADR 0009 a1 |
+| L35.4 | edge uploads only to stores in the data's residency; outputs carry the device's location | P11 | rule, applied | ADR 0011 a3; ADR 0029 d6; ADR 0016 d11 |
+| L35.5 | device certificates outlive `contact_max`; revocation takes effect at next contact | P4 | rule, applied | ADR 0007 a4; ADR 0016 d4; ADR 0024 d6 |
+| L35.6 | transfers use the link class urgency allows, priced per link; images by changed layers | P5 | rule, applied | ADR 0011 d7 (L10.5); ADR 0026; ADR 0010 |
+| L35.7 | a signal to a computer out of contact is queued until contact; the receipt says which came first | P2 | rule, applied | ADR 0008; ADR 0011 a4; ADR 0004 |
+| L35.8 | `replace` carries desired state and pending work, not data; silent work becomes `lost` | P3 | rule, applied | ADR 0011 d2 (L10.8); ADR 0006; ADR 0024 d6 |
+| L35.9 | `out-of-contact` is a normal state with last and next contact; ages printed; late contacts alert | P6 | amend, applied | ADR 0011 a4; ADR 0025 d2 |
+| L35.10 | workloads Convoy did not deploy are read at contact, shown and counted, never removed | P9 | rule, applied | ADR 0024 d8; ADR 0025 d2 |
+| L35.11 | intent merged into the fleet manager's deployment, never replacing others' components | P1 | rule, applied | ADR 0010 a1; ADR 0025 d8 |
+| L35.12 | a local authority's stop is `stopped locally` and is not overridden | P10 | rule, applied | ADR 0021 d10; ADR 0008; ADR 0017 |
+| L35.13 | edge children count deadlines in contacts, bounded by the tree's deadline | P12 | rule, applied | ADR 0004 a3; ADR 0017 d7 |
+| L35.14 | power budgets in `bounds`; stages declare `--energy` and wait for power | none | rule, applied | ADR 0025 d2, d4 |
+| L35.15 | edge receipts carry the clock source and the offset measured at contact | none | rule, applied | ADR 0009; ADR 0009 a1 |
+| L35.16 | image platforms checked against device architectures before any transfer | none | rule, applied | ADR 0025 d2; ADR 0026; ADR 0022 |
+| L35.17 | a new trust root reaches edge computers before images signed only with the new key | none | rule, applied | ADR 0026; ADR 0007 |
 | L35.18 | nothing can be promised about a device that never calls home | none | accepted | ADR 0011 a4 |
 | L35.19 | Convoy records location but does not decide which law applies at sea | none | accepted | ADR 0016 d11; L26.4 |
 
@@ -529,7 +529,7 @@ The first table lists every finding that touches an ADR, whatever its dispositio
 | interactive work (US-34) | L34.1 (interactive process class, open, drafted in ADR 0030); ADR 0020: L34.3 (amend); ADR 0010: L34.2; command map: L34.4; ADR 0019: L34.5; ADR 0011 and ADR 0007: L34.6; ADR 0001: L34.7, L34.18; ADR 0027: L34.8, L34.15; ADR 0025: L34.9, L34.10; ADR 0016: L34.11; ADR 0004: L34.12; ADR 0024: L34.13; ADR 0028: L34.14; ADR 0002: L34.17; L34.16 and L34.19 accepted |
 | 0030 an interactive process holds a computer while someone is attached (draft) | drafts L34.1 and settles the open items on interactive work in ADR 0025 and ADR 0029; gives ADR 0025's `stage` field the `interactive` shape, ADR 0020's attach channel interactive terminals and ADR 0019's gateway interactive applications; gives L34.2, L34.4 to L34.15, L34.17 and L34.18 their decisions; assumes L34.3; the fifteen rules written in its Rules section on 2026-11-14 |
 | edge computers (US-35) | L35.1 (edge kind, contact and delivery states, open, drafted in ADR 0031); ADR 0011: L35.9 (amend), L35.4, L35.6, L35.7, L35.8; ADR 0004: L35.2, L35.13; ADR 0029: L35.3; ADR 0007: L35.5, L35.17; ADR 0024: L35.10; ADR 0025: L35.11, L35.14, L35.16; ADR 0021: L35.12; ADR 0009: L35.15; L35.18 and L35.19 accepted |
-| 0031 an edge computer is reached by contact, and known by what it delivers (draft) | drafts L35.1 and settles the edge open items in ADR 0025 and ADR 0029; gives ADR 0025 the `edge` kind and the `contact` field, ADR 0029 decision 7 the `done-local` state; gives L35.2 to L35.8 and L35.10 to L35.17 their decisions; assumes L35.9 |
+| 0031 an edge computer is reached by contact, and known by what it delivers (draft) | drafts L35.1 and settles the edge open items in ADR 0025 and ADR 0029; gives ADR 0025 the `edge` kind and the `contact` field, ADR 0029 decision 7 the `done-local` state; gives L35.2 to L35.8 and L35.10 to L35.17 their decisions; assumes L35.9; the fifteen rules written in its Rules section on 2026-11-14 |
 | 0027 Convoy tells a group about its own objects (draft) | drafts L31.1; gives `page:<route>` (ADR 0017) and the health controller's pages (ADR 0021) their channel; gives L31.2, L31.3, L31.4, L31.6, L31.7, L31.8, L31.10, L31.11, L31.12, L31.13, L31.14, L31.15 and L31.17 their decisions; assumes L31.5 and L31.9; the thirteen rules written in its Rules section on 2026-11-13 |
 
 | ADR | Amendment | Applies |
@@ -569,6 +569,7 @@ The first table lists every finding that touches an ADR, whatever its dispositio
 | 0004, 0021 | amendment 1 revised inline; decisions 2 and 3 revised inline | L32.4 (ADR 0004 amendment 1); L32.6 (ADR 0021 decisions 2 and 3) |
 | 0001 | amendment 2 revised inline | L33.13 (amendment 2) |
 | 0020 | decision 7 revised inline | L34.3 (decision 7) |
+| 0011 | amendment 4 revised inline | L35.9 (amendment 4) |
 
 ## Writing a new story
 

@@ -1,6 +1,6 @@
 # ADR 0011: Clusters are devices under `/dev`; the session mounts them
 
-**Status:** Proposed · 2026-11-08
+**Status:** Proposed · 2026-11-08 · amendment 4 revised 2026-11-14 with user-story finding L35.9, marked inline
 **Supersedes / relates to:** ADR 0005 (session owns the mount table); ADR 0010 (platform defaults); docs/stories.md story 1 (`cd /clusters/…`); docs/debate-review.md §multi-cluster; ROADMAP M5, M8
 
 ## Context
@@ -123,7 +123,7 @@ Note · 2026-11-11: the draft [ADR 0022](0022-the-laptop-lends-a-tree-the-cluste
 
 **Context.** Decision 8 knows removed devices only. A site whose link is down is not removed; treating it as removed fails every `ls` and drops queued work, and treating it as present hangs every command.
 
-**Decision.** A device has a `disconnected` state distinct from `removed` and `ready`, with `disconnected since` shown by `mount` and in `/sys/<class>/<id>/state`. Commands against a disconnected device follow the mount's `queue=<ttl>|fail` option: queued commands are listed with their count and expire at the TTL with a receipt that says so. Listings follow `stale=cache|fail`: the metadata cache is served with its age, or the command fails fast. Hotplug emits `connected` and `disconnected` events, and a device disconnected longer than the platform's threshold raises an alert through the alerting capability. Nothing is ever deleted because a device is disconnected.
+**Decision.** A device has a `disconnected` state distinct from `removed` and `ready`, with `disconnected since` shown by `mount` and in `/sys/<class>/<id>/state`. Commands against a disconnected device follow the mount's `queue=<ttl>|fail` option: queued commands are listed with their count and expire at the TTL with a receipt that says so. Listings follow `stale=cache|fail`: the metadata cache is served with its age, or the command fails fast. Hotplug emits `connected` and `disconnected` events, and a device disconnected longer than the platform's threshold raises an alert through the alerting capability. Nothing is ever deleted because a device is disconnected. A computer that connects by contact ([ADR 0031](0031-an-edge-computer-is-reached-by-contact-and-known-by-what-it-delivers.md)) is `out-of-contact` between contacts, a normal state and not `disconnected`: it shows its last and expected next contact; listings of it always print the age of what they show; placement uses its state older than `contact_stale` only for work that can wait for the next contact; the alert is raised when a contact is late by `contact_grace`, never because the device is between contacts; and commands queued for it expire after `contact_max` rather than the mount's `queue=` TTL (revised 2026-11-14, L35.9).
 
 **Consequences.** A session cut off from a site keeps working against the fleet it can reach, and the part it cannot is visible rather than absent. Completion and `ls` read the cache under this rule (ADR 0014 decision 7). The per-device link metadata (`/sys/k8s/<id>/link`) the stories asked for lives here.
 
@@ -161,3 +161,4 @@ Each line is a `rule` finding from `docs/user-stories/README.md` written here as
 - **L32.9** (US-32) `/dev/shm` holds written-once files; a writable shared mapping across nodes is refused, and `ipcs` lists only the node's own objects (full rule in [ADR 0028](0028-memory-has-a-distance-and-a-domain-is-claimed-whole.md)).
 - **L33.3, L33.9, L33.19** (US-33) a computer's file systems carry residency like mounts; an interrupted transfer resumes; linked files show their load state in `ls -l` (full rules in [ADR 0029](0029-a-computers-file-systems-are-in-its-contract-staging-is-a-planned-copy.md)).
 - **L34.6, L34.14** (US-34) the home device carries a residency; interactive work gets the smallest accelerator share under `/dev/accel` (full rules in [ADR 0030](0030-an-interactive-process-holds-a-computer-while-someone-is-attached.md)).
+- **L35.4, L35.6, L35.7, L35.8** (US-35) edge uploads stay in residency; links are chosen by urgency and price; commands to a device out of contact are queued; `replace` carries work, not data (full rules in [ADR 0031](0031-an-edge-computer-is-reached-by-contact-and-known-by-what-it-delivers.md)).

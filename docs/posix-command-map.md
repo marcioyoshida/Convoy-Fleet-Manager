@@ -344,3 +344,7 @@ Rules the sixteen stories in `docs/user-stories/` decided for specific commands.
 | `fg`, `bg`, `^Z` (interactive) | job-control keys go to the remote foreground job; `^Z` says the allocation still counts; only `exit` or `kill` releases it | L34.4 |
 | `attach --grant` | a second person attaches only with the owner's grant, read-only unless `write`; `who` lists everyone attached | L34.11 |
 | `batch` of an interactive executable | refused with exit 3 and the `run -it` spelling | L34.17 |
+| `release --on` a fleet view | one process over contacts with a floor and a deadline; each device `pending-contact`, `running`, `done-local`, `delivered` or `silent`; images by changed layers on the link class allowed, after an architecture check | L35.2, L35.6, L35.16 |
+| `kill` (edge) | queued until contact; `wait` and the receipt say whether the signal or the exit came first | L35.7 |
+| `ls` (edge outputs) | `only copy on <device>` until delivered, with the bytes at risk | L35.3 |
+| `replace` (edge) | carries group, desired state and pending work to the new device, not data; outputs left on the old one listed as at risk | L35.8 |
