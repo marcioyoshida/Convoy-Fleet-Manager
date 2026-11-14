@@ -85,6 +85,8 @@ From the user-story probes. Each milestone's exit criteria include the rules lis
 - **L36.3** a pipe above `stage_max` is refused with the `|=` spelling.
 - **L36.13** a stream is partitioned across its process tree.
 - **L36.14** placement checks a stream's needed rate.
+- **L37.9** an importer is placed in its resident artifact's domain, or reads the staged form.
+- **L37.14** importers in other domains read RDMA copies.
 
 **M4**
 
@@ -112,6 +114,11 @@ From the user-story probes. Each milestone's exit criteria include the rules lis
 - **L36.7** window entries are keyed by manifest content ids.
 - **L36.18** large manifests come from inventories.
 - **L36.19** a stream's seed and partitions are pinned.
+- **L37.2** resident artifacts are registered in the artifact index.
+- **L37.3** reads from outside a domain are priced copies.
+- **L37.6** holding is priced and compared with staging.
+- **L37.7** resident artifacts are immutable.
+- **L37.13** import records, not framework references, keep resident artifacts alive.
 
 **M5**
 
@@ -149,6 +156,9 @@ From the user-story probes. Each milestone's exit criteria include the rules lis
 - **L32.15** `--domain` and `--gang` are not inherited.
 - **L34.2** interactive idle is measured on held resources.
 - **L34.17** interactive executables are refused under `batch`.
+- **L37.4** a holder with importers is `holding` until release, then writes out.
+- **L37.11** holding beyond `resident_hold_max` needs approval.
+- **L37.16** a preemption notice writes out what fits.
 
 **M7**
 
@@ -190,6 +200,8 @@ From the user-story probes. Each milestone's exit criteria include the rules lis
 - **L35.17** trust roots reach devices before images that need them.
 - **L36.5** stream credentials are refreshed by the controller.
 - **L36.11** streams above `stream_share` of another group's device need approval.
+- **L37.5** imports need the holder's tree or a grant in its group.
+- **L37.12** resident artifacts carry class and residency; the scrub is tied to them.
 
 **M8**
 
@@ -236,6 +248,7 @@ From the user-story probes. Each milestone's exit criteria include the rules lis
 - **L35.13** edge children count deadlines in contacts.
 - **L36.8** shards read and skipped are counted against the floor.
 - **L36.9** streams use every declared relay and fail over.
+- **L37.8** a lost part of a resident artifact is `EIO` under the floor.
 
 **M9**
 
@@ -250,6 +263,8 @@ From the user-story probes. Each milestone's exit criteria include the rules lis
 - **L33.11** lasting file systems from modules, per-process ones from drivers.
 - **L34.13** a platform notebook hub is the driver; no second spawner.
 - **L35.11** intent merged into the fleet manager's deployment.
+- **L37.10** framework GPU objects count in the process's bound.
+- **L37.15** layouts are declared and checked at import.
 
 **M10**
 

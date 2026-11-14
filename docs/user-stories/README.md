@@ -87,7 +87,7 @@ The first five were set by the owner; the other five were added because the walk
 
 ## Findings register
 
-Four hundred and eleven findings. Disposition counts: **74 amend** (29 applied to the ADRs on 2026-11-09; 17 on 2026-11-10: 11 inline to the drafts ADR 0016 to 0020, then L22.1 to ADR 0007 amendment 5, L23.1 to L23.3 inline to ADR 0021, and L24.3 and L24.4 inline to ADR 0013; 4 on 2026-11-11: L25.1, L25.4, L25.7 and L25.11 inline to ADR 0022; 11 on 2026-11-12: L26.1, L26.2, L26.5, L26.9 and L26.12 inline to ADR 0023, then L27.4, L27.12 and L27.13 inline to ADRs 0010, 0016 and 0008; then L28.1, L28.12 and L28.14 inline to ADR 0024; 6 on 2026-11-13: L29.3 and L29.7 inline to ADR 0003, then L30.6 inline to ADR 0003 amendment 1 and L30.7 inline to ADR 0022, then L31.5 and L31.9 inline to ADR 0017; 6 on 2026-11-14: L32.4 inline to ADR 0004 amendment 1 and L32.6 inline to ADR 0021, then L33.13 inline to ADR 0001 amendment 2, then L34.3 inline to ADR 0020 decision 7, then L35.9 inline to ADR 0011 amendment 4, then L36.15 inline to ADR 0029 decision 2; L37.17 proposed against ADR 0001 amendment 2, not yet applied), **285 rule** (60 written into their documents on 2026-11-09, 51 on 2026-11-10, 11 on 2026-11-11, 33 on 2026-11-12, 40 on 2026-11-13, 75 on 2026-11-14; 15 proposed by US-37, not yet written), **16 open** (design that did not exist yet, all drafted: on 2026-11-10 L6.5 in ADR 0016, L3.1 in ADR 0017, L4.6 in ADR 0019, L12.5 in ADR 0012 decision 10, L9.7 in ADR 0007 amendment 5; on 2026-11-11 L24.1 in ADR 0022; on 2026-11-12 L27.1 in ADR 0024 and L29.1 in ADR 0025; on 2026-11-13 L30.1 in ADR 0026 and L31.1 in ADR 0027; on 2026-11-14 L32.1 in ADR 0028, L33.1 in ADR 0029, L34.1 in ADR 0030, L35.1 in ADR 0031, L36.1 in ADR 0032 and L37.1 in ADR 0033), **35 accepted** (a surfaced limitation), 1 cross-reference. Full text is in each story's section 10.
+Four hundred and eleven findings. Disposition counts: **74 amend** (29 applied to the ADRs on 2026-11-09; 17 on 2026-11-10: 11 inline to the drafts ADR 0016 to 0020, then L22.1 to ADR 0007 amendment 5, L23.1 to L23.3 inline to ADR 0021, and L24.3 and L24.4 inline to ADR 0013; 4 on 2026-11-11: L25.1, L25.4, L25.7 and L25.11 inline to ADR 0022; 11 on 2026-11-12: L26.1, L26.2, L26.5, L26.9 and L26.12 inline to ADR 0023, then L27.4, L27.12 and L27.13 inline to ADRs 0010, 0016 and 0008; then L28.1, L28.12 and L28.14 inline to ADR 0024; 6 on 2026-11-13: L29.3 and L29.7 inline to ADR 0003, then L30.6 inline to ADR 0003 amendment 1 and L30.7 inline to ADR 0022, then L31.5 and L31.9 inline to ADR 0017; 7 on 2026-11-14: L32.4 inline to ADR 0004 amendment 1 and L32.6 inline to ADR 0021, then L33.13 inline to ADR 0001 amendment 2, then L34.3 inline to ADR 0020 decision 7, then L35.9 inline to ADR 0011 amendment 4, then L36.15 inline to ADR 0029 decision 2, then L37.17 inline to ADR 0001 amendment 2), **285 rule** (60 written into their documents on 2026-11-09, 51 on 2026-11-10, 11 on 2026-11-11, 33 on 2026-11-12, 40 on 2026-11-13, 90 on 2026-11-14), **16 open** (design that did not exist yet, all drafted: on 2026-11-10 L6.5 in ADR 0016, L3.1 in ADR 0017, L4.6 in ADR 0019, L12.5 in ADR 0012 decision 10, L9.7 in ADR 0007 amendment 5; on 2026-11-11 L24.1 in ADR 0022; on 2026-11-12 L27.1 in ADR 0024 and L29.1 in ADR 0025; on 2026-11-13 L30.1 in ADR 0026 and L31.1 in ADR 0027; on 2026-11-14 L32.1 in ADR 0028, L33.1 in ADR 0029, L34.1 in ADR 0030, L35.1 in ADR 0031, L36.1 in ADR 0032 and L37.1 in ADR 0033), **35 accepted** (a surfaced limitation), 1 cross-reference. Full text is in each story's section 10.
 
 | Id | Short name | Probe | Disposition | Touches |
 |---|---|---|---|---|
@@ -484,22 +484,22 @@ Four hundred and eleven findings. Disposition counts: **74 amend** (29 applied t
 | L36.18 | large manifests come from the store's inventory with version ids, not listings | none | rule, applied | ADR 0001; ADR 0029 d4; command map `du` |
 | L36.19 | the shuffle seed and partition map are pinned, or the stage is non-deterministic | none | rule, applied | ADR 0001 a1 |
 | L37.1 | an artifact held in GPU memory has no publication, import, holding, loss or materialization model | none | **open** (drafted: ADR 0033) | ADR 0001 a2; ADR 0028 d2, d3, d5, d9; compiler §8.5 |
-| L37.2 | resident artifacts are registered in the artifact store's index, never in a managed namespace | P1 | rule | ADR 0010 a1; ADR 0001 a2 |
-| L37.3 | a read from outside the domain is a priced copy or refused; `ls -l` shows the domain | P2 | rule | ADR 0001; command map `cat`, `ls` |
-| L37.4 | a holder with live importers moves to `holding` and is written to the store before release | P3 | rule | ADR 0028 d6; ADR 0006; ADR 0004 |
-| L37.5 | importers are in the holder's tree or group with a grant; other groups read the staged form | P4 | rule | ADR 0028 d5; ADR 0016 d2 |
-| L37.6 | holding is charged and compared with staging; above `hold_vs_stage` staging is recommended | P5 | rule | ADR 0028 d8; ADR 0010; ADR 0025 d9 |
-| L37.7 | a resident artifact is immutable and mapped read-only; changes are a new artifact | P6 | rule | ADR 0001; ADR 0026 |
-| L37.8 | a lost part is `EIO` to importers, counted against the floor, rematerialized where possible | P7 | rule | ADR 0021 d4; ADR 0004 a2 |
-| L37.9 | an importer is placed in the artifact's domain, or the staged form is used | P8 | rule | ADR 0028 d4; ADR 0003 a1 |
-| L37.10 | framework GPU objects inside one tree are the process's, not artifacts | P9 | rule | ADR 0028 d9 (L32.11); ADR 0024 d8 |
-| L37.11 | imports declare a holding period; past `resident_hold_max` the holder's group approves | P10 | rule | ADR 0017 d2; ADR 0016 d7 |
-| L37.12 | resident artifacts carry class and residency; a restricted one blocks the domain's handover until scrubbed | P11 | rule | ADR 0028 d6; ADR 0011 a3; ADR 0007 a2 |
-| L37.13 | Convoy's import records, not a framework's references, keep a resident artifact alive | P12 | rule | ADR 0001; ADR 0006 |
-| L37.14 | another domain reads a resident artifact as a priced RDMA copy | none | rule | ADR 0028 d1, d2 |
-| L37.15 | a resident artifact's layout is declared and checked at import | none | rule | ADR 0002; ADR 0015 |
-| L37.16 | at a preemption notice, what fits in the notice is written to the store | none | rule | ADR 0008; ADR 0004 a1; ADR 0021 |
-| L37.17 | an artifact's store may be a domain's GPU memory, a volatile tier with the same content id | none | amend | ADR 0001 a2 |
+| L37.2 | resident artifacts are registered in the artifact store's index, never in a managed namespace | P1 | rule, applied | ADR 0010 a1; ADR 0001 a2 |
+| L37.3 | a read from outside the domain is a priced copy or refused; `ls -l` shows the domain | P2 | rule, applied | ADR 0001; command map `cat`, `ls` |
+| L37.4 | a holder with live importers moves to `holding` and is written to the store before release | P3 | rule, applied | ADR 0028 d6; ADR 0006; ADR 0004 |
+| L37.5 | importers are in the holder's tree or group with a grant; other groups read the staged form | P4 | rule, applied | ADR 0028 d5; ADR 0016 d2 |
+| L37.6 | holding is charged and compared with staging; above `hold_vs_stage` staging is recommended | P5 | rule, applied | ADR 0028 d8; ADR 0010; ADR 0025 d9 |
+| L37.7 | a resident artifact is immutable and mapped read-only; changes are a new artifact | P6 | rule, applied | ADR 0001; ADR 0026 |
+| L37.8 | a lost part is `EIO` to importers, counted against the floor, rematerialized where possible | P7 | rule, applied | ADR 0021 d4; ADR 0004 a2 |
+| L37.9 | an importer is placed in the artifact's domain, or the staged form is used | P8 | rule, applied | ADR 0028 d4; ADR 0003 a1 |
+| L37.10 | framework GPU objects inside one tree are the process's, not artifacts | P9 | rule, applied | ADR 0028 d9 (L32.11); ADR 0024 d8 |
+| L37.11 | imports declare a holding period; past `resident_hold_max` the holder's group approves | P10 | rule, applied | ADR 0017 d2; ADR 0016 d7 |
+| L37.12 | resident artifacts carry class and residency; a restricted one blocks the domain's handover until scrubbed | P11 | rule, applied | ADR 0028 d6; ADR 0011 a3; ADR 0007 a2 |
+| L37.13 | Convoy's import records, not a framework's references, keep a resident artifact alive | P12 | rule, applied | ADR 0001; ADR 0006 |
+| L37.14 | another domain reads a resident artifact as a priced RDMA copy | none | rule, applied | ADR 0028 d1, d2 |
+| L37.15 | a resident artifact's layout is declared and checked at import | none | rule, applied | ADR 0002; ADR 0015 |
+| L37.16 | at a preemption notice, what fits in the notice is written to the store | none | rule, applied | ADR 0008; ADR 0004 a1; ADR 0021 |
+| L37.17 | an artifact's store may be a domain's GPU memory, a volatile tier with the same content id | none | amend, applied | ADR 0001 a2 |
 | L37.18 | a resident artifact fits in one domain or is not resident | none | accepted | ADR 0028 d2 |
 | L37.19 | GPU memory shared inside a framework is invisible to Convoy | none | accepted | ADR 0028 d2; L32.11 |
 
@@ -573,7 +573,7 @@ The first table lists every finding that touches an ADR, whatever its dispositio
 | streaming inputs (US-36) | L36.1 (streamed inputs, open, drafted in ADR 0032); ADR 0029: L36.15 (amend), L36.9, L36.12; ADR 0026: L36.2; ADR 0001: L36.3, L36.7, L36.18, L36.19; ADR 0004: L36.4, L36.8, L36.13; ADR 0016: L36.5, L36.11; ADR 0010: L36.6; ADR 0028: L36.10; ADR 0025: L36.14; L36.16 and L36.17 accepted |
 | 0032 a stream reads a pinned manifest through a window, at the rate its stage needs (draft) | drafts L36.1 and settles ADR 0029's open item on inputs too large to stage; gives ADR 0029 decision 2 its third choice, ADR 0001's `\|=` device reads and ADR 0004 amendment 1's checkpoints stream positions; gives L36.2 to L36.14, L36.18 and L36.19 their decisions; assumes L36.15; the fifteen rules written in its Rules section on 2026-11-14 |
 | GPU-memory handoff (US-37) | L37.1 (resident artifacts, open, drafted in ADR 0033); ADR 0001: L37.17 (amend), L37.2, L37.3, L37.7, L37.13; ADR 0028: L37.4, L37.5, L37.6, L37.9, L37.10, L37.12, L37.14; ADR 0004: L37.8; ADR 0017: L37.11; ADR 0002: L37.15; ADR 0008: L37.16; L37.18 and L37.19 accepted |
-| 0033 a resident artifact is held in a domain's memory, and written out before it goes (draft) | drafts L37.1; gives ADR 0001 amendment 2's store a volatile tier in a domain's memory, ADR 0028 decision 5's `--domain=@parent` imports within a tree and decision 6's scrub the artifacts it cleared; gives L37.2 to L37.16 their decisions; assumes L37.17 |
+| 0033 a resident artifact is held in a domain's memory, and written out before it goes (draft) | drafts L37.1; gives ADR 0001 amendment 2's store a volatile tier in a domain's memory, ADR 0028 decision 5's `--domain=@parent` imports within a tree and decision 6's scrub the artifacts it cleared; gives L37.2 to L37.16 their decisions; assumes L37.17; the fifteen rules written in its Rules section on 2026-11-14 |
 | 0027 Convoy tells a group about its own objects (draft) | drafts L31.1; gives `page:<route>` (ADR 0017) and the health controller's pages (ADR 0021) their channel; gives L31.2, L31.3, L31.4, L31.6, L31.7, L31.8, L31.10, L31.11, L31.12, L31.13, L31.14, L31.15 and L31.17 their decisions; assumes L31.5 and L31.9; the thirteen rules written in its Rules section on 2026-11-13 |
 
 | ADR | Amendment | Applies |
@@ -615,6 +615,7 @@ The first table lists every finding that touches an ADR, whatever its dispositio
 | 0020 | decision 7 revised inline | L34.3 (decision 7) |
 | 0011 | amendment 4 revised inline | L35.9 (amendment 4) |
 | 0029 | decision 2 revised inline | L36.15 (decision 2) |
+| 0001 | amendment 2 revised again inline | L37.17 (amendment 2) |
 
 ## Writing a new story
 

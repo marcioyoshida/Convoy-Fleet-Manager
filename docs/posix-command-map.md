@@ -352,3 +352,6 @@ Rules the sixteen stories in `docs/user-stories/` decided for specific commands.
 | `du` (manifests) | above `list_max` objects a manifest comes from the store's inventory with version ids, never a listing | L36.18 |
 | `fuser` (streams) | a device's owner sees the streams reading it and their share of its rate; above `stream_share` a stream needs the owner's approval | L36.11 |
 | `explain` (streams) | in place, staged or streamed; the needed rate against source, link and relays; requests and bytes per epoch; the window; the partition map and seed | L36.6, L36.13, L36.14, L36.19 |
+| `cat`, `ls -l` (resident artifacts) | `ls -l` shows `resident in <domain>`; a read from outside the domain is a priced copy through the holder, or exit 3, never a hang | L37.3 |
+| `ps` (holding) | a holder that exited with importers shows `holding`, its importers, its period and its cost to date | L37.4, L37.6 |
+| `explain` (resident artifacts) | resident or staged, with both prices; holding against `hold_vs_stage`; the domain importers must be placed in; how much a preemption notice can write out | L37.6, L37.9, L37.16 |
