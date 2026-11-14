@@ -92,3 +92,4 @@ Each line is a `rule` finding from `docs/user-stories/README.md` written here as
 - **L33.16** (US-33) `explain` of a copy prints its file count, its request cost and the target file system's declared metadata limit, and warns above it (decision 4).
 - **L33.18** (US-33) a stage-in reads a pinned snapshot of the source (object versions, a table snapshot), recorded in the receipt; changes to the source during the process do not reach it (decision 4).
 - **L33.19** (US-33) on a file system linked to an object store, `ls -l` and `/sys` show each file's state (`stub`, `loaded`, `modified`, `exported`), `du` reports loaded and total bytes, and `explain` counts unloaded bytes as a stage-in (decision 10).
+- **L34.7** (US-34) an interactive process records the snapshot of each input it reads, as a stage pins its own (full rule in [ADR 0030](0030-an-interactive-process-holds-a-computer-while-someone-is-attached.md)).

@@ -340,3 +340,7 @@ Rules the sixteen stories in `docs/user-stories/` decided for specific commands.
 | `mv` across devices | copies everything, verifies it at the destination, then deletes the sources; a failure part-way deletes nothing | L33.6 |
 | `ls -l`, `du` on a linked file system | each file's state (`stub`, `loaded`, `modified`, `exported`); loaded and total bytes | L33.19 |
 | `explain` (staging) | per input, in place or staged and why; capacity per task; staging priced in the band; a shared quota's remainder | L33.4, L33.12, L33.14, L33.15 |
+| `run -it`, `run -it --app=` | an interactive process: a terminal on the attach channel, or a browser application at the gateway with the platform login; the smallest share near the data; the start estimate and `--wait` | L34.5, L34.9, L34.14 |
+| `fg`, `bg`, `^Z` (interactive) | job-control keys go to the remote foreground job; `^Z` says the allocation still counts; only `exit` or `kill` releases it | L34.4 |
+| `attach --grant` | a second person attaches only with the owner's grant, read-only unless `write`; `who` lists everyone attached | L34.11 |
+| `batch` of an interactive executable | refused with exit 3 and the `run -it` spelling | L34.17 |

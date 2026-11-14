@@ -28,3 +28,4 @@ Results are identical to Linux by construction. Coverage grows by adding entries
 Each line is a `rule` finding from `docs/user-stories/README.md` written here as decided; the story holds the reasoning.
 
 - **L12.2** (US-12) on a follow the planner refuses aggregate and fan-in classes and `order: global`, and prints the two alternatives: a bounded read on a schedule, or an engine package with a window; `limit` (`head`) stays allowed and closes the follow.
+- **L34.17, L34.18** (US-34) executables gain the annotation `interactive`, refused under `batch`; interactive output is non-deterministic by class (full rules in [ADR 0030](0030-an-interactive-process-holds-a-computer-while-someone-is-attached.md)).

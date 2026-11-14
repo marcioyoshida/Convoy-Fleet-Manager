@@ -51,6 +51,9 @@ From the user-story probes. Each milestone's exit criteria include the rules lis
 - **L25.2** `lend --dry-run` lists sent, excluded and withheld files; a build that needs one is refused.
 - **L25.3** data files are refused by `lend_exclude`, naming the session's residency.
 - **L31.3** `write` to a detached user is journaled; notify verbs exit on acceptance.
+- **L34.4** `^Z` in an interactive terminal says the allocation still counts.
+- **L34.11** a second person attaches only by the owner's grant.
+- **L34.15** every end of an interactive process is warned.
 
 **M3**
 
@@ -74,6 +77,8 @@ From the user-story probes. Each milestone's exit criteria include the rules lis
 - **L33.14** placement drops computers whose file systems cannot hold the stage.
 - **L33.15** read in place unless staging is cheaper or faster; `explain` says why.
 - **L33.16** `explain` warns on file counts above a metadata limit.
+- **L34.9** interactive requests print a start estimate; `--wait` bounds it.
+- **L34.14** interactive work gets the smallest share outside domain pools.
 
 **M4**
 
@@ -92,6 +97,8 @@ From the user-story probes. Each milestone's exit criteria include the rules lis
 - **L33.2** staged copies are cache entries verified before use.
 - **L33.9** transfers resume per file; a stage starts on a verified manifest.
 - **L33.18** a stage-in reads a pinned snapshot of its source.
+- **L34.7** inputs read by a kernel are recorded with snapshots.
+- **L34.18** interactive output is marked and not released until reproduced.
 
 **M5**
 
@@ -124,6 +131,8 @@ From the user-story probes. Each milestone's exit criteria include the rules lis
 - **L32.5** `domain_reserve` keeps domain pools for claims; stranded members priced to the platform.
 - **L32.13** whole-domain holds past `domain_hold_max` need approval.
 - **L32.15** `--domain` and `--gang` are not inherited.
+- **L34.2** interactive idle is measured on held resources.
+- **L34.17** interactive executables are refused under `batch`.
 
 **M7**
 
@@ -158,6 +167,9 @@ From the user-story probes. Each milestone's exit criteria include the rules lis
 - **L31.12** approval requests go to the approving group's on-call.
 - **L33.8** staging into per-group directories only on computers without isolation.
 - **L33.12** staging into a shared quota past `stage_share_max` needs approval.
+- **L34.5** interactive applications only through the gateway login.
+- **L34.6** restricted notebooks are scrubbed when they leave the home device.
+- **L34.12** launches from a kernel are the attached person's.
 
 **M8**
 
@@ -195,6 +207,8 @@ From the user-story probes. Each milestone's exit criteria include the rules lis
 - **L32.8** device memory is cleared between groups; `mem_scrub=` declared.
 - **L33.3** staged copies keep their residency and are removed at the end.
 - **L33.7** staged copies and per-process file systems removed after `stage_keep`.
+- **L34.8** drains and OOM kills are told to the people attached.
+- **L34.10** allocation use outside Convoy shown in `cost`.
 
 **M9**
 
@@ -207,6 +221,7 @@ From the user-story probes. Each milestone's exit criteria include the rules lis
 - **L32.11** stores inside a process count in its bound; installed stores are devices.
 - **L32.12** domain layout is read from the driver, never written.
 - **L33.11** lasting file systems from modules, per-process ones from drivers.
+- **L34.13** a platform notebook hub is the driver; no second spawner.
 
 **M10**
 

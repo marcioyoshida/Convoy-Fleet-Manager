@@ -86,3 +86,4 @@ Each line is a `rule` finding from `docs/user-stories/README.md` written here as
 - **L30.14** (US-30) the layer scrub of rule L24.9 runs on every copy of an image between registries, and copies leave no registry's residency (full rule in [ADR 0026](0026-a-registry-is-a-device-a-tag-is-a-name-for-a-digest.md)).
 - **L31.13** (US-31) a message carries the scrubbed `explain` summary, never stderr or argument values (full rule in [ADR 0027](0027-convoy-tells-a-group-about-its-own-objects.md)).
 - **L32.14** (US-32) shuffle files are data at rest on a device with residency and retention, owned per process and removed when it ends (full rule in [ADR 0028](0028-memory-has-a-distance-and-a-domain-is-claimed-whole.md)).
+- **L34.6** (US-34) a notebook that read restricted data is scrubbed and stripped of outputs when it leaves the home device (full rule in [ADR 0030](0030-an-interactive-process-holds-a-computer-while-someone-is-attached.md)).
