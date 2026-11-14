@@ -41,6 +41,8 @@ Amendment note 2026-11-09: the complete table of contract flags, shared by `run`
 
 **Consequences.** Metered spend declared by a child (ADR 0004 budget over compute plus declared metered spend) counts against the parent at the moment it is declared. A parent that is cancelled on budget cancels its tree with the same fail-fast rule as partitions. `explain` prints the inherited ceiling for any line run from inside a process.
 
+
+Note · 2026-11-14: the draft [ADR 0028](0028-memory-has-a-distance-and-a-domain-is-claimed-whole.md) lets a gang carry `--domain=<kind>`, admitted only inside one domain; a restart after the domain loses members goes to any healthy domain that can hold the gang (decision 4, assuming L32.4 revises amendment 1); `--domain` is not inherited under amendment 3 (decision 5).
 ## Rules · 2026-11-09 · from the user-story probes
 
 Each line is a `rule` finding from `docs/user-stories/README.md` written here as decided; the story holds the reasoning.

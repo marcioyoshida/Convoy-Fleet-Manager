@@ -101,6 +101,8 @@ Facts that constrain the design:
 - ROADMAP: the compute class, its views and `/sys/compute/` are M8 with the fleet; the five driver packages are M9; placement by the ordered filter and `--on` are M3 with the distributed backend; identity modes and the per-kind exchange are M7; price models are M4 with receipts.
 - Open, to be settled against this record: moving data to a computer's own file system before a stage (a Slurm cluster's Lustre, a function's ephemeral disk) and back; interactive work on a scheduler (`salloc`, a notebook on a GPU node); GPU clouds that are neither functions nor batch (per-second GPU containers); computers at the edge with no provider API; reconciling an allocation's accounting with the platform's receipts; a story that probes this record.
 
+
+Note · 2026-11-14: the draft [ADR 0028](0028-memory-has-a-distance-and-a-domain-is-claimed-whole.md) adds a field to decision 2's contract, `mem` (memory tiers per pool, domains, and the distance class between places), adds the domain fit to decision 4's filter after caps and bounds, and extends decision 5 to memory: nothing is shared across computers.
 ## Rules · 2026-11-13 · from the user-story probes
 
 Each line is a `rule` finding from `docs/user-stories/README.md` written here as decided; the story holds the reasoning.

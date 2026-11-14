@@ -137,6 +137,8 @@ Note · 2026-11-11: the draft [ADR 0022](0022-the-laptop-lends-a-tree-the-cluste
 
 Note · 2026-11-10: the draft [ADR 0021](0021-a-node-is-tested-before-it-is-trusted.md) gives the thresholds of this amendment a reader. Probes test each component and feed `health`; a policy and a health agent session in the controller exclude a GPU or a shared-filesystem client before the node, and cordon by writing `online 0` within a disruption budget; drain, replacement and fencing stay requests to a person. It adds per-component `online` files, a `probe` file, the node state `degraded: <component>` and, beside `disconnected` of amendment 4, a device state `degraded` for a shared filesystem that fails on many nodes at once.
 
+
+Note · 2026-11-14: the draft [ADR 0028](0028-memory-has-a-distance-and-a-domain-is-claimed-whole.md) says what decision 9's `/dev/accel` DRA claims are for domains (a claim compiled from `--domain`), adds `/sys/compute/<id>/mem/` under decision 7, and adds `/dev/shm/` as a class of volatile in-memory caches, stores and shuffle services.
 ## Rules · 2026-11-09 · from the user-story probes
 
 Each line is a `rule` finding from `docs/user-stories/README.md` written here as decided; the story holds the reasoning.
