@@ -91,3 +91,4 @@ Each line is a `rule` finding from `docs/user-stories/README.md` written here as
 - **L30.5** (US-30) repositories are owned by groups, and pulls are as the pod's group, not the node's role (full rule in [ADR 0026](0026-a-registry-is-a-device-a-tag-is-a-name-for-a-digest.md)).
 - **L31.4** (US-31) events are addressed to groups, never only to a person, so an offboarding never silences them (full rule in [ADR 0027](0027-convoy-tells-a-group-about-its-own-objects.md)).
 - **L32.8** (US-32) a domain claim belongs to one process tree and one group; device memory is cleared before another group gets it (full rule in [ADR 0028](0028-memory-has-a-distance-and-a-domain-is-claimed-whole.md)).
+- **L33.8, L33.10** (US-33) staged data goes only into per-group directories on computers without isolation; a stage-out ships only files the process wrote (full rules in [ADR 0029](0029-a-computers-file-systems-are-in-its-contract-staging-is-a-planned-copy.md)).

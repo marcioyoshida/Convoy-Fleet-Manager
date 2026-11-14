@@ -101,6 +101,8 @@ convoy: 7301 is a coordinated group (spark). Freezing the driver alone times out
 
 ---
 
+Note · 2026-11-14 (US-33, L33.15): under [ADR 0029](adr/0029-a-computers-file-systems-are-in-its-contract-staging-is-a-planned-copy.md) the `cp` into `/hdfs/staging` above is not needed where the cluster can reach S3: `spark-submit` reads `/s3/raw/2026-11/` in place, and the plan stages it into HDFS only when `explain` shows a copy is cheaper or faster for the reads the job makes, and says why.
+
 ## 3. CI/CD release across pods and environments
 
 **Session**

@@ -69,6 +69,11 @@ From the user-story probes. Each milestone's exit criteria include the rules lis
 - **L32.3** a domain's capacity is its healthy free size; `explain` refuses when none fits.
 - **L32.16** `explain` sizes memory and spill for Spark and dataframe stages.
 - **L32.17** no memory is shared across computers.
+- **L33.4** staging is priced in the stage's band.
+- **L33.5** a stage succeeds only when its outputs are verified at their destination.
+- **L33.14** placement drops computers whose file systems cannot hold the stage.
+- **L33.15** read in place unless staging is cheaper or faster; `explain` says why.
+- **L33.16** `explain` warns on file counts above a metadata limit.
 
 **M4**
 
@@ -84,6 +89,9 @@ From the user-story probes. Each milestone's exit criteria include the rules lis
 - **L30.15** receipts record every container that ran, injected ones included.
 - **L31.6** messages are rolled up, rate limited and priced to the owning group.
 - **L31.10** events at a disconnected site are spooled with receipts.
+- **L33.2** staged copies are cache entries verified before use.
+- **L33.9** transfers resume per file; a stage starts on a verified manifest.
+- **L33.18** a stage-in reads a pinned snapshot of its source.
 
 **M5**
 
@@ -106,6 +114,9 @@ From the user-story probes. Each milestone's exit criteria include the rules lis
 - **L32.9** `/dev/shm` files are written once; no writable shared mapping across nodes.
 - **L32.10** `/dev/shm` devices are volatile with declared backing; a lost object is `EIO`.
 - **L32.14** spill to a bounded device; shuffle files owned per process and removed.
+- **L33.6** `mv` across devices deletes only after verifying.
+- **L33.10** a stage-out ships only files the process wrote.
+- **L33.19** linked files show their load state in `ls -l` and `du`.
 
 **M6**
 
@@ -145,6 +156,8 @@ From the user-story probes. Each milestone's exit criteria include the rules lis
 - **L30.13** vulnerability exceptions are approvals with an expiry.
 - **L31.4** events go to groups, never only to a person.
 - **L31.12** approval requests go to the approving group's on-call.
+- **L33.8** staging into per-group directories only on computers without isolation.
+- **L33.12** staging into a shared quota past `stage_share_max` needs approval.
 
 **M8**
 
@@ -180,6 +193,8 @@ From the user-story probes. Each milestone's exit criteria include the rules lis
 - **L31.17** expiring objects warn their owning group.
 - **L32.7** a domain drains before reuse.
 - **L32.8** device memory is cleared between groups; `mem_scrub=` declared.
+- **L33.3** staged copies keep their residency and are removed at the end.
+- **L33.7** staged copies and per-process file systems removed after `stage_keep`.
 
 **M9**
 
@@ -191,6 +206,7 @@ From the user-story probes. Each milestone's exit criteria include the rules lis
 - **L30.17** production takes public images only from a platform mirror.
 - **L32.11** stores inside a process count in its bound; installed stores are devices.
 - **L32.12** domain layout is read from the driver, never written.
+- **L33.11** lasting file systems from modules, per-process ones from drivers.
 
 **M10**
 

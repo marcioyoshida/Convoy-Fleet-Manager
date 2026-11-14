@@ -1,6 +1,6 @@
 # ADR 0001: A pipe is a staged, content-addressed artifact
 
-**Status:** Proposed · 2026-11-08
+**Status:** Proposed · 2026-11-08 · amendment 2 revised 2026-11-14 with user-story finding L33.13, marked inline
 **Supersedes / relates to:** docs/pipeline-compiler.md §1, §4, §8.5; ADR 0009
 
 ## Context
@@ -27,7 +27,7 @@ Reruns skip unchanged stages. A downstream restart loses nothing. Small outputs 
 
 **Context.** Every non-local pipe, every receipt and every log lives in the artifact store, and the decision above never placed it. A single global store moves every intermediate artifact out of the region a regulated workload is confined to, which breaks residency for the pipeline even when its inputs and outputs are in-region.
 
-**Decision.** The artifact store is a device class under `/dev/obj/by-id/cas-<topology>` (ADR 0011 amendment 2), one device per topology the platform serves. The planner selects, for every stage, a store within the stage's residency (the intersection of the `residency=` options of the mounts the stage touches, ADR 0011 amendment 3) and refuses the plan when no such store exists, naming the stores it considered. The receipt names the store of every artifact. A session pod serving a residency-bound mount runs in that region or holds no artifact data itself; which of the two the platform chose is printed by `explain` as a default.
+**Decision.** The artifact store is a device class under `/dev/obj/by-id/cas-<topology>` (ADR 0011 amendment 2), one device per topology the platform serves. The planner selects, for every stage, a store within the stage's residency (the intersection of the `residency=` options of the mounts the stage touches, ADR 0011 amendment 3) and refuses the plan when no such store exists, naming the stores it considered. The receipt names the store of every artifact. A session pod serving a residency-bound mount runs in that region or holds no artifact data itself; which of the two the platform chose is printed by `explain` as a default. Artifacts passed between stages of one process tree placed on the same computer may stay on that computer's own file system ([ADR 0029](0029-a-computers-file-systems-are-in-its-contract-staging-is-a-planned-copy.md) decision 7), keyed by content id and bounded by the file system's declared purge; only the tree's declared outputs, checkpoints and receipts go to the topology's store, and the receipt names the file system that held each intermediate artifact (revised 2026-11-14, L33.13).
 
 **Consequences.** Content ids are unchanged, so a cache hit is still a cache hit within a store; the same id in two stores is two copies, and a cross-topology stage reads from the store its input is in and writes to the store its residency permits, with the egress line priced. ROADMAP M4 gains the per-topology store and M8 the device entries.
 
@@ -41,3 +41,4 @@ Each line is a `rule` finding from `docs/user-stories/README.md` written here as
 - **L4.5** (US-04) the fileserver resolves every path argument to a content id at plan time, by sha256 for small objects and by object version id plus size for large ones, and the receipt says which.
 - **L30.9** (US-30) a copy of an image between registries keeps its content id and carries its referrers, or is refused (full rule in [ADR 0026](0026-a-registry-is-a-device-a-tag-is-a-name-for-a-digest.md)).
 - **L32.10, L32.14** (US-32) a checkpoint or pipe artifact is never written to a volatile `/dev/shm` device without backing; spill and shuffle files are bounded, owned by the process and removed when it ends (full rules in [ADR 0028](0028-memory-has-a-distance-and-a-domain-is-claimed-whole.md)).
+- **L33.2, L33.9, L33.10, L33.18** (US-33) staged copies are cache entries verified by content id before use; transfers resume per file and a stage starts on a verified manifest; a stage-out ships only what the process wrote; stage-in reads a pinned snapshot (full rules in [ADR 0029](0029-a-computers-file-systems-are-in-its-contract-staging-is-a-planned-copy.md)).

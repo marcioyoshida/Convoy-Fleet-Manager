@@ -336,3 +336,7 @@ Rules the sixteen stories in `docs/user-stories/` decided for specific commands.
 | `batch --gang --domain` | admitted inside one domain only, never split; the largest healthy domain or exit 3; not inherited, `--domain=@parent` for a child; a whole domain past `domain_hold_max` needs approval | L32.2, L32.3, L32.13, L32.15 |
 | `mount /dev/shm/…`, `mmap`, `ipcs` | volatile stores with declared backing; files written once; a writable shared mapping across nodes refused; a lost object is `EIO`; `ipcs` lists the node's own | L32.9, L32.10 |
 | `explain` (memory) | size on disk and in memory, aggregate memory, predicted spill and its device; stranded domain members and holds | L32.5, L32.13, L32.16 |
+| `cp` (staging) | a copy into a computer's file system is a stage-in: a manifest of content ids from a pinned source, resumable per file, verified at the target; file count, request cost and metadata limit in `explain` | L33.9, L33.16, L33.18 |
+| `mv` across devices | copies everything, verifies it at the destination, then deletes the sources; a failure part-way deletes nothing | L33.6 |
+| `ls -l`, `du` on a linked file system | each file's state (`stub`, `loaded`, `modified`, `exported`); loaded and total bytes | L33.19 |
+| `explain` (staging) | per input, in place or staged and why; capacity per task; staging priced in the band; a shared quota's remainder | L33.4, L33.12, L33.14, L33.15 |
