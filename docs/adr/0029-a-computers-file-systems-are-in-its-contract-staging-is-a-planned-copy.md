@@ -70,6 +70,8 @@ Facts that constrain the design:
 - ROADMAP: the choice between reading in place and staging, the capacity check and staging steps in the plan are M3; staged copies as cache entries by content id and pinned sources are M4; the `fs` field, linked-file states in `ls` and `du`, and `mv` across devices are M5; per-group staging directories and `class=restricted` are M7; cleanup after `stage_keep` and idle file systems shown with their price are M8; the per-kind staging drivers and transfer services are M9.
 - Open, to be settled against this record: interactive sessions on a scheduler that work on staged data (`salloc`, a notebook on a GPU node); inputs too large to stage that must be streamed; computers at the edge whose file system holds the only copy; a story that probes this record.
 
+
+Note · 2026-11-14: the draft [ADR 0030](0030-an-interactive-process-holds-a-computer-while-someone-is-attached.md) settles the open item on interactive sessions over staged data: an interactive process is placed near its data like a stage, and the inputs it reads are recorded with their snapshots (decisions 7, 8).
 ## Rules · 2026-11-14 · from the user-story probes
 
 Each line is a `rule` finding from `docs/user-stories/README.md` written here as decided; the story holds the reasoning.

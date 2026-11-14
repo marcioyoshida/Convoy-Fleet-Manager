@@ -86,6 +86,8 @@ Facts that constrain the design:
 
 Note · 2026-11-11: the draft [ADR 0022](0022-the-laptop-lends-a-tree-the-cluster-builds-it.md) adds a lend channel to the attach protocol of decision 5: the client sends content-addressed snapshots of a declared directory, by request from its manifest, and `attach` gains `--lend` and `--env-of`.
 
+
+Note · 2026-11-14: the draft [ADR 0030](0030-an-interactive-process-holds-a-computer-while-someone-is-attached.md) carries interactive terminals on decision 5's attach channel, adds grants to attach (`attach <pid> --grant=`), and, assuming L34.3 revises decision 7, binds an interactive process's lifetime to attach (decisions 3, 4).
 ## Rules · 2026-11-10 · from the user-story probes
 
 Each line is a `rule` finding from `docs/user-stories/README.md` written here as decided; the story holds the reasoning.

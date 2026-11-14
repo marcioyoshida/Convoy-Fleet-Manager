@@ -75,6 +75,8 @@ Facts that constrain the design:
 
 Note · 2026-11-11: the draft [ADR 0022](0022-the-laptop-lends-a-tree-the-cluster-builds-it.md) decision 8 uses the hosts view and `attach -L` of decision 7 as the debugger's path: a dev unit started with `--debug=<port>` is reached from the laptop's editor through a forward to `<unit>-0`; nothing routes from the cluster to the laptop.
 
+
+Note · 2026-11-14: the draft [ADR 0030](0030-an-interactive-process-holds-a-computer-while-someone-is-attached.md) serves interactive browser applications through decision 7's gateway at a path per process, with the platform login and never the application's own token (decision 3).
 ## Rules · 2026-11-10 · from the user-story probes
 
 Each line is a `rule` finding from `docs/user-stories/README.md` written here as decided; the story holds the reasoning.

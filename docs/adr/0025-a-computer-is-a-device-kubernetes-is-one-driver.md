@@ -105,6 +105,8 @@ Facts that constrain the design:
 Note · 2026-11-14: the draft [ADR 0028](0028-memory-has-a-distance-and-a-domain-is-claimed-whole.md) adds a field to decision 2's contract, `mem` (memory tiers per pool, domains, and the distance class between places), adds the domain fit to decision 4's filter after caps and bounds, and extends decision 5 to memory: nothing is shared across computers.
 
 Note · 2026-11-14: the draft [ADR 0029](0029-a-computers-file-systems-are-in-its-contract-staging-is-a-planned-copy.md) settles the open item on moving data to a computer's own file system: decision 2's contract gains the `fs` field (file systems, quotas, purge, isolation, residency and reach), and decision 4's filter removes computers that cannot hold a stage's staged data and ranks by the staging cost.
+
+Note · 2026-11-14: the draft [ADR 0030](0030-an-interactive-process-holds-a-computer-while-someone-is-attached.md) settles the open item on interactive work on a scheduler: decision 2's `stage` field gains an `interactive` shape per kind (a pod with a terminal or a browser application, `salloc` and `srun --pty`, a VM, `none` on functions and batch), and allocation use outside Convoy is shown in `cost`.
 ## Rules · 2026-11-13 · from the user-story probes
 
 Each line is a `rule` finding from `docs/user-stories/README.md` written here as decided; the story holds the reasoning.
