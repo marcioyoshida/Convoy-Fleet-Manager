@@ -43,6 +43,8 @@ Amendment note 2026-11-09: the complete table of contract flags, shared by `run`
 
 
 Note · 2026-11-14: the draft [ADR 0028](0028-memory-has-a-distance-and-a-domain-is-claimed-whole.md) lets a gang carry `--domain=<kind>`, admitted only inside one domain; a restart after the domain loses members goes to any healthy domain that can hold the gang (decision 4, assuming L32.4 revises amendment 1); `--domain` is not inherited under amendment 3 (decision 5).
+
+Note · 2026-11-14: the draft [ADR 0032](0032-a-stream-reads-a-pinned-manifest-through-a-window.md) writes every stream's position with each checkpoint, so amendment 1's gang restart resumes its streams exactly, and counts shards read and skipped against the floor under amendment 2 (decisions 6, 7).
 ## Rules · 2026-11-09 · from the user-story probes
 
 Each line is a `rule` finding from `docs/user-stories/README.md` written here as decided; the story holds the reasoning.

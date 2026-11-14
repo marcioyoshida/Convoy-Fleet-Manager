@@ -33,6 +33,8 @@ Reruns skip unchanged stages. A downstream restart loses nothing. Small outputs 
 
 
 Note · 2026-11-14: the draft [ADR 0029](0029-a-computers-file-systems-are-in-its-contract-staging-is-a-planned-copy.md) stages inputs by content id from a pinned source, treats staged copies as cache entries verified before use, and, assuming L33.13 revises amendment 2, keeps artifacts between stages of one tree on the computer's own file system (decisions 4, 5 and 7).
+
+Note · 2026-11-14: the draft [ADR 0032](0032-a-stream-reads-a-pinned-manifest-through-a-window.md) extends `|=` from a live channel between stages to a read of a device's pinned manifest, and refuses a plain `|` whose source read exceeds `stage_max` with the `|=` spelling (decision 1).
 ## Rules · 2026-11-09 · from the user-story probes
 
 Each line is a `rule` finding from `docs/user-stories/README.md` written here as decided; the story holds the reasoning.

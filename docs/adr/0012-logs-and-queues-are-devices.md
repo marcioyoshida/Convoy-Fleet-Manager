@@ -91,6 +91,8 @@ Facts that constrain the design:
 - Open, to be settled when M5 is designed against this ADR: keyed writes (`tee --key=`) and whether order is per partition or global for a downstream `sort`; exactly-once across a pipeline that ends in a side-effect sink; what `ls` shows for a topic with ten thousand partitions.
 - User stories [US-10](../user-stories/US-10-edge-telemetry.md) (edge telemetry), [US-11](../user-stories/US-11-topic-reprocess.md) (reprocessing by offset range), [US-12](../user-stories/US-12-continuous-consumer-unit.md) (a continuous consumer unit and the engine package) and [US-13](../user-stories/US-13-tenant-topics-and-work-queues.md) (tenant topics, ACLs, quotas and work queues) exercise every decision above. They raised 27 findings; the four that amend this ADR, L11.2 (a rerun appends), L11.5 (partitions are the granularity, not the count), L12.1 (exactly-once for follows) and L13.3 (partition quotas), are applied inline in decisions 1 and 2 as of 2026-11-09 and collected in `docs/user-stories/README.md` under misroute S12.
 
+
+Note · 2026-11-14: decision 2's follow is unchanged for topics; the draft [ADR 0032](0032-a-stream-reads-a-pinned-manifest-through-a-window.md) gives reads of object stores and tables too large to stage their own stream, over a pinned manifest rather than a committed offset.
 ## Rules · 2026-11-09 · from the user-story probes
 
 Each line is a `rule` finding from `docs/user-stories/README.md` written here as decided; the story holds the reasoning.
