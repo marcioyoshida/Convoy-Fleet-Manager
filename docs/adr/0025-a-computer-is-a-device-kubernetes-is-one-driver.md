@@ -107,6 +107,8 @@ Note · 2026-11-14: the draft [ADR 0028](0028-memory-has-a-distance-and-a-domain
 Note · 2026-11-14: the draft [ADR 0029](0029-a-computers-file-systems-are-in-its-contract-staging-is-a-planned-copy.md) settles the open item on moving data to a computer's own file system: decision 2's contract gains the `fs` field (file systems, quotas, purge, isolation, residency and reach), and decision 4's filter removes computers that cannot hold a stage's staged data and ranks by the staging cost.
 
 Note · 2026-11-14: the draft [ADR 0030](0030-an-interactive-process-holds-a-computer-while-someone-is-attached.md) settles the open item on interactive work on a scheduler: decision 2's `stage` field gains an `interactive` shape per kind (a pod with a terminal or a browser application, `salloc` and `srun --pty`, a VM, `none` on functions and batch), and allocation use outside Convoy is shown in `cost`.
+
+Note · 2026-11-14: the draft [ADR 0031](0031-an-edge-computer-is-reached-by-contact-and-known-by-what-it-delivers.md) settles the open item on computers at the edge with no provider API: decision 3 gains the `edge` kind, a device that pulls its desired state at contact, and decision 2's contract gains the `contact` field (last and expected next contact, link classes and their prices).
 ## Rules · 2026-11-13 · from the user-story probes
 
 Each line is a `rule` finding from `docs/user-stories/README.md` written here as decided; the story holds the reasoning.

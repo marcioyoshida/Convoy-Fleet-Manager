@@ -72,6 +72,8 @@ Facts that constrain the design:
 
 
 Note · 2026-11-14: the draft [ADR 0030](0030-an-interactive-process-holds-a-computer-while-someone-is-attached.md) settles the open item on interactive sessions over staged data: an interactive process is placed near its data like a stage, and the inputs it reads are recorded with their snapshots (decisions 7, 8).
+
+Note · 2026-11-14: the draft [ADR 0031](0031-an-edge-computer-is-reached-by-contact-and-known-by-what-it-delivers.md) settles the open item on edge computers holding the only copy: decision 7's rule gains the `done-local` state before `delivered`, the device keeps its outputs until delivery, and `ls` says `only copy on <device>`.
 ## Rules · 2026-11-14 · from the user-story probes
 
 Each line is a `rule` finding from `docs/user-stories/README.md` written here as decided; the story holds the reasoning.

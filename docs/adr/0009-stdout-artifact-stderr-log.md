@@ -27,6 +27,8 @@ Note · 2026-11-11: the draft [ADR 0023](0023-telemetry-is-a-device-the-shell-re
 
 **Consequences.** A site can finish a night's work with no link and lose nothing but latency. A spool has a size; a site with no acknowledgement for longer than the platform's spool retention raises a hotplug event rather than silently dropping receipts. ROADMAP M10 gains the spool.
 
+
+Note · 2026-11-14: the draft [ADR 0031](0031-an-edge-computer-is-reached-by-contact-and-known-by-what-it-delivers.md) spools receipts on edge devices under amendment 1 and adds the clock source and the offset measured at contact to each (decision 9).
 ## Rules · 2026-11-09 · from the user-story probes
 
 Each line is a `rule` finding from `docs/user-stories/README.md` written here as decided; the story holds the reasoning.

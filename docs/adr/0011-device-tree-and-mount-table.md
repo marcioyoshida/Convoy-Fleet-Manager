@@ -141,6 +141,8 @@ Note · 2026-11-10: the draft [ADR 0021](0021-a-node-is-tested-before-it-is-trus
 Note · 2026-11-14: the draft [ADR 0028](0028-memory-has-a-distance-and-a-domain-is-claimed-whole.md) says what decision 9's `/dev/accel` DRA claims are for domains (a claim compiled from `--domain`), adds `/sys/compute/<id>/mem/` under decision 7, and adds `/dev/shm/` as a class of volatile in-memory caches, stores and shuffle services.
 
 Note · 2026-11-14: the draft [ADR 0029](0029-a-computers-file-systems-are-in-its-contract-staging-is-a-planned-copy.md) makes decision 9's `/dev/fs` devices the file systems that outlive processes, installed by modules, and lists each computer's own file systems under `/sys/compute/<id>/fs/`.
+
+Note · 2026-11-14: the draft [ADR 0031](0031-an-edge-computer-is-reached-by-contact-and-known-by-what-it-delivers.md) assumes, through L35.9, that amendment 4 gains `out-of-contact`, a normal state for computers that connect by contact, with ages on everything shown and alerts only for late contacts; `disconnected` stays for devices that are normally connected.
 ## Rules · 2026-11-09 · from the user-story probes
 
 Each line is a `rule` finding from `docs/user-stories/README.md` written here as decided; the story holds the reasoning.
