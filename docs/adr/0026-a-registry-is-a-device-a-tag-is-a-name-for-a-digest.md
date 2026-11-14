@@ -94,3 +94,4 @@ Each line is a `rule` finding from `docs/user-stories/README.md` written here as
 - **L30.14** (US-30) a registry device and each repository carry a residency; a replication rule or `cp` to a registry outside it is refused, and the layer scrub of rule L24.9 applies to every copy (decisions 1, 5).
 - **L30.15** (US-30) the receipt records the digest of every container that ran in a pod, read from the pod's status, injected sidecars and init containers included and marked so.
 - **L30.17** (US-30) on a production profile public images are used only by digest from a platform cache or mirror; `explain` prints the upstream reference and when it was mirrored, and mirrored digests are pinned for the retention of any receipt that names them (decision 10).
+- **L31.17** (US-31) a vulnerability exception raises `expiring` to its owning group before it lapses (full rule in [ADR 0027](0027-convoy-tells-a-group-about-its-own-objects.md)).

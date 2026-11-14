@@ -81,7 +81,7 @@ The first five were set by the owner; the other five were added because the walk
 
 ## Findings register
 
-Two hundred and ninety-seven findings. Disposition counts: **67 amend** (29 applied to the ADRs on 2026-11-09; 17 on 2026-11-10: 11 inline to the drafts ADR 0016 to 0020, then L22.1 to ADR 0007 amendment 5, L23.1 to L23.3 inline to ADR 0021, and L24.3 and L24.4 inline to ADR 0013; 4 on 2026-11-11: L25.1, L25.4, L25.7 and L25.11 inline to ADR 0022; 11 on 2026-11-12: L26.1, L26.2, L26.5, L26.9 and L26.12 inline to ADR 0023, then L27.4, L27.12 and L27.13 inline to ADRs 0010, 0016 and 0008; then L28.1, L28.12 and L28.14 inline to ADR 0024; 4 on 2026-11-13: L29.3 and L29.7 inline to ADR 0003, then L30.6 inline to ADR 0003 amendment 1 and L30.7 inline to ADR 0022; L31.5 and L31.9 proposed against ADR 0017, not yet applied), **195 rule** (60 written into their documents on 2026-11-09, 51 on 2026-11-10, 11 on 2026-11-11, 33 on 2026-11-12, 27 on 2026-11-13; 13 proposed by US-31, not yet written), **10 open** (design that did not exist yet, all drafted: on 2026-11-10 L6.5 in ADR 0016, L3.1 in ADR 0017, L4.6 in ADR 0019, L12.5 in ADR 0012 decision 10, L9.7 in ADR 0007 amendment 5; on 2026-11-11 L24.1 in ADR 0022; on 2026-11-12 L27.1 in ADR 0024 and L29.1 in ADR 0025; on 2026-11-13 L30.1 in ADR 0026 and L31.1 in ADR 0027), **24 accepted** (a surfaced limitation), 1 cross-reference. Full text is in each story's section 10.
+Two hundred and ninety-seven findings. Disposition counts: **67 amend** (29 applied to the ADRs on 2026-11-09; 17 on 2026-11-10: 11 inline to the drafts ADR 0016 to 0020, then L22.1 to ADR 0007 amendment 5, L23.1 to L23.3 inline to ADR 0021, and L24.3 and L24.4 inline to ADR 0013; 4 on 2026-11-11: L25.1, L25.4, L25.7 and L25.11 inline to ADR 0022; 11 on 2026-11-12: L26.1, L26.2, L26.5, L26.9 and L26.12 inline to ADR 0023, then L27.4, L27.12 and L27.13 inline to ADRs 0010, 0016 and 0008; then L28.1, L28.12 and L28.14 inline to ADR 0024; 6 on 2026-11-13: L29.3 and L29.7 inline to ADR 0003, then L30.6 inline to ADR 0003 amendment 1 and L30.7 inline to ADR 0022, then L31.5 and L31.9 inline to ADR 0017), **195 rule** (60 written into their documents on 2026-11-09, 51 on 2026-11-10, 11 on 2026-11-11, 33 on 2026-11-12, 40 on 2026-11-13), **10 open** (design that did not exist yet, all drafted: on 2026-11-10 L6.5 in ADR 0016, L3.1 in ADR 0017, L4.6 in ADR 0019, L12.5 in ADR 0012 decision 10, L9.7 in ADR 0007 amendment 5; on 2026-11-11 L24.1 in ADR 0022; on 2026-11-12 L27.1 in ADR 0024 and L29.1 in ADR 0025; on 2026-11-13 L30.1 in ADR 0026 and L31.1 in ADR 0027), **24 accepted** (a surfaced limitation), 1 cross-reference. Full text is in each story's section 10.
 
 | Id | Short name | Probe | Disposition | Touches |
 |---|---|---|---|---|
@@ -366,22 +366,22 @@ Two hundred and ninety-seven findings. Disposition counts: **67 amend** (29 appl
 | L30.16 | scanners disagree; a clean scan is not proof | none | accepted | ADR 0017 |
 | L30.17 | production uses public images only by digest from a platform mirror | none | rule, applied | ADR 0022 d5; ADR 0010; ADR 0006 |
 | L31.1 | Convoy's own events have no channel, route, subscription or event model | none | **open** (drafted: ADR 0027) | ADR 0017 d2, d4; ADR 0021 d5, d8; ADR 0023 d6; ADR 0011 d9; command map `mailx` |
-| L31.2 | routes name what the platform has; Convoy never edits schedules, escalations or alert rules | P1 | rule | ADR 0023 d6; ADR 0010 a1 |
-| L31.3 | `write` to a detached user is journaled; notify verbs exit on acceptance, delivery is a state | P2 | rule | ADR 0020 d2; ADR 0004 |
-| L31.4 | events go to the owning group's route, never only to a person; a default route catches the rest | P3 | rule | ADR 0016 d5, d9 |
-| L31.5 | an approval from a channel counts only with a mapped, re-authenticated account | P4 | amend | ADR 0017 d5; ADR 0024 d4; ADR 0016 d4 |
-| L31.6 | events rolled up per process; routes rate limited; messages priced to the owning group | P5 | rule | ADR 0010; ADR 0009 |
-| L31.7 | messages carry the object path and state time; later states update or supersede them | P6 | rule | ADR 0017 d8; ADR 0013 d5 |
-| L31.8 | a delivery failure is an event to the fallback route; failing routes shown in `explain` | P7 | rule | ADR 0021 d5, d8; ADR 0011 a4 |
-| L31.9 | an approval's timeout counts from the first successful delivery of its request | none | amend | ADR 0017 d2, d7; ADR 0004 |
-| L31.10 | events at a disconnected site are spooled with receipts and delivered with their raise time | P8 | rule | ADR 0009 a1; ADR 0011 a4 |
-| L31.11 | events carry a deduplication key from the object path; Convoy never alerts on telemetry | P9 | rule | ADR 0023 d6; ADR 0018 |
-| L31.12 | approval requests go to the on-call of the approving group; further answers asked one at a time | P10 | rule | ADR 0017 d2, d4, d7; ADR 0016 d7 |
-| L31.13 | message bodies are path, class, status and scrubbed summary; channels carry residency | P11 | rule | ADR 0007 a2; ADR 0011 a3; ADR 0016 d11 |
-| L31.14 | `--notify` applies to a process tree; children and partitions roll up into the root | P12 | rule | ADR 0004 a2, a3 |
-| L31.15 | every event class has an urgency: `page`, `notify` or `digest` | none | rule | ADR 0017 d4; ADR 0010 |
+| L31.2 | routes name what the platform has; Convoy never edits schedules, escalations or alert rules | P1 | rule, applied | ADR 0023 d6; ADR 0010 a1 |
+| L31.3 | `write` to a detached user is journaled; notify verbs exit on acceptance, delivery is a state | P2 | rule, applied | ADR 0020 d2; ADR 0004 |
+| L31.4 | events go to the owning group's route, never only to a person; a default route catches the rest | P3 | rule, applied | ADR 0016 d5, d9 |
+| L31.5 | an approval from a channel counts only with a mapped, re-authenticated account | P4 | amend, applied | ADR 0017 d5; ADR 0024 d4; ADR 0016 d4 |
+| L31.6 | events rolled up per process; routes rate limited; messages priced to the owning group | P5 | rule, applied | ADR 0010; ADR 0009 |
+| L31.7 | messages carry the object path and state time; later states update or supersede them | P6 | rule, applied | ADR 0017 d8; ADR 0013 d5 |
+| L31.8 | a delivery failure is an event to the fallback route; failing routes shown in `explain` | P7 | rule, applied | ADR 0021 d5, d8; ADR 0011 a4 |
+| L31.9 | an approval's timeout counts from the first successful delivery of its request | none | amend, applied | ADR 0017 d2, d7; ADR 0004 |
+| L31.10 | events at a disconnected site are spooled with receipts and delivered with their raise time | P8 | rule, applied | ADR 0009 a1; ADR 0011 a4 |
+| L31.11 | events carry a deduplication key from the object path; Convoy never alerts on telemetry | P9 | rule, applied | ADR 0023 d6; ADR 0018 |
+| L31.12 | approval requests go to the on-call of the approving group; further answers asked one at a time | P10 | rule, applied | ADR 0017 d2, d4, d7; ADR 0016 d7 |
+| L31.13 | message bodies are path, class, status and scrubbed summary; channels carry residency | P11 | rule, applied | ADR 0007 a2; ADR 0011 a3; ADR 0016 d11 |
+| L31.14 | `--notify` applies to a process tree; children and partitions roll up into the root | P12 | rule, applied | ADR 0004 a2, a3 |
+| L31.15 | every event class has an urgency: `page`, `notify` or `digest` | none | rule, applied | ADR 0017 d4; ADR 0010 |
 | L31.16 | delivery is at least once and best effort; the object is the record | none | accepted | ADR 0009 |
-| L31.17 | every object with an expiry warns its owning group at `expiry_warn` | none | rule | ADR 0006; ADR 0026 d8; ADR 0022 d3 |
+| L31.17 | every object with an expiry warns its owning group at `expiry_warn` | none | rule, applied | ADR 0006; ADR 0026 d8; ADR 0022 d3 |
 
 ## Structural misroutes
 
@@ -442,7 +442,7 @@ The first table lists every finding that touches an ADR, whatever its dispositio
 | OCI registries (US-30) | L30.1 (a registry class, open, drafted in ADR 0026); ADR 0003 a1: L30.6 (amend); ADR 0022 d4: L30.7 (amend); ADR 0006: L30.3, L30.4; ADR 0010: L30.2, L30.17; ADR 0016: L30.5; ADR 0013: L30.8, L30.9; ADR 0018: L30.10, L30.15; ADR 0011: L30.11, L30.12, L30.14; ADR 0017: L30.13; L30.16 accepted |
 | 0026 a registry is a device, a tag is a name for a digest (draft) | drafts L30.1; makes the held registry of L8.6 a device of the class; gives L30.2, L30.3, L30.4, L30.5, L30.8, L30.9, L30.10, L30.11, L30.12, L30.13, L30.14, L30.15 and L30.17 their decisions; assumes L30.6 and L30.7; the thirteen rules written in its Rules section on 2026-11-13 |
 | notification channels (US-31) | L31.1 (channels and events, open, drafted in ADR 0027); ADR 0017: L31.5, L31.9 (amend), L31.7, L31.12, L31.15; ADR 0023: L31.2, L31.11; ADR 0020: L31.3; ADR 0016: L31.4; ADR 0010: L31.6; ADR 0021: L31.8; ADR 0009: L31.10; ADR 0007: L31.13; ADR 0004: L31.14; ADR 0006: L31.17; L31.16 accepted |
-| 0027 Convoy tells a group about its own objects (draft) | drafts L31.1; gives `page:<route>` (ADR 0017) and the health controller's pages (ADR 0021) their channel; gives L31.2, L31.3, L31.4, L31.6, L31.7, L31.8, L31.10, L31.11, L31.12, L31.13, L31.14, L31.15 and L31.17 their decisions; assumes L31.5 and L31.9 |
+| 0027 Convoy tells a group about its own objects (draft) | drafts L31.1; gives `page:<route>` (ADR 0017) and the health controller's pages (ADR 0021) their channel; gives L31.2, L31.3, L31.4, L31.6, L31.7, L31.8, L31.10, L31.11, L31.12, L31.13, L31.14, L31.15 and L31.17 their decisions; assumes L31.5 and L31.9; the thirteen rules written in its Rules section on 2026-11-13 |
 
 | ADR | Amendment | Applies |
 |---|---|---|
@@ -477,6 +477,7 @@ The first table lists every finding that touches an ADR, whatever its dispositio
 | 0024 | decisions 2, 4 and 9 revised inline | L28.12 (decision 2); L28.1 (decision 4); L28.14 (decision 9) |
 | 0003 | the decision and amendment 1 revised inline | L29.3 (decision); L29.7 (amendment 1) |
 | 0003, 0022 | amendment 1 and decision 4 revised inline | L30.6 (ADR 0003 amendment 1); L30.7 (ADR 0022 decision 4) |
+| 0017 | decisions 5 and 7 revised inline | L31.5 (decision 5); L31.9 (decision 7) |
 
 ## Writing a new story
 

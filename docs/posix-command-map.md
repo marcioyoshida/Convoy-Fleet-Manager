@@ -328,3 +328,7 @@ Rules the sixteen stories in `docs/user-stories/` decided for specific commands.
 | `cp` of an image | by digest with its referrers or refused; never outside the residency; the layer scrub runs | L30.9, L30.14 |
 | `fuser` on a digest, `ls --base` | every pod running the digest, Convoy-created or not; images by base digest | L30.12 |
 | `release` (images) | stale scans rescanned or refused; vulnerability exceptions with expiry; `verify=` printed; the target's mirror checked first | L30.8, L30.10, L30.11, L30.13 |
+| `write`, `wall` | to every attached terminal; to the session journal when the user has none, shown at the next attach and said so | L31.3 |
+| `mailx` | through a channel or a group's route, scrubbed, priced and rate limited; exit 0 on the channel's acceptance, delivery is a state | L31.3, L31.6, L31.13 |
+| `--notify`, `wait --notify` | subscribe a group's route to a process tree; children and partitions roll up into the root's event; events go to groups, never only to a person | L31.4, L31.14 |
+| `explain` (events) | each event the plan can raise with its urgency, route, channels and their state, and a price band | L31.8, L31.15 |

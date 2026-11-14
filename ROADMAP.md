@@ -50,6 +50,7 @@ From the user-story probes. Each milestone's exit criteria include the rules lis
 - **L23.11** infrastructure retries are counted apart from `--retries`, within `infra_retries`.
 - **L25.2** `lend --dry-run` lists sent, excluded and withheld files; a build that needs one is refused.
 - **L25.3** data files are refused by `lend_exclude`, naming the session's residency.
+- **L31.3** `write` to a detached user is journaled; notify verbs exit on acceptance.
 
 **M3**
 
@@ -77,6 +78,8 @@ From the user-story probes. Each milestone's exit criteria include the rules lis
 - **L29.11** image conversions start from the digest and are cached by it.
 - **L30.3** pinned digests cannot be deleted; `du` splits shared layers.
 - **L30.15** receipts record every container that ran, injected ones included.
+- **L31.6** messages are rolled up, rate limited and priced to the owning group.
+- **L31.10** events at a disconnected site are spooled with receipts.
 
 **M5**
 
@@ -95,6 +98,7 @@ From the user-story probes. Each milestone's exit criteria include the rules lis
 - **L30.2** tags owned by GitOps, CI or replication are moved as intent.
 - **L30.9** image copies carry their referrers.
 - **L30.14** registries carry residency; copies never leave it.
+- **L31.13** messages carry no output; channels carry residency.
 
 **M6**
 
@@ -129,6 +133,8 @@ From the user-story probes. Each milestone's exit criteria include the rules lis
 - **L30.8** stale scans are rescanned or refused.
 - **L30.10** each computer reports whether it enforces signatures.
 - **L30.13** vulnerability exceptions are approvals with an expiry.
+- **L31.4** events go to groups, never only to a person.
+- **L31.12** approval requests go to the approving group's on-call.
 
 **M8**
 
@@ -155,6 +161,13 @@ From the user-story probes. Each milestone's exit criteria include the rules lis
 - **L30.4** lifecycle policies never expire a pinned digest.
 - **L30.11** a release checks the target's mirror first.
 - **L30.12** `fuser` on a digest lists every pod running it.
+- **L31.2** routes never edit schedules, escalations or alert rules.
+- **L31.7** messages are updated or superseded as the object changes.
+- **L31.8** a failed delivery is an event to the fallback route.
+- **L31.11** events carry a deduplication key from the object path.
+- **L31.14** `--notify` covers the process tree; children roll up.
+- **L31.15** every event class has an urgency.
+- **L31.17** expiring objects warn their owning group.
 
 **M9**
 

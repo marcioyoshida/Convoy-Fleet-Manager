@@ -89,3 +89,4 @@ Each line is a `rule` finding from `docs/user-stories/README.md` written here as
 - **L28.7** (US-28) contract inputs that name principals are limited to the owning group's service identities, and a delegated module path takes only device package instances (full rule in ADR 0024).
 - **L29.5** (US-29) each computer declares `identity=per-user|per-group|shared`; a shared identity is printed by `explain` and refused under `identity=required` (full rule in [ADR 0025](0025-a-computer-is-a-device-kubernetes-is-one-driver.md)).
 - **L30.5** (US-30) repositories are owned by groups, and pulls are as the pod's group, not the node's role (full rule in [ADR 0026](0026-a-registry-is-a-device-a-tag-is-a-name-for-a-digest.md)).
+- **L31.4** (US-31) events are addressed to groups, never only to a person, so an offboarding never silences them (full rule in [ADR 0027](0027-convoy-tells-a-group-about-its-own-objects.md)).

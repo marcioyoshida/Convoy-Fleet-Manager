@@ -212,3 +212,4 @@ Each line is a `rule` finding from `docs/user-stories/README.md` written here as
 - **L28.2** (US-28) `mknod` is a process with stages shown by `ps` and `status`; `kill` closes the pull request before an apply and is deferred during one (full rule in ADR 0024).
 - **L29.2** (US-29) `kill` with a signal the target computer does not deliver is a refusal (decision 10), naming the computer and its `signals=` (full rule in [ADR 0025](0025-a-computer-is-a-device-kubernetes-is-one-driver.md)).
 - **L30.2, L30.8, L30.9, L30.11** (US-30) `ln -sf` on an owned tag is intent; `release` refuses a stale scan, a digest absent from the target's mirror and a copy without referrers (full rules in [ADR 0026](0026-a-registry-is-a-device-a-tag-is-a-name-for-a-digest.md)).
+- **L31.3, L31.14** (US-31) `write` to a detached user is journaled; `--notify` is a contract flag that applies to the process tree (full rules in [ADR 0027](0027-convoy-tells-a-group-about-its-own-objects.md)).
