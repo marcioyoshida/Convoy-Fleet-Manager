@@ -29,3 +29,4 @@ Each line is a `rule` finding from `docs/user-stories/README.md` written here as
 
 - **L12.2** (US-12) on a follow the planner refuses aggregate and fan-in classes and `order: global`, and prints the two alternatives: a bounded read on a schedule, or an engine package with a window; `limit` (`head`) stays allowed and closes the follow.
 - **L34.17, L34.18** (US-34) executables gain the annotation `interactive`, refused under `batch`; interactive output is non-deterministic by class (full rules in [ADR 0030](0030-an-interactive-process-holds-a-computer-while-someone-is-attached.md)).
+- **L36.8** (US-36) reader libraries report shards they skip through the toolbox, annotated `skips:` (full rule in [ADR 0032](0032-a-stream-reads-a-pinned-manifest-through-a-window.md)).

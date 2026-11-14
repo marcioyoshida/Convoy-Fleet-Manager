@@ -1,6 +1,6 @@
 # ADR 0032: A stream reads a pinned manifest through a window, at the rate its stage needs
 
-**Status:** Draft · 2026-11-14
+**Status:** Draft · 2026-11-14 · rules from user story US-36 added 2026-11-14
 **Supersedes / relates to:** open finding L36.1 (an input too large to stage, read as a moving window, has no manifest, window, rate, partitioning, position or completeness model); ADR 0029 decisions 1, 2, 4, 5, 6 and 8 and its open item on inputs too large to stage (file systems and reach, in place or staged, pinned sources, verified copies, residency, cleanup); ADR 0001 and its amendment 1 (pipes are staged artifacts, `|=` is opt-in; non-deterministic stages); ADR 0012 decision 2 (a follow on a topic); the pipeline compiler §8.5; ADR 0002 (executable annotations); ADR 0003 (partitions); ADR 0004 amendments 1, 2 and 3 (gang restart from checkpoint, the degraded channel, the inherited contract); ADR 0016 decisions 4, 5 and 7 (the exchange per open, the group's service identity, grants by group); ADR 0017 decision 2 (gates from policy); ADR 0023 (telemetry the shell reads); ADR 0025 decisions 2, 4 and 8 (`bounds`, placement, operators); ADR 0026 (pins); ADR 0027 (events); ADR 0028 decision 9 (`/dev/shm` caches); the command map rows for `cat`, `du` and `fuser`
 
 ## Context
@@ -52,8 +52,28 @@ Facts that constrain the design:
 
 ## Consequences
 
-- L36.1 is drafted here, and ADR 0029's open item on inputs too large to stage is settled by it. US-36's other findings land on this record when US-36 is applied: L36.3 and L36.15 (pipes; an amendment to ADR 0029 decision 2 that decision 1 assumes) in decision 1, L36.2 and L36.18 (archive classes and pins, inventory manifests) in decision 2, L36.7, L36.10 and L36.12 (window entries, reader caches, cleanup) in decision 3, L36.14 (rate) in decision 4, L36.13 and L36.19 (partitions, seed) in decision 5, L36.4 (position) in decision 6, L36.8 (completeness) in decision 7, L36.9 (relays) in decision 8, L36.5 (credential) in decision 9, L36.6 and L36.11 (price, share) in decision 10; L36.16 and L36.17 are accepted.
+- L36.1 is drafted here, and ADR 0029's open item on inputs too large to stage is settled by it. [US-36](../user-stories/US-36-too-big-to-stage.md) was applied on 2026-11-14: L36.15 revised ADR 0029 decision 2 inline (`in place`, `staged` or `streamed`), which decision 1 assumes; its fifteen rules are in the Rules section below, with pointers in ADRs 0001, 0002, 0003, 0004, 0010, 0012, 0016, 0017, 0020, 0023, 0025, 0026, 0027, 0028 and 0029 and in the pipeline compiler; L36.16 and L36.17 are accepted.
 - ADR 0029 decision 2 gains `streamed`. ADR 0001's `|=` extends from a channel between stages to a read of a device's manifest; ADR 0012 decision 2's follow is unchanged for topics. ADR 0004 amendment 1's checkpoints carry stream positions. ADR 0028 decision 9's `/dev/shm` caches can hold windows. ADR 0002's annotations gain `reads:` and `skips:`.
 - New paths: `/sys/proc/<pid>/streams/<n>/` with `manifest`, `window`, `rate`, `partitions` and `read`. New platform defaults: `stage_max`, `list_max`, `stream_margin`, `stream_share`, `small_object_max`. New `caps`: `inventory` and `read-pin` on object-store devices, relays in a computer's `reach`.
 - ROADMAP: the choice of `streamed`, rate in placement and partitioning are M3; inventory manifests, window entries by content id, positions in checkpoints and packed forms are M4; window devices, read pins and archive restores are M5; the controller's stream credentials and the share approval are M7; completeness counting, `starved` and relay failover are M8; reader-library shims in the toolbox and inventory drivers are M9.
 - Open, to be settled against this record: outputs too large to stage (checkpoint shards written as a stream); streams from live sources into training (sensors, edge devices); several processes sharing one stream's window; a story that probes this record.
+
+## Rules · 2026-11-14 · from the user-story probes
+
+Each line is a `rule` finding from `docs/user-stories/README.md` written here as decided; the story holds the reasoning.
+
+- **L36.2** (US-36) the plan checks the storage class of every object in a stream's manifest; archived objects are restored first as a planned, priced step, or the plan is refused; the stream holds a read pin on its manifest for the run, which the store's lifecycle honours where it can, and `explain` warns where it cannot (decision 2).
+- **L36.3** (US-36) a pipe whose source read exceeds `stage_max` is refused with exit 3 and the `|=` spelling; `|=` from a device read is a stream over a pinned manifest and produces no artifact (decision 1).
+- **L36.4** (US-36) with `--checkpoint`, a stream's position (manifest id, partition map, epoch, shuffle seed, offset per partition) is written with each checkpoint, and a restart resumes exactly there (decision 6).
+- **L36.5** (US-36) a stream's credential is refreshed by the controller through the group's service identity for the process's lifetime, independent of any session; a refresh that fails pauses the stream and raises an event before expiry (decision 9).
+- **L36.6** (US-36) `explain` prices a stream's requests and bytes per epoch and in total; above `small_object_max` objects it warns and offers a packed form (shards by content id, produced once as a staged artifact) (decision 10).
+- **L36.7** (US-36) window entries are keyed by the content ids of the pinned manifest and verified; a new manifest invalidates every entry whose id changed (decision 3).
+- **L36.8** (US-36) a stream counts shards read and skipped per epoch against the manifest; below the stage's floor it exits 1, at or above it 0 degraded; the receipt lists the skipped shards (decision 7).
+- **L36.9** (US-36) a stream through a computer's relays spreads across every relay the computer declares in its `reach` and fails over; below the stage's rate floor the process shows `starved` with the reason (decision 8).
+- **L36.10** (US-36) the platform toolbox points reader libraries' caches at the process's window device; writes elsewhere count against its ephemeral bound (decision 3).
+- **L36.11** (US-36) `explain` shows a stream's share of the source device's declared rate; above `stream_share` a stream from another group's device needs the owner's approval, and the owner sees it in `fuser` (decision 10).
+- **L36.12** (US-36) a window is an `ephemeral` file system or a `/dev/shm` cache of the process, encrypted when the data is `class=restricted`, never shared across groups, and removed when the process ends (decision 3).
+- **L36.13** (US-36) a stream opened by a process tree is partitioned across its members by the plan; each reads its partition; reads outside it are counted; the receipt records the partition map (decision 5).
+- **L36.14** (US-36) `explain` estimates the rate a streamed stage needs against the store, link and relay rates; placement drops computers below that rate times `stream_margin`; `ps` shows the achieved rate and the accelerators' idle share (decision 4).
+- **L36.18** (US-36) a manifest above `list_max` objects is built from the store's inventory with version ids and ETags, not by listing; its id is the hash of the manifest (decision 2).
+- **L36.19** (US-36) a stream's shuffle seed and partition map are pinned and recorded; without them the stage is `deterministic: false` (decision 5).

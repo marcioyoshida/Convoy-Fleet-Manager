@@ -92,3 +92,4 @@ Each line is a `rule` finding from `docs/user-stories/README.md` written here as
 - **L32.13** (US-32) holding a whole domain past `domain_hold_max` needs an approval from the group that owns the capacity (full rule in [ADR 0028](0028-memory-has-a-distance-and-a-domain-is-claimed-whole.md)).
 - **L33.12** (US-33) staging past `stage_share_max` of a quota shared outside Convoy needs an approval from the allocation's group (full rule in [ADR 0029](0029-a-computers-file-systems-are-in-its-contract-staging-is-a-planned-copy.md)).
 - **L35.12, L35.13** (US-35) a person on board who stops work wins over a remote plan; deadlines for edge children count from contact (full rules in [ADR 0031](0031-an-edge-computer-is-reached-by-contact-and-known-by-what-it-delivers.md)).
+- **L36.11** (US-36) a stream above `stream_share` of another group's device is a gate answered by that group (full rule in [ADR 0032](0032-a-stream-reads-a-pinned-manifest-through-a-window.md)).

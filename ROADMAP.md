@@ -82,6 +82,9 @@ From the user-story probes. Each milestone's exit criteria include the rules lis
 - **L35.6** edge transfers use the link class allowed; images by changed layers.
 - **L35.14** power budgets gate edge stages.
 - **L35.16** image architectures checked before any transfer.
+- **L36.3** a pipe above `stage_max` is refused with the `|=` spelling.
+- **L36.13** a stream is partitioned across its process tree.
+- **L36.14** placement checks a stream's needed rate.
 
 **M4**
 
@@ -104,6 +107,11 @@ From the user-story probes. Each milestone's exit criteria include the rules lis
 - **L34.18** interactive output is marked and not released until reproduced.
 - **L35.3** `done-local` until outputs are delivered; the only copy is stated.
 - **L35.4** edge uploads stay within residency, with the device's location.
+- **L36.4** a stream's position is in every checkpoint.
+- **L36.6** a stream's requests are priced; a packed form is offered.
+- **L36.7** window entries are keyed by manifest content ids.
+- **L36.18** large manifests come from inventories.
+- **L36.19** a stream's seed and partitions are pinned.
 
 **M5**
 
@@ -129,6 +137,9 @@ From the user-story probes. Each milestone's exit criteria include the rules lis
 - **L33.6** `mv` across devices deletes only after verifying.
 - **L33.10** a stage-out ships only files the process wrote.
 - **L33.19** linked files show their load state in `ls -l` and `du`.
+- **L36.2** archived objects are restored before a stream; a read pin holds the manifest.
+- **L36.10** reader caches go to the window device.
+- **L36.12** windows are encrypted for restricted data and removed at the end.
 
 **M6**
 
@@ -177,6 +188,8 @@ From the user-story probes. Each milestone's exit criteria include the rules lis
 - **L34.12** launches from a kernel are the attached person's.
 - **L35.5** device certificates outlast `contact_max`; revocation at contact.
 - **L35.17** trust roots reach devices before images that need them.
+- **L36.5** stream credentials are refreshed by the controller.
+- **L36.11** streams above `stream_share` of another group's device need approval.
 
 **M8**
 
@@ -221,6 +234,8 @@ From the user-story probes. Each milestone's exit criteria include the rules lis
 - **L35.10** workloads outside Convoy are read at contact and counted.
 - **L35.12** a local stop on a device wins.
 - **L35.13** edge children count deadlines in contacts.
+- **L36.8** shards read and skipped are counted against the floor.
+- **L36.9** streams use every declared relay and fail over.
 
 **M9**
 

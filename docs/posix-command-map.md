@@ -348,3 +348,7 @@ Rules the sixteen stories in `docs/user-stories/` decided for specific commands.
 | `kill` (edge) | queued until contact; `wait` and the receipt say whether the signal or the exit came first | L35.7 |
 | `ls` (edge outputs) | `only copy on <device>` until delivered, with the bytes at risk | L35.3 |
 | `replace` (edge) | carries group, desired state and pending work to the new device, not data; outputs left on the old one listed as at risk | L35.8 |
+| `\|=` from a device; `\|` above `stage_max` | `\|=` reads a pinned manifest as a stream with no artifact; a plain pipe above `stage_max` is refused with the `\|=` spelling | L36.3 |
+| `du` (manifests) | above `list_max` objects a manifest comes from the store's inventory with version ids, never a listing | L36.18 |
+| `fuser` (streams) | a device's owner sees the streams reading it and their share of its rate; above `stream_share` a stream needs the owner's approval | L36.11 |
+| `explain` (streams) | in place, staged or streamed; the needed rate against source, link and relays; requests and bytes per epoch; the window; the partition map and seed | L36.6, L36.13, L36.14, L36.19 |

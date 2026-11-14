@@ -98,3 +98,4 @@ Each line is a `rule` finding from `docs/user-stories/README.md` written here as
 - **L32.16** (US-32) for a Spark or dataframe stage `explain` prints the input size on disk, its estimated size in memory, the stage's aggregate memory, the predicted spill and the spill device; spill to a node's root disk is refused (decision 10).
 - **L32.17** (US-32) no memory is shared across computers; a request for a domain or a `/dev/shm` device spanning computers is refused, and data moves between computers by `cp` with its digest (decision 2).
 - **L34.14** (US-34) interactive work is kept out of domain pools by `domain_reserve` unless `--gpu=whole` (full rule in [ADR 0030](0030-an-interactive-process-holds-a-computer-while-someone-is-attached.md)).
+- **L36.10, L36.12** (US-36) a `/dev/shm` cache can be a stream's window, holding reader libraries' caches, removed when the process ends (full rules in [ADR 0032](0032-a-stream-reads-a-pinned-manifest-through-a-window.md)).

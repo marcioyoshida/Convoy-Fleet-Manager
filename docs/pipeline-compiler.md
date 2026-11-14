@@ -395,4 +395,4 @@ The stories in `docs/user-stories/` decided the following for the compiler and t
 - **L5.3** `/sys/k8s/<id>/preemption_rate` per node group (ADR 0011 decision 7); the band widens by expected restart loss on spot; the receipt separates productive from lost time.
 - **L11.3** queue reads carry `order: per-partition` as a stage property, like partitioned file reads; the compiler warns when an order-sensitive class follows without a global sort.
 - **L12.2** on a follow the planner refuses aggregate and fan-in classes and `order: global`, and prints the two alternatives: a bounded read on a schedule, or an engine package with a window; `limit` (`head`) stays allowed and closes the follow.
-
+- **L36.3** (US-36) a pipe whose source read exceeds `stage_max` is refused with exit 3 and the `|=` spelling; `|=` from a device read is a stream over a pinned manifest, with no artifact (full rule in [ADR 0032](adr/0032-a-stream-reads-a-pinned-manifest-through-a-window.md)).

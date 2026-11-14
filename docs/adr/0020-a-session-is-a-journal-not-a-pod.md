@@ -103,3 +103,4 @@ Each line is a `rule` finding from `docs/user-stories/README.md` written here as
 - **L26.14** (US-26) the redactor of rule L21.2 also covers what a telemetry read prints, before the terminal and the journal (full rule in ADR 0023).
 - **L31.3** (US-31) `write` and `wall` to a user with no attached terminal go to the session journal and are shown at the next attach (full rule in [ADR 0027](0027-convoy-tells-a-group-about-its-own-objects.md)).
 - **L34.5, L34.11, L34.12** (US-34) interactive terminals ride the attach channel; `attach <pid> --grant=` admits a second person, read-only by default; launches from inside go through the attached user's session (full rules in [ADR 0030](0030-an-interactive-process-holds-a-computer-while-someone-is-attached.md)).
+- **L36.5** (US-36) a stream never depends on a session's token (full rule in [ADR 0032](0032-a-stream-reads-a-pinned-manifest-through-a-window.md)).
