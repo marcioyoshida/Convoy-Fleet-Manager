@@ -25,6 +25,8 @@ Note · 2026-11-12: the draft [ADR 0025](0025-a-computer-is-a-device-kubernetes-
 
 **Consequences.** A site needs the capabilities a stage requires, evaluated per device (`caps` per target, ADR 0013 decision 8); a one-node site without Argo runs linear scripts only and `explain` says so. The input-size rule is unchanged: size still decides the backend, locality decides the cluster.
 
+
+Note · 2026-11-14: the draft [ADR 0029](0029-a-computers-file-systems-are-in-its-contract-staging-is-a-planned-copy.md) makes amendment 1's locality a choice per input between reading in place and staging, printed by `explain` with its reason, and counts the staging time and price in ranking (decision 2).
 ## Rules · 2026-11-09 · from the user-story probes
 
 Each line is a `rule` finding from `docs/user-stories/README.md` written here as decided; the story holds the reasoning.

@@ -31,6 +31,8 @@ Reruns skip unchanged stages. A downstream restart loses nothing. Small outputs 
 
 **Consequences.** Content ids are unchanged, so a cache hit is still a cache hit within a store; the same id in two stores is two copies, and a cross-topology stage reads from the store its input is in and writes to the store its residency permits, with the egress line priced. ROADMAP M4 gains the per-topology store and M8 the device entries.
 
+
+Note · 2026-11-14: the draft [ADR 0029](0029-a-computers-file-systems-are-in-its-contract-staging-is-a-planned-copy.md) stages inputs by content id from a pinned source, treats staged copies as cache entries verified before use, and, assuming L33.13 revises amendment 2, keeps artifacts between stages of one tree on the computer's own file system (decisions 4, 5 and 7).
 ## Rules · 2026-11-09 · from the user-story probes
 
 Each line is a `rule` finding from `docs/user-stories/README.md` written here as decided; the story holds the reasoning.
