@@ -90,3 +90,4 @@ Each line is a `rule` finding from `docs/user-stories/README.md` written here as
 - **L29.5** (US-29) each computer declares `identity=per-user|per-group|shared`; a shared identity is printed by `explain` and refused under `identity=required` (full rule in [ADR 0025](0025-a-computer-is-a-device-kubernetes-is-one-driver.md)).
 - **L30.5** (US-30) repositories are owned by groups, and pulls are as the pod's group, not the node's role (full rule in [ADR 0026](0026-a-registry-is-a-device-a-tag-is-a-name-for-a-digest.md)).
 - **L31.4** (US-31) events are addressed to groups, never only to a person, so an offboarding never silences them (full rule in [ADR 0027](0027-convoy-tells-a-group-about-its-own-objects.md)).
+- **L32.8** (US-32) a domain claim belongs to one process tree and one group; device memory is cleared before another group gets it (full rule in [ADR 0028](0028-memory-has-a-distance-and-a-domain-is-claimed-whole.md)).

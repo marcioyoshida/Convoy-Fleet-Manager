@@ -332,3 +332,7 @@ Rules the sixteen stories in `docs/user-stories/` decided for specific commands.
 | `mailx` | through a channel or a group's route, scrubbed, priced and rate limited; exit 0 on the channel's acceptance, delivery is a state | L31.3, L31.6, L31.13 |
 | `--notify`, `wait --notify` | subscribe a group's route to a process tree; children and partitions roll up into the root's event; events go to groups, never only to a person | L31.4, L31.14 |
 | `explain` (events) | each event the plan can raise with its urgency, route, channels and their state, and a price band | L31.8, L31.15 |
+| `numactl --hardware` | a computer's memory tiers, domains with healthy and free size, and the distance class between places, read from the driver, never written | L32.3, L32.12 |
+| `batch --gang --domain` | admitted inside one domain only, never split; the largest healthy domain or exit 3; not inherited, `--domain=@parent` for a child; a whole domain past `domain_hold_max` needs approval | L32.2, L32.3, L32.13, L32.15 |
+| `mount /dev/shm/…`, `mmap`, `ipcs` | volatile stores with declared backing; files written once; a writable shared mapping across nodes refused; a lost object is `EIO`; `ipcs` lists the node's own | L32.9, L32.10 |
+| `explain` (memory) | size on disk and in memory, aggregate memory, predicted spill and its device; stranded domain members and holds | L32.5, L32.13, L32.16 |

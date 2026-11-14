@@ -83,7 +83,7 @@ The first five were set by the owner; the other five were added because the walk
 
 ## Findings register
 
-Three hundred and thirty-five findings. Disposition counts: **70 amend** (29 applied to the ADRs on 2026-11-09; 17 on 2026-11-10: 11 inline to the drafts ADR 0016 to 0020, then L22.1 to ADR 0007 amendment 5, L23.1 to L23.3 inline to ADR 0021, and L24.3 and L24.4 inline to ADR 0013; 4 on 2026-11-11: L25.1, L25.4, L25.7 and L25.11 inline to ADR 0022; 11 on 2026-11-12: L26.1, L26.2, L26.5, L26.9 and L26.12 inline to ADR 0023, then L27.4, L27.12 and L27.13 inline to ADRs 0010, 0016 and 0008; then L28.1, L28.12 and L28.14 inline to ADR 0024; 6 on 2026-11-13: L29.3 and L29.7 inline to ADR 0003, then L30.6 inline to ADR 0003 amendment 1 and L30.7 inline to ADR 0022, then L31.5 and L31.9 inline to ADR 0017; L32.4 and L32.6 proposed against ADR 0004 amendment 1 and ADR 0021, and L33.13 against ADR 0001 amendment 2, not yet applied), **225 rule** (60 written into their documents on 2026-11-09, 51 on 2026-11-10, 11 on 2026-11-11, 33 on 2026-11-12, 40 on 2026-11-13; 14 proposed by US-32 and 16 by US-33, not yet written), **12 open** (design that did not exist yet, all drafted: on 2026-11-10 L6.5 in ADR 0016, L3.1 in ADR 0017, L4.6 in ADR 0019, L12.5 in ADR 0012 decision 10, L9.7 in ADR 0007 amendment 5; on 2026-11-11 L24.1 in ADR 0022; on 2026-11-12 L27.1 in ADR 0024 and L29.1 in ADR 0025; on 2026-11-13 L30.1 in ADR 0026 and L31.1 in ADR 0027; on 2026-11-14 L32.1 in ADR 0028 and L33.1 in ADR 0029), **27 accepted** (a surfaced limitation), 1 cross-reference. Full text is in each story's section 10.
+Three hundred and thirty-five findings. Disposition counts: **70 amend** (29 applied to the ADRs on 2026-11-09; 17 on 2026-11-10: 11 inline to the drafts ADR 0016 to 0020, then L22.1 to ADR 0007 amendment 5, L23.1 to L23.3 inline to ADR 0021, and L24.3 and L24.4 inline to ADR 0013; 4 on 2026-11-11: L25.1, L25.4, L25.7 and L25.11 inline to ADR 0022; 11 on 2026-11-12: L26.1, L26.2, L26.5, L26.9 and L26.12 inline to ADR 0023, then L27.4, L27.12 and L27.13 inline to ADRs 0010, 0016 and 0008; then L28.1, L28.12 and L28.14 inline to ADR 0024; 6 on 2026-11-13: L29.3 and L29.7 inline to ADR 0003, then L30.6 inline to ADR 0003 amendment 1 and L30.7 inline to ADR 0022, then L31.5 and L31.9 inline to ADR 0017; 2 on 2026-11-14: L32.4 inline to ADR 0004 amendment 1 and L32.6 inline to ADR 0021; L33.13 proposed against ADR 0001 amendment 2, not yet applied), **225 rule** (60 written into their documents on 2026-11-09, 51 on 2026-11-10, 11 on 2026-11-11, 33 on 2026-11-12, 40 on 2026-11-13, 14 on 2026-11-14; 16 proposed by US-33, not yet written), **12 open** (design that did not exist yet, all drafted: on 2026-11-10 L6.5 in ADR 0016, L3.1 in ADR 0017, L4.6 in ADR 0019, L12.5 in ADR 0012 decision 10, L9.7 in ADR 0007 amendment 5; on 2026-11-11 L24.1 in ADR 0022; on 2026-11-12 L27.1 in ADR 0024 and L29.1 in ADR 0025; on 2026-11-13 L30.1 in ADR 0026 and L31.1 in ADR 0027; on 2026-11-14 L32.1 in ADR 0028 and L33.1 in ADR 0029), **27 accepted** (a surfaced limitation), 1 cross-reference. Full text is in each story's section 10.
 
 | Id | Short name | Probe | Disposition | Touches |
 |---|---|---|---|---|
@@ -385,22 +385,22 @@ Three hundred and thirty-five findings. Disposition counts: **70 amend** (29 app
 | L31.16 | delivery is at least once and best effort; the object is the record | none | accepted | ADR 0009 |
 | L31.17 | every object with an expiry warns its owning group at `expiry_warn` | none | rule, applied | ADR 0006; ADR 0026 d8; ADR 0022 d3 |
 | L32.1 | memory domains, distances and tiers are not modelled; shared in-memory stores are not devices | none | **open** (drafted: ADR 0028) | ADR 0025 d2, d4; ADR 0011 d7, d9; ADR 0004 a1; ADR 0003 a1 |
-| L32.2 | a gang with `--domain` is never split; the domain each member got is recorded | P7 | rule | ADR 0004 a1; ADR 0025 d6; ADR 0003 a1 |
-| L32.3 | a domain's capacity is its healthy free size; `explain` refuses when no domain is large enough | P8 | rule | ADR 0025 d2, d4; ADR 0021 d4 |
-| L32.4 | a gang restart goes to any healthy domain that can hold it, or ends with exit 3 at the deadline | none | amend | ADR 0004 a1; ADR 0021 d4 |
-| L32.5 | work with no domain claim kept out of domain pools; stranded members shown and priced to the platform | P5 | rule | ADR 0010; ADR 0025 d9; ADR 0016 d8 |
-| L32.6 | a `fabric` component class, and the domain as a scope above the node | none | amend | ADR 0021 d2, d3 |
-| L32.7 | a domain is `draining` until every member's channels are free | P3 | rule | ADR 0008 a1, a4; ADR 0021 d9 |
-| L32.8 | device memory cleared between groups and recorded; `mem_scrub=`; one claim, one group | P4 | rule | ADR 0016 d2, d3; ADR 0021 d9 |
-| L32.9 | a shared-memory device holds files written once; no writable mapping across nodes | P2 | rule | ADR 0011 d9; command map `ipcs` |
-| L32.10 | shared-memory devices are `volatile` with a declared `backing=`; a lost object is `EIO` | P6 | rule | ADR 0001 a2; ADR 0004 rules; ADR 0011 a4 |
-| L32.11 | a store inside a process counts in its memory bound; a store is a device only when installed | P9 | rule | ADR 0024 d8; ADR 0016 d3; ADR 0025 d2 |
-| L32.12 | domain layout is read from the driver; Convoy creates only the claim | P1 | rule | ADR 0010 a1; ADR 0024 d6; ADR 0021 d10 |
-| L32.13 | holding a whole domain past `domain_hold_max` needs the capacity group's approval | P10 | rule | ADR 0017 d2; ADR 0016 d7 |
-| L32.14 | spill to a bounded device named in the plan; shuffle service a device; files removed at the end | P11 | rule | ADR 0001 a2; ADR 0011 a3; ADR 0007 a2 |
-| L32.15 | `--domain` and `--gang` are not inherited; `--domain=@parent` | P12 | rule | ADR 0004 a3 |
-| L32.16 | `explain` sizes a Spark or dataframe stage's memory and spill | none | rule | ADR 0003; pipeline compiler |
-| L32.17 | no memory shared across computers; data moves by copy | none | rule | ADR 0025 d5; ADR 0011 d6 |
+| L32.2 | a gang with `--domain` is never split; the domain each member got is recorded | P7 | rule, applied | ADR 0004 a1; ADR 0025 d6; ADR 0003 a1 |
+| L32.3 | a domain's capacity is its healthy free size; `explain` refuses when no domain is large enough | P8 | rule, applied | ADR 0025 d2, d4; ADR 0021 d4 |
+| L32.4 | a gang restart goes to any healthy domain that can hold it, or ends with exit 3 at the deadline | none | amend, applied | ADR 0004 a1; ADR 0021 d4 |
+| L32.5 | work with no domain claim kept out of domain pools; stranded members shown and priced to the platform | P5 | rule, applied | ADR 0010; ADR 0025 d9; ADR 0016 d8 |
+| L32.6 | a `fabric` component class, and the domain as a scope above the node | none | amend, applied | ADR 0021 d2, d3 |
+| L32.7 | a domain is `draining` until every member's channels are free | P3 | rule, applied | ADR 0008 a1, a4; ADR 0021 d9 |
+| L32.8 | device memory cleared between groups and recorded; `mem_scrub=`; one claim, one group | P4 | rule, applied | ADR 0016 d2, d3; ADR 0021 d9 |
+| L32.9 | a shared-memory device holds files written once; no writable mapping across nodes | P2 | rule, applied | ADR 0011 d9; command map `ipcs` |
+| L32.10 | shared-memory devices are `volatile` with a declared `backing=`; a lost object is `EIO` | P6 | rule, applied | ADR 0001 a2; ADR 0004 rules; ADR 0011 a4 |
+| L32.11 | a store inside a process counts in its memory bound; a store is a device only when installed | P9 | rule, applied | ADR 0024 d8; ADR 0016 d3; ADR 0025 d2 |
+| L32.12 | domain layout is read from the driver; Convoy creates only the claim | P1 | rule, applied | ADR 0010 a1; ADR 0024 d6; ADR 0021 d10 |
+| L32.13 | holding a whole domain past `domain_hold_max` needs the capacity group's approval | P10 | rule, applied | ADR 0017 d2; ADR 0016 d7 |
+| L32.14 | spill to a bounded device named in the plan; shuffle service a device; files removed at the end | P11 | rule, applied | ADR 0001 a2; ADR 0011 a3; ADR 0007 a2 |
+| L32.15 | `--domain` and `--gang` are not inherited; `--domain=@parent` | P12 | rule, applied | ADR 0004 a3 |
+| L32.16 | `explain` sizes a Spark or dataframe stage's memory and spill | none | rule, applied | ADR 0003; pipeline compiler |
+| L32.17 | no memory shared across computers; data moves by copy | none | rule, applied | ADR 0025 d5; ADR 0011 d6 |
 | L32.18 | distance class is reported, not achieved bandwidth | none | accepted | ADR 0003 a1 |
 | L32.19 | CXL memory shown only as the tiers and NUMA nodes the node reports | none | accepted | ADR 0025 d2 |
 | L33.1 | a computer's own file systems and staging into and out of them are not in the design | none | **open** (drafted: ADR 0029) | ADR 0025 d2, d4; ADR 0001 a2; ADR 0003 a1; ADR 0011 a1 |
@@ -483,7 +483,7 @@ The first table lists every finding that touches an ADR, whatever its dispositio
 | 0026 a registry is a device, a tag is a name for a digest (draft) | drafts L30.1; makes the held registry of L8.6 a device of the class; gives L30.2, L30.3, L30.4, L30.5, L30.8, L30.9, L30.10, L30.11, L30.12, L30.13, L30.14, L30.15 and L30.17 their decisions; assumes L30.6 and L30.7; the thirteen rules written in its Rules section on 2026-11-13 |
 | notification channels (US-31) | L31.1 (channels and events, open, drafted in ADR 0027); ADR 0017: L31.5, L31.9 (amend), L31.7, L31.12, L31.15; ADR 0023: L31.2, L31.11; ADR 0020: L31.3; ADR 0016: L31.4; ADR 0010: L31.6; ADR 0021: L31.8; ADR 0009: L31.10; ADR 0007: L31.13; ADR 0004: L31.14; ADR 0006: L31.17; L31.16 accepted |
 | memory beyond a node (US-32) | L32.1 (memory domains and shared-memory devices, open, drafted in ADR 0028); ADR 0004: L32.4 (amend), L32.2, L32.10, L32.15; ADR 0021: L32.6 (amend), L32.7, L32.8; ADR 0025: L32.3, L32.11, L32.17; ADR 0010: L32.5; ADR 0011: L32.9; ADR 0001: L32.14; ADR 0024: L32.12; ADR 0017: L32.13; ADR 0003 and the pipeline compiler: L32.16; L32.18 and L32.19 accepted |
-| 0028 memory has a distance, and a domain is claimed whole (draft) | drafts L32.1; gives ADR 0025's contract the `mem` field and its placement filter the domain fit, `/dev/accel` (ADR 0011 decision 9) its domain claims, and `/dev/shm` its class; gives L32.2, L32.3, L32.5, L32.7 to L32.17 their decisions; assumes L32.4 and L32.6 |
+| 0028 memory has a distance, and a domain is claimed whole (draft) | drafts L32.1; gives ADR 0025's contract the `mem` field and its placement filter the domain fit, `/dev/accel` (ADR 0011 decision 9) its domain claims, and `/dev/shm` its class; gives L32.2, L32.3, L32.5, L32.7 to L32.17 their decisions; assumes L32.4 and L32.6; the fourteen rules written in its Rules section on 2026-11-14 |
 | data staging (US-33) | L33.1 (a computer's file systems and staging, open, drafted in ADR 0029); ADR 0001: L33.13 (amend), L33.2, L33.9, L33.10, L33.18; ADR 0025: L33.5, L33.14, L33.16; ADR 0011: L33.3, L33.19; ADR 0010: L33.4; ADR 0006: L33.7; ADR 0016: L33.8; ADR 0024: L33.11; ADR 0017: L33.12; command map: L33.6; ADR 0003 and walkthrough 2: L33.15; L33.17 accepted |
 | 0029 a computer's file systems are in its contract, and staging is a planned copy (draft) | drafts L33.1 and settles ADR 0025's open item on staging; gives ADR 0025's contract the `fs` field and its placement filter the capacity check, ADR 0003 amendment 1 the choice between in place and staged; gives L33.2 to L33.12, L33.14 to L33.16, L33.18 and L33.19 their decisions; assumes L33.13 |
 | 0027 Convoy tells a group about its own objects (draft) | drafts L31.1; gives `page:<route>` (ADR 0017) and the health controller's pages (ADR 0021) their channel; gives L31.2, L31.3, L31.4, L31.6, L31.7, L31.8, L31.10, L31.11, L31.12, L31.13, L31.14, L31.15 and L31.17 their decisions; assumes L31.5 and L31.9; the thirteen rules written in its Rules section on 2026-11-13 |
@@ -522,6 +522,7 @@ The first table lists every finding that touches an ADR, whatever its dispositio
 | 0003 | the decision and amendment 1 revised inline | L29.3 (decision); L29.7 (amendment 1) |
 | 0003, 0022 | amendment 1 and decision 4 revised inline | L30.6 (ADR 0003 amendment 1); L30.7 (ADR 0022 decision 4) |
 | 0017 | decisions 5 and 7 revised inline | L31.5 (decision 5); L31.9 (decision 7) |
+| 0004, 0021 | amendment 1 revised inline; decisions 2 and 3 revised inline | L32.4 (ADR 0004 amendment 1); L32.6 (ADR 0021 decisions 2 and 3) |
 
 ## Writing a new story
 

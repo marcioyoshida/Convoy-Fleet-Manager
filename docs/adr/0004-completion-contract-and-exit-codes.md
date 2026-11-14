@@ -1,6 +1,6 @@
 # ADR 0004: A process converges or it does not; exit codes come from a completion contract
 
-**Status:** Proposed · 2026-11-08
+**Status:** Proposed · 2026-11-08 · amendment 1 revised 2026-11-14 with user-story finding L32.4, marked inline
 **Supersedes / relates to:** docs/pipeline-compiler.md §7; docs/debate-review.md §6
 
 ## Context
@@ -21,7 +21,7 @@ Amendment note 2026-11-09: the complete table of contract flags, shared by `run`
 
 **Context.** The contract above assumes partitions are independent: a floor below 100 % is meaningful and a failed index can be retried alone. Distributed training (torchrun, MPI), and any workload whose members share a collective, are all-or-nothing: one dead rank stalls every other rank, and recovery is a restart of the whole group from the last checkpoint.
 
-**Decision.** `--gang` is a contract flag. It sets the floor to 100 % and refuses `--min-success`; it replaces per-index retry with restart-the-group-from-checkpoint, counted against `--retries` as one; it requires all-or-nothing queue admission (Kueue). Preemption of one member still does not count against retries (`DisruptionTarget` ignored), but it triggers a group restart rather than a single-index restart. Deadline and budget are unchanged.
+**Decision.** `--gang` is a contract flag. It sets the floor to 100 % and refuses `--min-success`; it replaces per-index retry with restart-the-group-from-checkpoint, counted against `--retries` as one; it requires all-or-nothing queue admission (Kueue). Preemption of one member still does not count against retries (`DisruptionTarget` ignored), but it triggers a group restart rather than a single-index restart. Deadline and budget are unchanged. A gang with `--domain` ([ADR 0028](0028-memory-has-a-distance-and-a-domain-is-claimed-whole.md)) that loses members of its domain restarts from its checkpoint in any healthy domain that can hold it, or at `--shrink-to=<n>` where the program's annotation says it can restart smaller; if none can before the deadline, the process ends with exit 3, and the receipt names the domain and the excluded components (revised 2026-11-14, L32.4).
 
 **Consequences.** Maps to a JobSet with `failurePolicy` restart-all and `successPolicy` all, or to an Indexed Job with `podFailurePolicy` action `FailJob` plus a session-driven relaunch from the checkpoint path. Exit codes are unchanged; a gang that exhausts `--retries` exits 1 with the last failing rank in the receipt. See docs/walkthroughs.md, gap G4.
 
@@ -59,3 +59,4 @@ Each line is a `rule` finding from `docs/user-stories/README.md` written here as
 - **L26.10** (US-26) a telemetry read whose result spans stores names the stores it could not read and is degraded (full rule in ADR 0023).
 - **L29.4, L29.10, L29.12, L29.13** (US-29) a scheduler's requeue is a new attempt, never a retry; the remaining deadline compiles into an external scheduler's time limit; throttled and dropped function invocations count as failures; a process on an unreachable computer is `unknown`, never `failed` (full rules in [ADR 0025](0025-a-computer-is-a-device-kubernetes-is-one-driver.md)).
 - **L31.3, L31.14** (US-31) a notify verb exits 0 on the channel's acceptance, not on delivery; `--notify` on a process applies to its tree and children roll up into the root's event (full rules in [ADR 0027](0027-convoy-tells-a-group-about-its-own-objects.md)).
+- **L32.2, L32.10, L32.15** (US-32) a gang with `--domain` is never split across domains; checkpoints never go to a volatile device without backing; `--domain` and `--gang` are not inherited, and a child may name `--domain=@parent` (full rules in [ADR 0028](0028-memory-has-a-distance-and-a-domain-is-claimed-whole.md)).

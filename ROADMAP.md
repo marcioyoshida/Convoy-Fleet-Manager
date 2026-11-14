@@ -65,6 +65,10 @@ From the user-story probes. Each milestone's exit criteria include the rules lis
 - **L29.12** throttled and dropped function invocations count as failures.
 - **L29.15** account-wide limits are checked net of what others hold.
 - **L29.18** a stage over several topologies is split per topology.
+- **L32.2** a gang with `--domain` is never split; the domain each member got is recorded.
+- **L32.3** a domain's capacity is its healthy free size; `explain` refuses when none fits.
+- **L32.16** `explain` sizes memory and spill for Spark and dataframe stages.
+- **L32.17** no memory is shared across computers.
 
 **M4**
 
@@ -99,10 +103,16 @@ From the user-story probes. Each milestone's exit criteria include the rules lis
 - **L30.9** image copies carry their referrers.
 - **L30.14** registries carry residency; copies never leave it.
 - **L31.13** messages carry no output; channels carry residency.
+- **L32.9** `/dev/shm` files are written once; no writable shared mapping across nodes.
+- **L32.10** `/dev/shm` devices are volatile with declared backing; a lost object is `EIO`.
+- **L32.14** spill to a bounded device; shuffle files owned per process and removed.
 
 **M6**
 
 - **L5.5** the deadline counts from submission by default, queue and pause time included; `--deadline-from=start` opts out; `explain` prints the choice and the queue estimate.
+- **L32.5** `domain_reserve` keeps domain pools for claims; stranded members priced to the platform.
+- **L32.13** whole-domain holds past `domain_hold_max` need approval.
+- **L32.15** `--domain` and `--gang` are not inherited.
 
 **M7**
 
@@ -168,6 +178,8 @@ From the user-story probes. Each milestone's exit criteria include the rules lis
 - **L31.14** `--notify` covers the process tree; children roll up.
 - **L31.15** every event class has an urgency.
 - **L31.17** expiring objects warn their owning group.
+- **L32.7** a domain drains before reuse.
+- **L32.8** device memory is cleared between groups; `mem_scrub=` declared.
 
 **M9**
 
@@ -177,6 +189,8 @@ From the user-story probes. Each milestone's exit criteria include the rules lis
 - **L28.8** usage-priced bands from contract inputs; plans reused per input hash.
 - **L28.13** package upgrades never re-plan instances.
 - **L30.17** production takes public images only from a platform mirror.
+- **L32.11** stores inside a process count in its bound; installed stores are devices.
+- **L32.12** domain layout is read from the driver, never written.
 
 **M10**
 
