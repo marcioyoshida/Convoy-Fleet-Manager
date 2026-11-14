@@ -75,6 +75,8 @@ Facts that constrain the design:
 - Open, to be settled against this ADR: the exact `--json` schema of the object; whether a page route may carry the pinned plan or only the path; quorum above one for `wheel`; whether a denied plan may be resubmitted unchanged without a cooling period.
 - [US-18](../user-stories/US-18-approval-under-pressure.md) probes this record under the DevOps and Security personas with a release answered after the author's session ended, a policy edit under a pending gate, a denial, an agent at a gate and a cron entry gated nightly. It raised seven findings; two were applied inline the same day: L18.1 (the plan hash is a shape, with the inputs listed beside it, or no reuse window can ever match; decision 6) and L18.2 (the controller owns the gate and resumes the stage, not either session; decision 4). Four are rules, written below and in ROADMAP M2 and the command map: the void reasons enumerated with re-pricing at resume (L18.3), identical pending requests sharing one object (L18.4), answers visible to the requesting actor (L18.5) and a bounded timeout on every policy (L18.6). L18.7 accepts that a canary and its promotion are two gates.
 
+
+Note · 2026-11-13: the draft [ADR 0027](0027-convoy-tells-a-group-about-its-own-objects.md) gives this record's routes their channel: `page:<route>` is the `page` urgency of a group's route in `/etc/notify.d/<group>`, `caps: alerting` is an `incident` channel, and an `approval.requested` event goes to the approving group's route when the object is created (decisions 2 to 4); answers from channels are decision 8.
 ## Rules · 2026-11-10 · from the user-story probes
 
 Each line is a `rule` finding from `docs/user-stories/README.md` written here as decided; the story holds the reasoning.

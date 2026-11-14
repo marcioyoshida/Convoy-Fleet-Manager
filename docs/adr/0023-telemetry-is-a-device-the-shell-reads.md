@@ -84,6 +84,8 @@ Facts that constrain the design:
 - Open, to be settled against this ADR: exemplars and the join from a trace to the receipt of the process that served it; continuous profiling stores as a fourth class; where `caps: flows` comes from (eBPF agents, VPC flow logs) and whether it is a metrics device; the cost of `ls -l` inventories on stores that price metadata calls.
 - [US-26](../user-stories/US-26-the-dashboard-said-green.md) probes this record under the SRE persona with an incident across seven stores. Its five amendments were applied inline on 2026-11-12: L26.1 (canary conditions on the canary's series, gateway responses included, decision 5), L26.2 (the settle window per tenant and per buffered edge range, decision 3), L26.5 (`telemetry_readers`, decision 8), L26.9 (pushdown kinds, decision 10) and L26.12 (stderr per partition and attempt, decision 7). Its ten rules are written below, with cross-references in ADRs 0004, 0006, 0007, 0013, 0014, 0016, 0018 and 0020, the command map and ROADMAP M4, M5, M7, M8 and M11. L26.4 is accepted: residency binds where data is processed and stored, not where the person reading the terminal is.
 
+
+Note · 2026-11-13: decision 6 stands. The draft [ADR 0027](0027-convoy-tells-a-group-about-its-own-objects.md) says what it leaves to Convoy: events about Convoy's own objects, sent to each group's route with a deduplication key from the object's path, never alerts on a series.
 ## Rules · 2026-11-12 · from the user-story probes
 
 Each line is a `rule` finding from `docs/user-stories/README.md` written here as decided; the story holds the reasoning.

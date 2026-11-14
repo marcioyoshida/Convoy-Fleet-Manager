@@ -93,6 +93,8 @@ Facts that constrain the design:
 
 
 Note · 2026-11-11: the draft [ADR 0023](0023-telemetry-is-a-device-the-shell-reads.md) makes telemetry stores devices; the probes' collectors are read through metrics devices, so each reading carries its store and collector version (rule L23.6), and a stale or missing reading is `unknown` (decision 4 there), which is never a trigger (decision 5 here) and counts toward the `collector_stale_max` halt (decision 8 here).
+
+Note · 2026-11-13: the draft [ADR 0027](0027-convoy-tells-a-group-about-its-own-objects.md) makes the controller's pages the events `node.action` and `node.stopped`, sent to the platform group's route; a failing route is itself an event, `route.failing` (decision 7).
 ## Rules · 2026-11-10 · from the user-story probes
 
 Each line is a `rule` finding from `docs/user-stories/README.md` written here as decided; the story holds the reasoning.
