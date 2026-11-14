@@ -98,6 +98,8 @@ Note · 2026-11-11: the draft [ADR 0023](0023-telemetry-is-a-device-the-shell-re
 Note · 2026-11-13: the draft [ADR 0027](0027-convoy-tells-a-group-about-its-own-objects.md) makes the controller's pages the events `node.action` and `node.stopped`, sent to the platform group's route; a failing route is itself an event, `route.failing` (decision 7).
 
 Note · 2026-11-14: the draft [ADR 0028](0028-memory-has-a-distance-and-a-domain-is-claimed-whole.md) assumes a `fabric` component class and the domain as a scope above the node (L32.6), a domain left `draining` past `drain_max` as a health event, and the device-memory scrub between groups recorded in the node receipt (decisions 6 and 7).
+
+Note · 2026-11-14: the draft [ADR 0033](0033-a-resident-artifact-is-held-in-a-domain-and-written-out-before-it-goes.md) marks the part of a resident artifact held by a failed or excluded component `lost`, and rematerializes it only from a staged copy or a recomputation the receipt records (decision 8).
 ## Rules · 2026-11-10 · from the user-story probes
 
 Each line is a `rule` finding from `docs/user-stories/README.md` written here as decided; the story holds the reasoning.

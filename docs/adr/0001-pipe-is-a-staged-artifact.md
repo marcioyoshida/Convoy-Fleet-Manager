@@ -35,6 +35,8 @@ Reruns skip unchanged stages. A downstream restart loses nothing. Small outputs 
 Note · 2026-11-14: the draft [ADR 0029](0029-a-computers-file-systems-are-in-its-contract-staging-is-a-planned-copy.md) stages inputs by content id from a pinned source, treats staged copies as cache entries verified before use, and, assuming L33.13 revises amendment 2, keeps artifacts between stages of one tree on the computer's own file system (decisions 4, 5 and 7).
 
 Note · 2026-11-14: the draft [ADR 0032](0032-a-stream-reads-a-pinned-manifest-through-a-window.md) extends `|=` from a live channel between stages to a read of a device's pinned manifest, and refuses a plain `|` whose source read exceeds `stage_max` with the `|=` spelling (decision 1).
+
+Note · 2026-11-14: the draft [ADR 0033](0033-a-resident-artifact-is-held-in-a-domain-and-written-out-before-it-goes.md), assuming L37.17 revises amendment 2, adds a volatile tier to the store in a memory domain's GPU memory, under the same content ids: an artifact may stay resident between stages of one tree or one group in one domain, and is written to the topology's store before it leaves (decisions 1, 6).
 ## Rules · 2026-11-09 · from the user-story probes
 
 Each line is a `rule` finding from `docs/user-stories/README.md` written here as decided; the story holds the reasoning.

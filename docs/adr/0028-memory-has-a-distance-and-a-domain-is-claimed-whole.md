@@ -79,6 +79,8 @@ Facts that constrain the design:
 - ROADMAP: placement by domain, domain capacity in `explain` and memory sizing for Spark and dataframe stages are M3; the `/dev/shm` drivers and volatile semantics are M5 with mounts; domain claims, holds, the reserve and gang restarts into another domain are M6 with Kueue; draining, scrub and the `fabric` class are M8; the DRA driver mapping and the store modules are M9; the fabric probe on the node is M10.
 - Open, to be settled against this record: CXL memory shared between hosts, once a scheduler can place it; memory shared between a CPU and its GPUs (Grace and Hopper or Blackwell) as a tier a stage can ask for; inference servers that spill a model's cache across tiers and nodes; a story that probes this record.
 
+
+Note · 2026-11-14: the draft [ADR 0033](0033-a-resident-artifact-is-held-in-a-domain-and-written-out-before-it-goes.md) lets a process publish an artifact in its claimed domain for importers under `--domain=@parent` or in its group with a grant (decision 5's ownership is unchanged), keeps a holder's claim as `holding` until the artifact is released or written out, and ties decision 6's scrub to the restricted artifacts it clears (decisions 4, 6, 10).
 ## Rules · 2026-11-14 · from the user-story probes
 
 Each line is a `rule` finding from `docs/user-stories/README.md` written here as decided; the story holds the reasoning.
